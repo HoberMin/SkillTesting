@@ -1,14 +1,18 @@
+import { patchTodoApi } from '@/apis/todo';
+
 import TodoEditIcon from './TodoEditIcon';
 import { Switch } from './shadcn/switch';
 
 interface TodoItemProps {
   checked: boolean;
   todo: string;
+  todoId: number;
 }
-const TodoItem = ({ checked, todo }: TodoItemProps) => {
+const TodoItem = ({ checked, todo, todoId }: TodoItemProps) => {
+  const patchTodo = patchTodoApi();
+
   const handleTodoPut = () => {
-    // Todo 상태 put요청 보낼 때 캐싱상태 취소해서 checked를 변경, Tanstack에서 낙관적 업데이트 진행
-    console.log(1);
+    patchTodo(todoId);
   };
 
   return (
@@ -18,7 +22,7 @@ const TodoItem = ({ checked, todo }: TodoItemProps) => {
           <Switch checked={checked} onClick={handleTodoPut} />
           <span>{todo}</span>
         </div>
-        <TodoEditIcon></TodoEditIcon>
+        <TodoEditIcon todoId={todoId} />
       </div>
     </div>
   );

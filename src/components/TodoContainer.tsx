@@ -21,9 +21,8 @@ const TodoContainer = () => {
       <div className='mx-auto flex w-[600px] flex-col gap-5'>
         <TodoInput />
         <div className='max-h-[600px] overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>
-          {/* 배열로 받아오면 순회하면서 Item 반환 */}
-          {data.map(({ title, completed }) => (
-            <TodoItem checked={completed} todo={title} />
+          {data.map(({ title, completed, id }) => (
+            <TodoItem checked={completed} todo={title} todoId={id} />
           ))}
         </div>
         <span className='mt-[40px]'>Made By HoberMin / songhaeunsong</span>

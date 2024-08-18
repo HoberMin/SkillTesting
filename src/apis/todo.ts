@@ -1,20 +1,23 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 
 interface Todo {
-  userId: number;
   title: string;
   completed: boolean;
+  id: number;
 }
 
-const domain = 'localhost:8080';
+// const domain = 'http://localhost:8080';
 
 const getTodo = () =>
-  fetch(`${domain}/todos`)
+  // fetch(`${domain}/todos`)
+  //   .then(res => res.json())
+  //   .then(data => data as Todo[]);
+  fetch(`https://jsonplaceholder.typicode.com/todos`)
     .then(res => res.json())
     .then(data => data as Todo[]);
 
-const postTodo = (contents: string) =>
-  fetch(`${domain}/todos`, {
+const postTodo = async (contents: string) =>
+  await fetch(`https://jsonplaceholder.typicode.com/todos`, {
     method: 'POST',
     body: JSON.stringify({
       contents,
@@ -22,10 +25,14 @@ const postTodo = (contents: string) =>
   });
 
 const patchTodo = (todoId: number) =>
-  fetch(`${domain}/todos/${todoId}`, { method: 'PATCH' });
+  fetch(`https://jsonplaceholder.typicode.com/todos/${todoId}`, {
+    method: 'PATCH',
+  });
 
 const deleteTodo = (todoId: number) =>
-  fetch(`${domain}/todos/${todoId}`, { method: 'DELETE' });
+  fetch(`https://jsonplaceholder.typicode.com/todos/${todoId}`, {
+    method: 'DELETE',
+  });
 
 export const getTodoApi = () =>
   useQuery({
