@@ -1,5 +1,6 @@
 import { getTodoApi } from '@/apis/todo';
 
+import ServerInputModal from './ServerInputModal';
 import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
 
@@ -19,8 +20,11 @@ const TodoContainer = () => {
   return (
     <main className='flex h-screen w-full flex-col justify-center'>
       <div className='mx-auto flex w-[600px] flex-col gap-5'>
+        <div className='flex justify-end'>
+          <ServerInputModal />
+        </div>
         <TodoInput />
-        <div className='max-h-[600px] overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>
+        <div className='max-h-[600px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>
           {data.map(({ content, completed, id }) => (
             <TodoItem
               checked={completed}
