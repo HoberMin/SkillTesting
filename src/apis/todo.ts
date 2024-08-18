@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 interface Todo {
   content: string;
@@ -54,7 +54,7 @@ export const getTodoApi = () =>
   });
 
 export const postTodoApi = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: (contents: string) => postTodo(contents),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
@@ -64,7 +64,7 @@ export const postTodoApi = () => {
 };
 
 export const patchTodoApi = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: (todoId: number) => patchTodo(todoId),
@@ -75,7 +75,7 @@ export const patchTodoApi = () => {
 };
 
 export const deleteTodoApi = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: (todoId: number) => deleteTodo(todoId),
