@@ -9,7 +9,11 @@ interface Todo {
 const domain = 'http://localhost:8080';
 
 const getTodo = () =>
-  fetch(`${domain}/todos`)
+  fetch(`${domain}/todos`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
     .then(res => res.json())
     .then(data => data as Todo[]);
 // fetch(`https://jsonplaceholder.typicode.com/todos`)
@@ -19,6 +23,9 @@ const getTodo = () =>
 const postTodo = async (content: string) =>
   await fetch(`${domain}/todos`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       content,
     }),
@@ -26,11 +33,17 @@ const postTodo = async (content: string) =>
 
 const patchTodo = (todoId: number) =>
   fetch(`${domain}/todos/${todoId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'PATCH',
   });
 
 const deleteTodo = (todoId: number) =>
   fetch(`${domain}/todos/${todoId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'DELETE',
   });
 
