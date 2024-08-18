@@ -1,36 +1,36 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 
 interface Todo {
-  title: string;
+  content: string;
   completed: boolean;
   id: number;
 }
 
-// const domain = 'http://localhost:8080';
+const domain = 'http://localhost:8080';
 
 const getTodo = () =>
-  // fetch(`${domain}/todos`)
-  //   .then(res => res.json())
-  //   .then(data => data as Todo[]);
-  fetch(`https://jsonplaceholder.typicode.com/todos`)
+  fetch(`${domain}/todos`)
     .then(res => res.json())
     .then(data => data as Todo[]);
+// fetch(`https://jsonplaceholder.typicode.com/todos`)
+//   .then(res => res.json())
+//   .then(data => data as Todo[]);
 
-const postTodo = async (contents: string) =>
-  await fetch(`https://jsonplaceholder.typicode.com/todos`, {
+const postTodo = async (content: string) =>
+  await fetch(`${domain}/todos`, {
     method: 'POST',
     body: JSON.stringify({
-      contents,
+      content,
     }),
   });
 
 const patchTodo = (todoId: number) =>
-  fetch(`https://jsonplaceholder.typicode.com/todos/${todoId}`, {
+  fetch(`${domain}/todos/${todoId}`, {
     method: 'PATCH',
   });
 
 const deleteTodo = (todoId: number) =>
-  fetch(`https://jsonplaceholder.typicode.com/todos/${todoId}`, {
+  fetch(`${domain}/todos/${todoId}`, {
     method: 'DELETE',
   });
 
