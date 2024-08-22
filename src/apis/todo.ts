@@ -8,19 +8,19 @@ interface Todo {
   id: number;
 }
 
-const domain = localStorage.getItem('domain');
+const domain = localStorage.getItem('domain') || 'http://localhost:8080';
 
 const getTodo = () =>
-  // fetch(`${domain}/todos`, {
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // })
-  //   .then(res => res.json())
-  //   .then(data => data as Todo[]);
-  fetch(`https://jsonplaceholder.typicode.com/todos`)
+  fetch(`${domain}/todos`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
     .then(res => res.json())
     .then(data => data as Todo[]);
+// fetch(`https://jsonplaceholder.typicode.com/todos`)
+//   .then(res => res.json())
+//   .then(data => data as Todo[]);
 
 const postTodo = async (content: string) =>
   await fetch(`${domain}/todos`, {
