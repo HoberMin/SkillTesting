@@ -1,24 +1,26 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { useToast } from '@/components/shadcn/toast/use-toast';
+
 interface Todo {
   content: string;
   completed: boolean;
   id: number;
 }
 
-const domain = 'http://localhost:8080';
+const domain = localStorage.getItem('domain');
 
 const getTodo = () =>
-  fetch(`${domain}/todos`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  // fetch(`${domain}/todos`, {
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // })
+  //   .then(res => res.json())
+  //   .then(data => data as Todo[]);
+  fetch(`https://jsonplaceholder.typicode.com/todos`)
     .then(res => res.json())
     .then(data => data as Todo[]);
-// fetch(`https://jsonplaceholder.typicode.com/todos`)
-//   .then(res => res.json())
-//   .then(data => data as Todo[]);
 
 const postTodo = async (content: string) =>
   await fetch(`${domain}/todos`, {
@@ -55,9 +57,18 @@ export const getTodoApi = () =>
 
 export const postTodoApi = () => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
+
   const { mutate } = useMutation({
     mutationFn: (contents: string) => postTodo(contents),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: 'POST 요청 에러',
+        description: 'Network탭을 확인해주세요 !',
+      });
+    },
   });
 
   return mutate;
@@ -65,10 +76,18 @@ export const postTodoApi = () => {
 
 export const patchTodoApi = () => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const { mutate } = useMutation({
     mutationFn: (todoId: number) => patchTodo(todoId),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: 'PATCH 요청 에러',
+        description: 'Network탭을 확인해주세요 !',
+      });
+    },
   });
 
   return mutate;
@@ -76,10 +95,18 @@ export const patchTodoApi = () => {
 
 export const deleteTodoApi = () => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const { mutate } = useMutation({
     mutationFn: (todoId: number) => deleteTodo(todoId),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: 'DELETE 요청 에러',
+        description: 'Network탭을 확인해주세요 !',
+      });
+    },
   });
 
   return mutate;

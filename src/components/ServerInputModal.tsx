@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DialogDescription } from '@radix-ui/react-dialog';
 
@@ -11,10 +11,18 @@ import {
 } from './shadcn/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './shadcn/tabs';
 
-const ServerInputModal = () => {
+const ServerInputModal = ({ isError }: { isError: boolean }) => {
   const [localURL, setLocalURL] = useState('');
   const [deployedURL, setDeployedURL] = useState('');
-  const [isOpenedModal, setIsOpenedModal] = useState(true);
+  const [isOpenedModal, setIsOpenedModal] = useState(isError);
+
+  const domain = localStorage.getItem('domain');
+
+  useEffect(() => {
+    if (!domain) {
+      setIsOpenedModal(true);
+    }
+  }, [domain]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -28,7 +36,7 @@ const ServerInputModal = () => {
   };
 
   const onsubmitURL = () => {
-    console.log(localURL ? localURL : deployedURL);
+    localStorage.setItem('domain', localURL ? localURL : deployedURL);
     setIsOpenedModal(false);
 
     setLocalURL('');
@@ -40,6 +48,9 @@ const ServerInputModal = () => {
   // 정보가 없으면 모달 열기
 
   // 탭이 바뀔 때는 입력값이 초기화 되는 게 좋지 않을까?
+  // 현재 local에다가 아무값이나 입력해놓고 deploy에 내가 원하는값을 입력했을 때, local값이 출력된다. -> 당연한 결과인 것 같음
+  // 해결방법이 두가지 인데, 모달이 열린상태 , Tab 두가지 상태 모두 라우팅으로 처리하는 방법이 있음 : 어느 페이지가 그렇게 되어있었는데 기억이..
+  // Submit을 분리
 
   return (
     <Dialog open={isOpenedModal} onOpenChange={setIsOpenedModal}>
@@ -64,8 +75,7 @@ const ServerInputModal = () => {
           <TabsContent value='local'>
             <div className='flex gap-2'>
               <input
-                className='grid w-full grid-cols-2 rounded-[5px] border p-3'
-                type='text'
+                className='w-full rounded-[5px] border p-3 focus:outline-none'
                 value={localURL}
                 onChange={e => handleInputChange(e, setLocalURL)}
                 onKeyDown={e => activeEnter(e)}
@@ -82,15 +92,14 @@ const ServerInputModal = () => {
           <TabsContent value='deployed'>
             <div className='flex gap-2'>
               <input
-                className='grid w-full grid-cols-2 rounded-[5px] border p-3'
-                type='text'
+                className='w-full rounded-[5px] border p-3 outline-none focus:outline-none'
                 value={deployedURL}
                 onChange={e => handleInputChange(e, setDeployedURL)}
                 onKeyDown={e => activeEnter(e)}
                 placeholder='https://abcde.com'
               />
               <button
-                className='w-16 rounded-[5px] border text-[12px]'
+                className='w-16 rounded-[5px] border text-[12px] outline-none'
                 onClick={onsubmitURL}
               >
                 Go!
