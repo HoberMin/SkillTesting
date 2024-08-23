@@ -1,16 +1,3 @@
 {
-  "todos": [
-    {
-      "id": "25fd",
-      "content": "abc"
-    },
-    {
-      "id": "df06",
-      "content": "abc"
-    },
-    {
-      "id": "63c8",
-      "content": "abc"
-    }
-  ]
+  "todos": []
 }

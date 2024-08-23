@@ -93,11 +93,16 @@ const ServerInputModal = () => {
           <TabsContent value='local'>
             <div className='flex gap-2'>
               <input
+                className='w-[90px] rounded-[5px] border p-3 focus:outline-none'
+                value={'http://'}
+                disabled
+              />
+              <input
                 className='w-full rounded-[5px] border p-3 focus:outline-none'
                 value={localURL}
                 onChange={e => handleInputChange(e, setLocalURL)}
                 onKeyDown={e => activeEnterLocalURL(e)}
-                placeholder='http://localhost:8080'
+                placeholder='localhost:8080'
               />
               <button
                 className='w-16 rounded-[5px] border text-[12px]'
@@ -110,11 +115,16 @@ const ServerInputModal = () => {
           <TabsContent value='deployed'>
             <div className='flex gap-2'>
               <input
+                className='w-[90px] rounded-[5px] border p-3 focus:outline-none'
+                value={'https://'}
+                disabled
+              />
+              <input
                 className='w-full rounded-[5px] border p-3 outline-none focus:outline-none'
                 value={deployedURL}
                 onChange={e => handleInputChange(e, setDeployedURL)}
                 onKeyDown={e => activeEnterDeployedURL(e)}
-                placeholder='https://abcde.com'
+                placeholder='abcde.com'
               />
               <button
                 className='w-16 rounded-[5px] border text-[12px] outline-none'
