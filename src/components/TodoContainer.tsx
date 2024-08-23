@@ -6,9 +6,10 @@ import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
 
 const TodoContainer = () => {
-  const { data, isPending } = getTodoApi();
+  const { data, isError, isPending } = getTodoApi();
 
   if (isPending) {
+    console.log(data, 'pending');
     return <div>loading...</div>;
   }
 
@@ -18,7 +19,7 @@ const TodoContainer = () => {
         <div className='flex justify-end'>
           <ServerInputModal />
         </div>
-        {data ? (
+        {!isError && data && (
           <>
             <TodoInput />
             <div className='max-h-[600px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>
@@ -33,9 +34,8 @@ const TodoContainer = () => {
             </div>
             <span className='mt-[40px]'>Made By HoberMin / songhaeunsong</span>
           </>
-        ) : (
-          <AlertBox />
         )}
+        {isError && <AlertBox />}
       </div>
     </main>
   );

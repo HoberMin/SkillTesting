@@ -17,12 +17,21 @@ const getTodo = async () => {
       'Content-Type': 'application/json',
     },
   })
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
     .then(data => data as Todo[]);
-  // fetch(`https://jsonplaceholder.typicode.com/todos`)
-  //   .then(res => res.json())
-  //   .then(data => data as Todo[]);
 };
+
+export const getTodoApi = () =>
+  useQuery({
+    queryKey: ['todos'],
+    queryFn: getTodo,
+  });
+
 const postTodo = async (content: string) => {
   const domain = getDomain();
 
@@ -57,12 +66,6 @@ const deleteTodo = (todoId: number) => {
     method: 'DELETE',
   });
 };
-
-export const getTodoApi = () =>
-  useQuery({
-    queryKey: ['todos'],
-    queryFn: getTodo,
-  });
 
 export const postTodoApi = () => {
   const queryClient = useQueryClient();
