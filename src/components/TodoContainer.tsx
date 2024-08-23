@@ -9,7 +9,6 @@ const TodoContainer = () => {
   const { data, isError, isPending } = getTodoApi();
 
   if (isPending) {
-    console.log(data, 'pending');
     return <div>loading...</div>;
   }
 

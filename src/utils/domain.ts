@@ -1,6 +1,4 @@
-export const getDomain = () => {
-  return localStorage.getItem('domain') || 'http://localhost:8080';
-};
+export const getDomain = () => localStorage.getItem('domain');
 
 export const setDomainHTTP = (input: string) => {
   let url = input;
