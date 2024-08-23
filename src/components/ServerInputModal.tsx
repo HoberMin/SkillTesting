@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { DialogDescription } from '@radix-ui/react-dialog';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { getDomain, setDomainHTTP, setDomainHTTPS } from '@/utils/domain';
 
 import {
   Dialog,
@@ -11,18 +14,21 @@ import {
 } from './shadcn/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './shadcn/tabs';
 
-const ServerInputModal = ({ isError }: { isError: boolean }) => {
+const ServerInputModal = () => {
+  const queryClient = useQueryClient();
+
   const [localURL, setLocalURL] = useState('');
   const [deployedURL, setDeployedURL] = useState('');
-  const [isOpenedModal, setIsOpenedModal] = useState(isError);
-
-  const domain = localStorage.getItem('domain');
+  const [isOpenedModal, setIsOpenedModal] = useState(false);
 
   useEffect(() => {
+    const domain = getDomain();
     if (!domain) {
       setIsOpenedModal(true);
+    } else {
+      console.log(domain);
     }
-  }, [domain]);
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -31,14 +37,26 @@ const ServerInputModal = ({ isError }: { isError: boolean }) => {
     setState(e.target.value);
   };
 
-  const activeEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') onsubmitURL();
+  const activeEnterLocalURL = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') onsubmitLocalURL();
   };
 
-  const onsubmitURL = () => {
-    localStorage.setItem('domain', localURL ? localURL : deployedURL);
-    setIsOpenedModal(false);
+  const activeEnterDeployedURL = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') onsubmitDeployedURL();
+  };
 
+  const onsubmitLocalURL = () => {
+    setDomainHTTP(localURL);
+    queryClient.invalidateQueries({ queryKey: ['todos'] });
+    setIsOpenedModal(false);
+    setLocalURL('');
+    setDeployedURL('');
+  };
+
+  const onsubmitDeployedURL = () => {
+    setDomainHTTPS(deployedURL);
+    queryClient.invalidateQueries({ queryKey: ['todos'] });
+    setIsOpenedModal(false);
     setLocalURL('');
     setDeployedURL('');
   };
@@ -55,7 +73,7 @@ const ServerInputModal = ({ isError }: { isError: boolean }) => {
   return (
     <Dialog open={isOpenedModal} onOpenChange={setIsOpenedModal}>
       <DialogTrigger
-        onClick={() => setIsOpenedModal(!isOpenedModal)}
+        onClick={() => setIsOpenedModal(true)}
         className='rounded-[5px] border p-2 text-[12px]'
       >
         Edit Base URL
@@ -78,12 +96,12 @@ const ServerInputModal = ({ isError }: { isError: boolean }) => {
                 className='w-full rounded-[5px] border p-3 focus:outline-none'
                 value={localURL}
                 onChange={e => handleInputChange(e, setLocalURL)}
-                onKeyDown={e => activeEnter(e)}
+                onKeyDown={e => activeEnterLocalURL(e)}
                 placeholder='http://localhost:8080'
               />
               <button
-                className='w-14 rounded-[5px] border text-[12px]'
-                onClick={onsubmitURL}
+                className='w-16 rounded-[5px] border text-[12px]'
+                onClick={onsubmitLocalURL}
               >
                 Go!
               </button>
@@ -95,12 +113,12 @@ const ServerInputModal = ({ isError }: { isError: boolean }) => {
                 className='w-full rounded-[5px] border p-3 outline-none focus:outline-none'
                 value={deployedURL}
                 onChange={e => handleInputChange(e, setDeployedURL)}
-                onKeyDown={e => activeEnter(e)}
+                onKeyDown={e => activeEnterDeployedURL(e)}
                 placeholder='https://abcde.com'
               />
               <button
                 className='w-16 rounded-[5px] border text-[12px] outline-none'
-                onClick={onsubmitURL}
+                onClick={onsubmitDeployedURL}
               >
                 Go!
               </button>

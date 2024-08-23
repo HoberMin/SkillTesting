@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useToast } from '@/components/shadcn/toast/use-toast';
+import { getDomain } from '@/utils/domain';
 
 interface Todo {
   content: string;
@@ -8,22 +9,24 @@ interface Todo {
   id: number;
 }
 
-const domain = localStorage.getItem('domain') || 'http://localhost:8080';
+const getTodo = async () => {
+  const domain = getDomain();
 
-const getTodo = () =>
-  fetch(`${domain}/todos`, {
+  return await fetch(`${domain}/todos`, {
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then(res => res.json())
     .then(data => data as Todo[]);
-// fetch(`https://jsonplaceholder.typicode.com/todos`)
-//   .then(res => res.json())
-//   .then(data => data as Todo[]);
+  // fetch(`https://jsonplaceholder.typicode.com/todos`)
+  //   .then(res => res.json())
+  //   .then(data => data as Todo[]);
+};
+const postTodo = async (content: string) => {
+  const domain = getDomain();
 
-const postTodo = async (content: string) =>
-  await fetch(`${domain}/todos`, {
+  return await fetch(`${domain}/todos`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -32,22 +35,28 @@ const postTodo = async (content: string) =>
       content,
     }),
   });
+};
 
-const patchTodo = (todoId: number) =>
-  fetch(`${domain}/todos/${todoId}`, {
+const patchTodo = (todoId: number) => {
+  const domain = getDomain();
+
+  return fetch(`${domain}/todos/${todoId}`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'PATCH',
   });
+};
+const deleteTodo = (todoId: number) => {
+  const domain = getDomain();
 
-const deleteTodo = (todoId: number) =>
-  fetch(`${domain}/todos/${todoId}`, {
+  return fetch(`${domain}/todos/${todoId}`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'DELETE',
   });
+};
 
 export const getTodoApi = () =>
   useQuery({
