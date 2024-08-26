@@ -91,7 +91,7 @@ const ServerInputModal = () => {
           <TabsContent value='local'>
             <div className='flex gap-2'>
               <input
-                className='w-[70px] rounded-[5px] border p-3 focus:outline-none'
+                className='w-[80px] rounded-[5px] border p-3 text-center focus:outline-none'
                 value={'http://'}
                 disabled
               />
@@ -113,7 +113,7 @@ const ServerInputModal = () => {
           <TabsContent value='deployed'>
             <div className='flex gap-2'>
               <input
-                className='w-[70px] rounded-[5px] border p-3 focus:outline-none'
+                className='w-[80px] rounded-[5px] border p-3 text-center focus:outline-none'
                 value={'https://'}
                 disabled
               />
