@@ -9,6 +9,10 @@ interface Todo {
   id: number;
 }
 
+interface Todos {
+  todos: Todo[];
+}
+
 const getTodo = async () => {
   const domain = getDomain();
 
@@ -23,7 +27,7 @@ const getTodo = async () => {
       }
       return res.json();
     })
-    .then(data => data as Todo[]);
+    .then(data => data as Todos);
 };
 
 export const getTodoApi = () =>

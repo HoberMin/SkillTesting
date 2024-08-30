@@ -22,7 +22,7 @@ const TodoContainer = () => {
           <>
             <TodoInput />
             <div className='max-h-[600px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>
-              {data.map(({ content, completed, id }) => (
+              {data.todos.map(({ content, completed, id }) => (
                 <TodoItem
                   checked={completed}
                   todo={content}
