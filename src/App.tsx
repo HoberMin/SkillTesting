@@ -1,10 +1,12 @@
-import TodoContainer from './components/TodoContainer';
+import { RouterProvider } from 'react-router-dom';
+
 import { ReactQueryClientProvider } from './utils/Provider';
+import { router } from './utils/router';
 
 const App = () => {
   return (
     <ReactQueryClientProvider>
-      <TodoContainer></TodoContainer>
+      <RouterProvider router={router} />
     </ReactQueryClientProvider>
   );
 };

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { useToast } from '@/components/shadcn/toast/use-toast';
+import { useToast } from '@/components/toast/use-toast';
 import { getDomain } from '@/utils/domain';
 
 interface Todo {

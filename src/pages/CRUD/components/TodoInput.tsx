@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { postTodoApi } from '@/apis/todo';
 
-import { Input } from './shadcn/input';
+import { Input } from '../../../components/input';
 
 const TodoInput = () => {
   const [todo, setTodo] = useState('');
