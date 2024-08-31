@@ -11,8 +11,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './shadcn/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './shadcn/tabs';
+} from '../../../components/dialog';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '../../../components/tabs';
 
 const ServerInputModal = () => {
   const queryClient = useQueryClient();

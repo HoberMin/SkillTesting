@@ -1,8 +1,8 @@
 import { patchTodoApi } from '@/apis/todo';
 
+import { Switch } from '../../../components/switch';
+import { useToast } from '../../../components/toast/use-toast';
 import TodoEditIcon from './TodoEditIcon';
-import { Switch } from './shadcn/switch';
-import { useToast } from './shadcn/toast/use-toast';
 
 interface TodoItemProps {
   checked: boolean;

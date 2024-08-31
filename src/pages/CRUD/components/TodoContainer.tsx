@@ -13,7 +13,7 @@ const TodoContainer = () => {
   }
 
   return (
-    <main className='flex h-screen w-full flex-col justify-center'>
+    <main className='flex h-full w-full flex-col justify-center'>
       <div className='mx-auto flex w-[600px] flex-col gap-5'>
         <div className='flex justify-end'>
           <ServerInputModal />
