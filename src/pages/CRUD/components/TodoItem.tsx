@@ -9,6 +9,7 @@ interface TodoItemProps {
   todo: string;
   todoId: number;
 }
+
 const TodoItem = ({ checked, todo, todoId }: TodoItemProps) => {
   const patchTodo = patchTodoApi();
   const { toast } = useToast();

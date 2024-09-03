@@ -1,0 +1,53 @@
+import { useEffect } from 'react';
+
+import { useInView } from 'react-intersection-observer';
+
+import { useGetInfinityScrollAPI } from '@/apis/infinityScroll';
+
+import AlertBox from '../CRUD/components/AlertBox';
+import ServerInputModal from '../CRUD/components/ServerInputModal';
+import TodoItem from '../CRUD/components/TodoItem';
+
+const TodoContainer = () => {
+  const { ref, inView: isInview } = useInView();
+
+  const { todos, hasNextPage, fetchNextPage, isError } =
+    useGetInfinityScrollAPI();
+
+  useEffect(() => {
+    if (isInview && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [isInview, hasNextPage, fetchNextPage]);
+
+  return (
+    <main className='flex h-full w-full flex-col justify-center'>
+      <div className='mx-auto flex w-[600px] flex-col gap-5'>
+        <div className='flex justify-end'>
+          <ServerInputModal />
+        </div>
+        {!isError && todos && (
+          <>
+            <div
+              ref={ref}
+              className='max-h-[600px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'
+            >
+              {todos.map(({ title, completed, id }) => (
+                <TodoItem
+                  checked={completed}
+                  todo={title}
+                  todoId={id}
+                  key={`${title}-${id}`}
+                />
+              ))}
+            </div>
+            <span className='mt-[40px]'>Made By HoberMin / songhaeunsong</span>
+          </>
+        )}
+        {isError && <AlertBox />}
+      </div>
+    </main>
+  );
+};
+
+export default TodoContainer;
