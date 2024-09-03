@@ -3,7 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getDomain } from '@/utils/domain';
 
 interface Todo {
-  title: string;
+  content: string;
   completed: boolean;
   id: number;
 }

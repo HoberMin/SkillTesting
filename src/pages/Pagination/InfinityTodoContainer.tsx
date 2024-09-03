@@ -11,7 +11,7 @@ import TodoItem from '../CRUD/components/TodoItem';
 const TodoContainer = () => {
   const { ref, inView: isInview } = useInView();
 
-  const { todos, hasNextPage, fetchNextPage, isError } =
+  const { todos, hasNextPage, isFetchingNextPage, fetchNextPage, isError } =
     useGetInfinityScrollAPI();
 
   useEffect(() => {
@@ -28,18 +28,17 @@ const TodoContainer = () => {
         </div>
         {!isError && todos && (
           <>
-            <div
-              ref={ref}
-              className='max-h-[600px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'
-            >
-              {todos.map(({ title, completed, id }) => (
+            <div className='max-h-[600px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>
+              {todos.map(({ content, completed, id }) => (
                 <TodoItem
                   checked={completed}
-                  todo={title}
+                  todo={content}
                   todoId={id}
-                  key={`${title}-${id}`}
+                  key={`${content}-${id}`}
                 />
               ))}
+              {isFetchingNextPage && <div>로딩중...</div>}
+              <div ref={ref} className='h-[20px]'></div>
             </div>
             <span className='mt-[40px]'>Made By HoberMin / songhaeunsong</span>
           </>
