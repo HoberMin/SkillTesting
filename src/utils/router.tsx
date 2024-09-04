@@ -5,6 +5,7 @@ import CRUD from '@/pages/CRUD';
 import OAuth from '@/pages/OAuth';
 import Pagination from '@/pages/Pagination';
 import QualityAssurance from '@/pages/QualityAssurance';
+import Redirect from '@/pages/Redirect';
 import Socket from '@/pages/Socket';
 
 export const router = createBrowserRouter([
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: '/oauth',
         element: <OAuth />,
+      },
+      {
+        path: '/oauth/redirect',
+        element: <Redirect />,
       },
       {
         path: '/pagination',
