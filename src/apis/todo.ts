@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useToast } from '@/components/toast/use-toast';
-import { getDomain } from '@/utils/domain';
+import useDomainStore from '@/store';
 
 interface Todo {
   content: string;
@@ -14,7 +14,7 @@ interface Todos {
 }
 
 const getTodo = async () => {
-  const domain = getDomain();
+  const { domain } = useDomainStore();
 
   return await fetch(`${domain}/todos`, {
     headers: {
@@ -37,7 +37,7 @@ export const getTodoApi = () =>
   });
 
 const postTodo = async (content: string) => {
-  const domain = getDomain();
+  const { domain } = useDomainStore();
 
   return await fetch(`${domain}/todos`, {
     method: 'POST',
@@ -51,7 +51,7 @@ const postTodo = async (content: string) => {
 };
 
 const patchTodo = (todoId: number) => {
-  const domain = getDomain();
+  const { domain } = useDomainStore();
 
   return fetch(`${domain}/todos/${todoId}`, {
     headers: {
@@ -61,7 +61,7 @@ const patchTodo = (todoId: number) => {
   });
 };
 const deleteTodo = (todoId: number) => {
-  const domain = getDomain();
+  const { domain } = useDomainStore();
 
   return fetch(`${domain}/todos/${todoId}`, {
     headers: {

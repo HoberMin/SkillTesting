@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { getDomain, setDomainHTTP, setDomainHTTPS } from '@/utils/domain';
+import useDomainStore from '@/store';
 
 import {
   Dialog,
@@ -26,9 +26,10 @@ const ServerInputModal = () => {
   const [deployedURL, setDeployedURL] = useState('');
   const [isOpenedModal, setIsOpenedModal] = useState(false);
 
+  const { domain, setDomain } = useDomainStore();
+
   useEffect(() => {
-    const domain = getDomain();
-    if (!domain) {
+    if (domain === '') {
       setIsOpenedModal(true);
     }
   }, []);
@@ -49,7 +50,7 @@ const ServerInputModal = () => {
   };
 
   const onsubmitLocalURL = () => {
-    setDomainHTTP(localURL);
+    setDomain(`http://${localURL}`);
     queryClient.invalidateQueries({ queryKey: ['todos'] });
     setIsOpenedModal(false);
     setLocalURL('');
@@ -57,7 +58,7 @@ const ServerInputModal = () => {
   };
 
   const onsubmitDeployedURL = () => {
-    setDomainHTTPS(deployedURL);
+    setDomain(`https://${deployedURL}`);
     queryClient.invalidateQueries({ queryKey: ['todos'] });
     setIsOpenedModal(false);
     setLocalURL('');

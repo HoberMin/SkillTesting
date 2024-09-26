@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { getDomain } from '@/utils/domain';
+import useDomainStore from '@/store';
 
 interface Todo {
   content: string;
@@ -16,7 +16,7 @@ interface InfinityScrollData {
 }
 
 const getInfinityScroll = async (size = '10', page: string) => {
-  const domain = getDomain();
+  const { domain } = useDomainStore();
 
   const params = new URLSearchParams({ size, page }).toString();
 

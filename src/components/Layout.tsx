@@ -1,12 +1,34 @@
 import { PropsWithChildren } from 'react';
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@radix-ui/react-tooltip';
 import { Link } from 'react-router-dom';
 
+import useDomainStore from '@/store';
+
+import { Button } from './button';
+
 const Layout = ({ children }: PropsWithChildren) => {
+  const { domain } = useDomainStore();
+
   return (
     <div className='flex h-screen flex-col'>
-      <header className='border-b p-[20px]'>
-        <span className='text-2xl font-bold text-[#373737]'>Skill Testing</span>
+      <header className='flex items-center justify-between border-b p-[20px]'>
+        <span className='text-2xl font-bold text-[#373737]'>SSAFY SANDBOX</span>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild className='mr-[40px]'>
+              <Button variant='outline'>My Base URL</Button>
+            </TooltipTrigger>
+            <TooltipContent className='z-10 mt-2 rounded-md border bg-black p-4 py-2 text-white'>
+              <span>{domain === '' ? '입력된 도메인이 없습니다' : domain}</span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </header>
       <div className='flex w-full grow'>
         <nav className='flex h-full min-w-[200px] flex-col border border-r-white bg-[#D7D7D7] py-[20px]'>
@@ -20,7 +42,6 @@ const Layout = ({ children }: PropsWithChildren) => {
             <Link to='/pagination'>
               <span className='w-fit cursor-pointer'>Pagination</span>
             </Link>
-
             <Link to='/socket'>
               <span className='w-fit cursor-pointer'>Socket</span>
             </Link>
