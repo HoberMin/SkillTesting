@@ -6,14 +6,23 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@radix-ui/react-tooltip';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import useDomainStore from '@/store';
+import { cn } from '@/utils/cn';
 
 import { Button } from './button';
 
 const Layout = ({ children }: PropsWithChildren) => {
   const { domain } = useDomainStore();
+  const location = useLocation();
+
+  const menuItems = [
+    { path: '/crud', label: 'CRUD' },
+    { path: '/oauth', label: 'OAuth' },
+    { path: '/pagination', label: 'Paging' },
+    { path: '/email', label: 'Email' },
+  ];
 
   return (
     <div className='flex h-screen flex-col'>
@@ -32,22 +41,33 @@ const Layout = ({ children }: PropsWithChildren) => {
       </header>
       <div className='flex w-full grow'>
         <nav className='flex h-full min-w-[200px] flex-col border border-r-white bg-[#D7D7D7] py-[20px]'>
-          <div className='mt-[20px] flex grow flex-col gap-6 px-[30px] text-xl text-[#6D6D6D]'>
-            <Link to='/crud'>
-              <span className='w-fit cursor-pointer'>CRUD</span>
-            </Link>
-            <Link to='/oauth'>
-              <span className='w-fit cursor-pointer'>OAuth</span>
-            </Link>
-            <Link to='/pagination'>
-              <span className='w-fit cursor-pointer'>Pagination</span>
-            </Link>
-            <Link to='/socket'>
-              <span className='w-fit cursor-pointer'>Socket</span>
-            </Link>
+          <div className='mt-[20px] flex grow flex-col gap-6 text-xl text-[#6D6D6D]'>
+            {menuItems.map(item => (
+              <Link key={item.path} to={item.path}>
+                <div
+                  className={cn(
+                    `cursor-pointer p-4 text-center text-lg ${
+                      location.pathname === item.path
+                        ? 'bg-white'
+                        : 'bg-[#D7D7D7]'
+                    } hover:bg-white`,
+                  )}
+                >
+                  {item.label}
+                </div>
+              </Link>
+            ))}
           </div>
-          <Link to='/qualityAssurance'>
-            <div className='cursor-pointer bg-white p-4 text-center text-lg text-[#6D6D6D]'>
+          <Link to={'/qualityAssurance'}>
+            <div
+              className={cn(
+                `cursor-pointer p-4 text-center text-lg text-[#6D6D6D] ${
+                  location.pathname === '/qualityAssurance'
+                    ? 'bg-white'
+                    : 'bg-[#D7D7D7]'
+                } hover:bg-white`,
+              )}
+            >
               Quality Assurance
             </div>
           </Link>
