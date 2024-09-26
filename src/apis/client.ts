@@ -1,5 +1,6 @@
 import ky from 'ky';
 
+import { toast } from '@/components/toast/use-toast';
 import { getDomain } from '@/utils/domain';
 
 import { getAccessToken } from './authentication';
@@ -7,7 +8,7 @@ import { getAccessToken } from './authentication';
 let accessToken = '';
 
 const ApiClient = ky.create({
-  prefixUrl: `${import.meta.env.VITE_BASE_URL}/api`,
+  prefixUrl: `${getDomain()}`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,30 +16,36 @@ const ApiClient = ky.create({
     beforeRequest: [
       request => {
         accessToken = getAccessToken();
-        console.log(accessToken);
         if (accessToken) {
           request.headers.set('Authorization', `Bearer ${accessToken}`);
         }
       },
     ],
     afterResponse: [
-      async (request, _, response) => {
+      (_request, _options, response) => response,
+      async (request, _options, response) => {
+        if (response.ok) return response;
         if (response.status === 401) {
-          try {
-            const domain = getDomain();
-            const newAccessToken = await ky
-              .post(`${domain}/oauth/refresh`)
-              .json();
-
-            request.headers.set('Authorization', `Bearer ${newAccessToken}`);
-            return ky(request);
-          } catch (error) {
-            console.log('refresh-token 만료! 재로그인 하세용');
-            throw error;
-          }
+          return ky
+            .post('auth/reissue', {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+              },
+            })
+            .text()
+            .then(token => {
+              request.headers.set('Authorization', `Bearer ${token}`);
+              return ky(request);
+            })
+            .catch(() => {
+              toast({
+                variant: 'destructive',
+                title: 'refresh-token 만료!',
+                description: '재로그인이 필요합니다.',
+              });
+            });
         }
-
-        return response;
       },
     ],
   },
