@@ -2,9 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { postAssuranceAPI } from '@/apis/assuarance';
+import { Button } from '@/components/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/card';
-import { Input } from '@/components/input';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,7 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '@/components/form';
+import { Input } from '@/components/input';
 import {
   Select,
   SelectContent,
@@ -21,8 +21,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/select';
+import { Textarea } from '@/components/textarea';
 
 import { schema } from './QASchema';
 import { ssafyClass } from './class';
