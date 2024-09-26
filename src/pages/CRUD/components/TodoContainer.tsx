@@ -1,4 +1,5 @@
 import { getTodoApi } from '@/apis/todo';
+import useDomainStore from '@/store';
 
 import AlertBox from './AlertBox';
 import ServerInputModal from './ServerInputModal';
@@ -6,7 +7,8 @@ import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
 
 const TodoContainer = () => {
-  const { data, isError, isPending } = getTodoApi();
+  const { domain } = useDomainStore();
+  const { data, isError, isPending } = getTodoApi(domain);
 
   if (isPending) {
     return <div>loading...</div>;

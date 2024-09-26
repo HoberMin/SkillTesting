@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { useGetInfinityScrollAPI } from '@/apis/infinityScroll';
+import useDomainStore from '@/store';
 
 import AlertBox from '../CRUD/components/AlertBox';
 import ServerInputModal from '../CRUD/components/ServerInputModal';
@@ -10,9 +11,10 @@ import TodoItem from '../CRUD/components/TodoItem';
 
 const TodoContainer = () => {
   const { ref, inView: isInview } = useInView();
+  const { domain } = useDomainStore();
 
   const { todos, hasNextPage, isFetchingNextPage, fetchNextPage, isError } =
-    useGetInfinityScrollAPI();
+    useGetInfinityScrollAPI(domain);
 
   useEffect(() => {
     if (isInview && hasNextPage) {

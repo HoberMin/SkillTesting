@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { useQueryClient } from '@tanstack/react-query';
@@ -26,13 +26,7 @@ const ServerInputModal = () => {
   const [deployedURL, setDeployedURL] = useState('');
   const [isOpenedModal, setIsOpenedModal] = useState(false);
 
-  const { domain, setDomain } = useDomainStore();
-
-  useEffect(() => {
-    if (domain === '') {
-      setIsOpenedModal(true);
-    }
-  }, []);
+  const { setDomain } = useDomainStore();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
