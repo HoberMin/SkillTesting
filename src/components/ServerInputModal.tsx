@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import { DialogDescription } from '@radix-ui/react-dialog';
 import { useQueryClient } from '@tanstack/react-query';
 
 import useDomainStore from '@/store';
@@ -8,16 +7,12 @@ import useDomainStore from '@/store';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../../../components/dialog';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '../../../components/tabs';
+} from './dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
 
 const ServerInputModal = () => {
   const queryClient = useQueryClient();
@@ -72,7 +67,7 @@ const ServerInputModal = () => {
     <Dialog open={isOpenedModal} onOpenChange={setIsOpenedModal}>
       <DialogTrigger
         onClick={() => setIsOpenedModal(true)}
-        className='rounded-[5px] border p-2 text-[12px]'
+        className='h-10 rounded-[5px] border px-4 py-2 text-sm font-medium'
       >
         Edit Base URL
       </DialogTrigger>

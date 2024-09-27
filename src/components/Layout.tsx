@@ -11,6 +11,7 @@ import { Link, useLocation } from 'react-router-dom';
 import useDomainStore from '@/store';
 import { cn } from '@/utils/cn';
 
+import ServerInputModal from './ServerInputModal';
 import { Button } from './button';
 
 const Layout = ({ children }: PropsWithChildren) => {
@@ -28,20 +29,33 @@ const Layout = ({ children }: PropsWithChildren) => {
     <div className='flex h-screen flex-col'>
       <header className='flex items-center justify-between border-b p-[20px]'>
         <span className='text-2xl font-bold text-[#373737]'>SSAFY SANDBOX</span>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild className='mr-[40px]'>
-              <Button variant='outline'>My Base URL</Button>
-            </TooltipTrigger>
-            <TooltipContent className='z-10 mt-2 rounded-md border bg-black p-4 py-2 text-white'>
-              <span>{domain === '' ? '입력된 도메인이 없습니다' : domain}</span>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <div className='flex items-center gap-[20px]'>
+          <a
+            className='inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'
+            href='https://documenter.getpostman.com/view/17268285/2sA3s7kUzi'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            API specification
+          </a>
+          <ServerInputModal />
+          {domain && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild className='mr-[40px]'>
+                  <Button variant='outline'>My Base URL</Button>
+                </TooltipTrigger>
+                <TooltipContent className='z-10 mt-2 rounded-md border bg-black p-4 py-2 text-white'>
+                  {domain}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </div>
       </header>
       <div className='flex w-full grow'>
         <nav className='flex h-full min-w-[200px] flex-col border border-r-white bg-[#D7D7D7] py-[20px]'>
-          <div className='mt-[20px] flex grow flex-col gap-6 text-xl text-[#6D6D6D]'>
+          <div className='flex grow flex-col gap-6 text-xl text-[#6D6D6D]'>
             {menuItems.map(item => (
               <Link key={item.path} to={item.path}>
                 <div

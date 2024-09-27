@@ -19,7 +19,6 @@ import {
 import { Input } from '@/components/input';
 import useDomainStore from '@/store';
 
-import ServerInputModal from '../CRUD/components/ServerInputModal';
 import { authenticationSchema, emailSchema } from './emailSchema';
 
 export interface EmailForm {
@@ -50,7 +49,7 @@ const Email = () => {
     }
     if (timer === 0) {
       clearInterval(countdown);
-      setIsButtonDisabled(true); // 타이머가 끝나면 인증 버튼 비활성화
+      setIsButtonDisabled(true);
     }
     return () => clearInterval(countdown);
   }, [isOk, timer]);
@@ -99,9 +98,6 @@ const Email = () => {
   return (
     <main className='flex h-full w-full flex-col justify-center'>
       <div className='mx-auto flex w-[600px] flex-col gap-5'>
-        <div className='flex justify-end'>
-          <ServerInputModal />
-        </div>
         <div className='flex max-h-[600px] flex-col gap-[20px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 p-[60px] shadow-xl'>
           <Form {...emailForm}>
             <form onSubmit={emailForm.handleSubmit(onEmailSubmit)}>
