@@ -1,12 +1,13 @@
 import { getTodoApi } from '@/apis/todo';
+import useDomainStore from '@/store';
 
 import AlertBox from './AlertBox';
-import ServerInputModal from './ServerInputModal';
 import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
 
 const TodoContainer = () => {
-  const { data, isError, isPending } = getTodoApi();
+  const { domain } = useDomainStore();
+  const { data, isError, isPending } = getTodoApi(domain);
 
   if (isPending) {
     return <div>loading...</div>;
@@ -15,9 +16,6 @@ const TodoContainer = () => {
   return (
     <main className='flex h-full w-full flex-col justify-center'>
       <div className='mx-auto flex w-[600px] flex-col gap-5'>
-        <div className='flex justify-end'>
-          <ServerInputModal />
-        </div>
         {!isError && data && (
           <>
             <TodoInput />

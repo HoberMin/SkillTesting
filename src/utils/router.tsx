@@ -2,10 +2,10 @@ import { Outlet, createBrowserRouter } from 'react-router-dom';
 
 import Layout from '@/components/Layout';
 import CRUD from '@/pages/CRUD';
+import Email from '@/pages/Email';
 import OAuth from '@/pages/OAuth';
 import Pagination from '@/pages/Pagination';
 import QualityAssurance from '@/pages/QualityAssurance';
-import Socket from '@/pages/Socket';
 
 export const router = createBrowserRouter([
   {
@@ -33,8 +33,8 @@ export const router = createBrowserRouter([
         element: <Pagination />,
       },
       {
-        path: '/socket',
-        element: <Socket />,
+        path: '/email',
+        element: <Email />,
       },
       {
         path: '/qualityAssurance',
