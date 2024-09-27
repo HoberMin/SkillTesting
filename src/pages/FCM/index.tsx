@@ -11,15 +11,17 @@ const firebaseConfig = {
   measurementId: 'G-P4LL243SQS',
 };
 
-const VAPID_KEY =
-  'BClKWaVc65S9Ok6S_D1f-IppgaQTT2phijNKODvFbczK09fQB7sHikeqoLWF43wRBAb9vdYPOklw1L-iyn1HO08';
-
 const initializeFirebase = () => {
   firebase.apps.length
     ? firebase.app()
     : firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
-  messaging.getToken({ vapidKey: VAPID_KEY }).then(updateFCMToken);
+  messaging
+    .getToken({
+      vapidKey:
+        'BClKWaVc65S9Ok6S_D1f-IppgaQTT2phijNKODvFbczK09fQB7sHikeqoLWF43wRBAb9vdYPOklw1L-iyn1HO08',
+    })
+    .then(updateFCMToken);
 };
 
 const updateFCMToken = (issuedFCMToken: string) => {
