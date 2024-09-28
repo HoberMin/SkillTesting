@@ -1,9 +1,9 @@
-import { deleteTodoApi } from '@/apis/todo';
+import { useDeleteTodoApi } from '@/apis/todo';
 import useDomainStore from '@/store';
 
 const TodoEditIcon = ({ todoId }: { todoId: number }) => {
   const { domain } = useDomainStore();
-  const deleteTodo = deleteTodoApi(domain);
+  const deleteTodo = useDeleteTodoApi(domain);
 
   const handleTodoPut = () => {
     deleteTodo(todoId);

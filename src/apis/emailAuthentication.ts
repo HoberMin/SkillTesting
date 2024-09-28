@@ -45,7 +45,7 @@ const postAuthentication = async (data: Authentication, domain: string) => {
     .then(data => data as AuthenticationResponse);
 };
 
-export const postEmailAPI = (domain: string) => {
+export const usePostEmailAPI = (domain = 'http://localhost:8080') => {
   const { toast } = useToast();
 
   const { mutateAsync } = useMutation({
@@ -62,7 +62,7 @@ export const postEmailAPI = (domain: string) => {
   return mutateAsync;
 };
 
-export const postAuthenticationAPI = (domain: string) => {
+export const usePostAuthenticationAPI = (domain = 'http://localhost:8080') => {
   const { toast } = useToast();
 
   const { mutateAsync } = useMutation({

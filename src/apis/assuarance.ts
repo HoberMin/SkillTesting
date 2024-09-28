@@ -12,7 +12,7 @@ const postAssuarance = async (data: QASchema) => {
   });
 };
 
-export const postAssuranceAPI = () => {
+export const usePostAssuranceAPI = () => {
   const { mutate } = useMutation({
     mutationFn: (data: QASchema) => postAssuarance(data),
   });

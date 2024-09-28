@@ -1,16 +1,27 @@
-import { getTodoApi } from '@/apis/todo';
+import { useGetTodoAPI } from '@/apis/todo';
+import NotDomainAlertBox from '@/components/NotDomainAlertBox';
 import useDomainStore from '@/store';
 
-import AlertBox from './AlertBox';
+import AlertBox from '../../../components/AlertBox';
 import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
 
 const TodoContainer = () => {
   const { domain } = useDomainStore();
-  const { data, isError, isPending } = getTodoApi(domain);
+  const { data, isError, isPending } = useGetTodoAPI(domain);
 
   if (isPending) {
     return <div>loading...</div>;
+  }
+
+  if (!domain) {
+    return (
+      <main className='flex h-full w-full flex-col justify-center'>
+        <div className='mx-auto flex w-[600px] flex-col gap-5'>
+          <NotDomainAlertBox />
+        </div>
+      </main>
+    );
   }
 
   return (

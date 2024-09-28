@@ -3,9 +3,10 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { useGetInfinityScrollAPI } from '@/apis/infinityScroll';
+import NotDomainAlertBox from '@/components/NotDomainAlertBox';
 import useDomainStore from '@/store';
 
-import AlertBox from '../CRUD/components/AlertBox';
+import AlertBox from '../../components/AlertBox';
 import TodoItem from '../CRUD/components/TodoItem';
 
 const TodoContainer = () => {
@@ -20,6 +21,16 @@ const TodoContainer = () => {
       fetchNextPage();
     }
   }, [isInview, hasNextPage, fetchNextPage]);
+
+  if (!domain) {
+    return (
+      <main className='flex h-full w-full flex-col justify-center'>
+        <div className='mx-auto flex w-[600px] flex-col gap-5'>
+          <NotDomainAlertBox />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className='flex h-full w-full flex-col justify-center'>

@@ -30,10 +30,10 @@ const getInfinityScroll = async (size = '10', page: string, domain: string) => {
     .then(data => data as InfinityScrollData);
 };
 
-export const useGetInfinityScrollAPI = (domain: string) => {
+export const useGetInfinityScrollAPI = (domain = 'http://localhost:8080') => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isError } =
     useInfiniteQuery({
-      queryKey: ['InfinityScroll'],
+      queryKey: ['InfinityScroll', domain],
       queryFn: ({ pageParam }) =>
         getInfinityScroll('10', pageParam.toString(), domain),
       initialPageParam: 0,

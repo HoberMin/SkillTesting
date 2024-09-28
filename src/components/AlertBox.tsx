@@ -1,6 +1,6 @@
 import { Terminal } from 'lucide-react';
 
-import { Alert, AlertDescription, AlertTitle } from '../../../components/alert';
+import { Alert, AlertDescription, AlertTitle } from './alert';
 
 const AlertBox = () => (
   <Alert>

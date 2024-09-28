@@ -13,6 +13,7 @@ interface Todos {
 }
 
 const getTodo = async (domain: string) => {
+  console.log(domain);
   return await fetch(`${domain}/todos`, {
     headers: {
       'Content-Type': 'application/json',
@@ -26,12 +27,6 @@ const getTodo = async (domain: string) => {
     })
     .then(data => data as Todos);
 };
-
-export const getTodoApi = (domain: string) =>
-  useQuery({
-    queryKey: ['todos'],
-    queryFn: () => getTodo(domain),
-  });
 
 const postTodo = async (content: string, domain: string) => {
   return await fetch(`${domain}/todos`, {
@@ -53,6 +48,7 @@ const patchTodo = (todoId: number, domain: string) => {
     method: 'PATCH',
   });
 };
+
 const deleteTodo = (todoId: number, domain: string) => {
   return fetch(`${domain}/todos/${todoId}`, {
     headers: {
@@ -62,13 +58,20 @@ const deleteTodo = (todoId: number, domain: string) => {
   });
 };
 
-export const postTodoApi = (domain: string) => {
+export const useGetTodoAPI = (domain = 'https://localhost:8080') =>
+  useQuery({
+    queryKey: ['todos', domain],
+    queryFn: () => getTodo(domain),
+  });
+
+export const usePostTodoApi = (domain = 'http://localhost:8080') => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const { mutate } = useMutation({
     mutationFn: (contents: string) => postTodo(contents, domain),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['todos', domain] }),
     onError: () => {
       toast({
         variant: 'destructive',
@@ -81,13 +84,14 @@ export const postTodoApi = (domain: string) => {
   return mutate;
 };
 
-export const patchTodoApi = (domain: string) => {
+export const usePatchTodoApi = (domain = 'http://localhost:8080') => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const { mutate } = useMutation({
     mutationFn: (todoId: number) => patchTodo(todoId, domain),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['todos', domain] }),
     onError: () => {
       toast({
         variant: 'destructive',
@@ -100,13 +104,14 @@ export const patchTodoApi = (domain: string) => {
   return mutate;
 };
 
-export const deleteTodoApi = (domain: string) => {
+export const useDeleteTodoApi = (domain = 'http://localhost:8080') => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const { mutate } = useMutation({
     mutationFn: (todoId: number) => deleteTodo(todoId, domain),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['todos', domain] }),
     onError: () => {
       toast({
         variant: 'destructive',
