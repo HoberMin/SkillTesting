@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
 interface Domain {
-  domain: string;
+  domain: string | undefined;
   setDomain: (newDomain: string) => void;
 }
 
 const useDomainStore = create<Domain>(set => ({
-  domain: '',
+  domain: undefined,
   setDomain: (newDomain: string) => set({ domain: newDomain }),
 }));
 

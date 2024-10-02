@@ -4,9 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import {
-  postAuthenticationAPI,
-  postEmailAPI,
+  usePostAuthenticationAPI,
+  usePostEmailAPI,
 } from '@/apis/emailAuthentication';
+import NotDomainAlertBox from '@/components/NotDomainAlertBox';
 import { Button } from '@/components/button';
 import {
   Form,
@@ -31,8 +32,8 @@ export interface Authentication {
 
 const Email = () => {
   const { domain } = useDomainStore();
-  const postEmail = postEmailAPI(domain);
-  const postAuthentication = postAuthenticationAPI(domain);
+  const postEmail = usePostEmailAPI(domain);
+  const postAuthentication = usePostAuthenticationAPI(domain);
 
   const [isOk, setIsOk] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -94,6 +95,16 @@ const Email = () => {
 
     return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
   };
+
+  if (!domain) {
+    return (
+      <main className='flex h-full w-full flex-col justify-center'>
+        <div className='mx-auto flex w-[600px] flex-col gap-5'>
+          <NotDomainAlertBox />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className='flex h-full w-full flex-col justify-center'>

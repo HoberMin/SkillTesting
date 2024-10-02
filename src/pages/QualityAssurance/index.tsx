@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { postAssuranceAPI } from '@/apis/assuarance';
+import { usePostAssuranceAPI } from '@/apis/assuarance';
 import { Button } from '@/components/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/card';
 import {
@@ -37,7 +37,7 @@ export interface QASchema {
 }
 
 const QualityAssurancePage = () => {
-  const postAssurance = postAssuranceAPI();
+  const postAssurance = usePostAssuranceAPI();
   const form = useForm<QASchema>({
     resolver: zodResolver(schema),
     defaultValues: {
