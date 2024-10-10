@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from '@/components/toast/use-toast';
 import { Authentication, EmailForm } from '@/pages/Email';
+import { Domain } from '@/store';
 
 interface EmailResponse {
   isOk: boolean;
@@ -11,7 +12,7 @@ interface AuthenticationResponse {
   isSuccess: boolean;
 }
 
-const postEmail = async (data: EmailForm, domain: string) => {
+const postEmail = async (data: EmailForm, domain: Domain) => {
   return await fetch(`${domain}/email`, {
     method: 'POST',
     headers: {
@@ -28,7 +29,7 @@ const postEmail = async (data: EmailForm, domain: string) => {
     .then(data => data as EmailResponse);
 };
 
-const postAuthentication = async (data: Authentication, domain: string) => {
+const postAuthentication = async (data: Authentication, domain: Domain) => {
   return await fetch(`${domain}/authentication`, {
     method: 'POST',
     headers: {
@@ -62,7 +63,7 @@ export const usePostEmailAPI = (domain = 'http://localhost:8080') => {
   return mutateAsync;
 };
 
-export const usePostAuthenticationAPI = (domain = 'http://localhost:8080') => {
+export const usePostAuthenticationAPI = (domain: Domain) => {
   const { toast } = useToast();
 
   const { mutateAsync } = useMutation({

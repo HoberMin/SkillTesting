@@ -1,8 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from '@/components/toast/use-toast';
+import { Domain } from '@/store';
 
-const imageUpload = async (image: File, domain: string) => {
+const imageUpload = async (image: File, domain: Domain) => {
   const formData = new FormData();
 
   formData.append('image', image);
@@ -16,7 +17,7 @@ const imageUpload = async (image: File, domain: string) => {
   });
 };
 
-export const usePostImageUploadAPI = (domain = 'http://localhost:8080') => {
+export const usePostImageUploadAPI = (domain: Domain) => {
   const { toast } = useToast();
 
   const { mutate } = useMutation({

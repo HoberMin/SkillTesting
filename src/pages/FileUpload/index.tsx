@@ -1,6 +1,7 @@
 import { ChangeEvent, useRef, useState } from 'react';
 
 import { usePostImageUploadAPI } from '@/apis/imageUpload';
+import NotDomainAlertBox from '@/components/NotDomainAlertBox';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 import { Label } from '@/components/label';
@@ -36,6 +37,16 @@ const FileUploader = () => {
     imageUploadAPI(file);
   };
 
+  if (!domain) {
+    return (
+      <main className='flex h-full w-full flex-col justify-center'>
+        <div className='mx-auto flex w-[600px] flex-col gap-5'>
+          <NotDomainAlertBox />
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className='flex h-full w-full flex-col justify-center'>
       <div className='mx-auto flex w-[600px] max-w-[200px] flex-col items-center gap-5'>
@@ -43,7 +54,7 @@ const FileUploader = () => {
           <img
             src={profile}
             alt='프로필 이미지'
-            className='h-[100px] w-[100px] rounded-md'
+            className='h-[100px] w-[100px] rounded-xl'
           />
         ) : (
           <svg

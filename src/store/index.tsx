@@ -1,11 +1,13 @@
 import { create } from 'zustand';
 
-interface Domain {
-  domain: string | undefined;
+export type Domain = string | undefined;
+
+interface DomainStore {
+  domain: Domain;
   setDomain: (newDomain: string) => void;
 }
 
-const useDomainStore = create<Domain>(set => ({
+const useDomainStore = create<DomainStore>(set => ({
   domain: undefined,
   setDomain: (newDomain: string) => set({ domain: newDomain }),
 }));
