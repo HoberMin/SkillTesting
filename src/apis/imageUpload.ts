@@ -25,15 +25,13 @@ export const usePostImageUploadAPI = (domain: Domain) => {
     onSuccess: () =>
       toast({
         title: 'POST 요청 성공!',
-        description: 'Network탭을 확인해주세요 !',
       }),
-    onError: () => {
+    onError: () =>
       toast({
         variant: 'destructive',
         title: 'POST 요청 에러',
         description: 'Network탭을 확인해주세요 !',
-      });
-    },
+      }),
   });
 
   return mutate;

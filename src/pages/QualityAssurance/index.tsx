@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from '@/components/form';
 import { Input } from '@/components/input';
+import { Label } from '@/components/label';
 import {
   Select,
   SelectContent,
@@ -23,6 +24,7 @@ import {
   SelectValue,
 } from '@/components/select';
 import { Textarea } from '@/components/textarea';
+import { useQAStore } from '@/store';
 
 import { schema } from './QASchema';
 import { ssafyClass } from './class';
@@ -38,6 +40,7 @@ export interface QASchema {
 
 const QualityAssurancePage = () => {
   const postAssurance = usePostAssuranceAPI();
+  const { isQA } = useQAStore();
   const form = useForm<QASchema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -50,6 +53,7 @@ const QualityAssurancePage = () => {
 
   const onsubmit = (data: QASchema) => {
     postAssurance(data);
+    form.reset();
   };
 
   return (
@@ -146,7 +150,14 @@ const QualityAssurancePage = () => {
                   )}
                 />
               </div>
-              <Button type='submit'>제출하기</Button>
+              <Button type='submit' disabled={isQA}>
+                제출하기
+              </Button>
+              {isQA && (
+                <Label className='text-destructive'>
+                  QA는 중복으로 요청할 수 없습니다.
+                </Label>
+              )}
             </CardContent>
           </Card>
         </form>
