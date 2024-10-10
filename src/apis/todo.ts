@@ -25,7 +25,10 @@ const getTodo = async (domain: Domain) => {
       }
       return res.json();
     })
-    .then(data => data as Todos);
+    .then(data => {
+      console.log(data);
+      return data as Todos;
+    });
 };
 
 const postTodo = async (content: string, domain: Domain) => {

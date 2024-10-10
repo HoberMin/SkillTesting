@@ -55,7 +55,7 @@ export const usePostEmailAPI = (domain = 'http://localhost:8080') => {
       toast({
         variant: 'destructive',
         title: '이메일 인증 에러',
-        description: '백엔드 로직을 확인해주세요.',
+        description: '이메일을 확인해주세요.',
       });
     },
   });

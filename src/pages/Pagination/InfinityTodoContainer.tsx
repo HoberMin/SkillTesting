@@ -38,16 +38,16 @@ const TodoContainer = () => {
         {!isError && todos && (
           <>
             <div className='max-h-[600px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>
-              {todos.map(({ content, completed, id }) => (
+              {todos.map(({ content, id }) => (
                 <TodoItem
-                  checked={completed}
                   todo={content}
                   todoId={id}
                   key={`${content}-${id}`}
+                  isInfinity={true}
                 />
               ))}
-              {isFetchingNextPage && <div>로딩중...</div>}
-              <div ref={ref} className='h-[20px]'></div>
+              {isFetchingNextPage && <div></div>}
+              <div ref={ref} className='h-[10px]'></div>
             </div>
             <span className='mt-[40px]'>Made By HoberMin / songhaeunsong</span>
           </>
