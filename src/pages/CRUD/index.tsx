@@ -1,5 +1,5 @@
 import TodoContainer from './components/TodoContainer';
 
-const CRUD = () => <TodoContainer />;
+const CRUDPage = () => <TodoContainer />;
 
-export default CRUD;
+export default CRUDPage;
