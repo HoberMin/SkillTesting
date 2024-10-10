@@ -1,8 +1,9 @@
-import { deleteTodoApi } from '@/apis/todo';
+import { useDeleteTodoApi } from '@/apis/todo';
+import useDomainStore from '@/store';
 
 const TodoEditIcon = ({ todoId }: { todoId: number }) => {
-  // 각 아이콘에 클릭이벤트 달아주면 되는데, 수정할거면 수정하는 ui도 추가해줘야하는데 복잡할 것 같은데
-  const deleteTodo = deleteTodoApi();
+  const { domain } = useDomainStore();
+  const deleteTodo = useDeleteTodoApi(domain);
 
   const handleTodoPut = () => {
     deleteTodo(todoId);

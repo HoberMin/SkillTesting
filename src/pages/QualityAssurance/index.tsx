@@ -1,10 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { postAssuranceAPI } from '@/apis/assuarance';
+import { usePostAssuranceAPI } from '@/apis/assuarance';
+import { Button } from '@/components/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/card';
-import { Input } from '@/components/input';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,7 +11,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '@/components/form';
+import { Input } from '@/components/input';
+import { Label } from '@/components/label';
 import {
   Select,
   SelectContent,
@@ -21,8 +22,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/select';
+import { Textarea } from '@/components/textarea';
+import { useQAStore } from '@/store';
 
 import { schema } from './QASchema';
 import { ssafyClass } from './class';
@@ -37,7 +39,8 @@ export interface QASchema {
 }
 
 const QualityAssurancePage = () => {
-  const postAssurance = postAssuranceAPI();
+  const postAssurance = usePostAssuranceAPI();
+  const { isQA } = useQAStore();
   const form = useForm<QASchema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -50,6 +53,7 @@ const QualityAssurancePage = () => {
 
   const onsubmit = (data: QASchema) => {
     postAssurance(data);
+    form.reset();
   };
 
   return (
@@ -146,7 +150,14 @@ const QualityAssurancePage = () => {
                   )}
                 />
               </div>
-              <Button type='submit'>제출하기</Button>
+              <Button type='submit' disabled={isQA}>
+                제출하기
+              </Button>
+              {isQA && (
+                <Label className='text-destructive'>
+                  QA는 중복으로 요청할 수 없습니다.
+                </Label>
+              )}
             </CardContent>
           </Card>
         </form>

@@ -1,4 +1,5 @@
-import { patchTodoApi } from '@/apis/todo';
+import { usePatchTodoApi } from '@/apis/todo';
+import useDomainStore from '@/store';
 
 import { Switch } from '../../../components/switch';
 import { useToast } from '../../../components/toast/use-toast';
@@ -9,8 +10,10 @@ interface TodoItemProps {
   todo: string;
   todoId: number;
 }
+
 const TodoItem = ({ checked, todo, todoId }: TodoItemProps) => {
-  const patchTodo = patchTodoApi();
+  const { domain } = useDomainStore();
+  const patchTodo = usePatchTodoApi(domain);
   const { toast } = useToast();
   const handleTodoPut = () => {
     if (checked === undefined) {

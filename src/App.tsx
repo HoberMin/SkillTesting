@@ -4,6 +4,7 @@ import { ReactQueryClientProvider } from './utils/Provider';
 import { router } from './utils/router';
 
 const App = () => {
+  // useInitializeFCM();
   return (
     <ReactQueryClientProvider>
       <RouterProvider router={router} />

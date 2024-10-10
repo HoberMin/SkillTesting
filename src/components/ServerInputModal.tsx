@@ -1,23 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { DialogDescription } from '@radix-ui/react-dialog';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { getDomain, setDomainHTTP, setDomainHTTPS } from '@/utils/domain';
+import useDomainStore from '@/store';
 
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../../../components/dialog';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '../../../components/tabs';
+} from './dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
 
 const ServerInputModal = () => {
   const queryClient = useQueryClient();
@@ -26,12 +21,7 @@ const ServerInputModal = () => {
   const [deployedURL, setDeployedURL] = useState('');
   const [isOpenedModal, setIsOpenedModal] = useState(false);
 
-  useEffect(() => {
-    const domain = getDomain();
-    if (!domain) {
-      setIsOpenedModal(true);
-    }
-  }, []);
+  const { setDomain } = useDomainStore();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -49,7 +39,7 @@ const ServerInputModal = () => {
   };
 
   const onsubmitLocalURL = () => {
-    setDomainHTTP(localURL);
+    setDomain(`http://${localURL}`);
     queryClient.invalidateQueries({ queryKey: ['todos'] });
     setIsOpenedModal(false);
     setLocalURL('');
@@ -57,7 +47,7 @@ const ServerInputModal = () => {
   };
 
   const onsubmitDeployedURL = () => {
-    setDomainHTTPS(deployedURL);
+    setDomain(`https://${deployedURL}`);
     queryClient.invalidateQueries({ queryKey: ['todos'] });
     setIsOpenedModal(false);
     setLocalURL('');
@@ -77,7 +67,7 @@ const ServerInputModal = () => {
     <Dialog open={isOpenedModal} onOpenChange={setIsOpenedModal}>
       <DialogTrigger
         onClick={() => setIsOpenedModal(true)}
-        className='rounded-[5px] border p-2 text-[12px]'
+        className='h-10 rounded-[5px] border px-4 py-2 text-sm font-medium'
       >
         Edit Base URL
       </DialogTrigger>
