@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useToast } from '@/components/toast/use-toast';
+import { Domain } from '@/store';
 
 interface Todo {
   content: string;
@@ -12,8 +13,7 @@ interface Todos {
   todos: Todo[];
 }
 
-const getTodo = async (domain: string) => {
-  console.log(domain);
+const getTodo = async (domain: Domain) => {
   return await fetch(`${domain}/todos`, {
     headers: {
       'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const getTodo = async (domain: string) => {
     .then(data => data as Todos);
 };
 
-const postTodo = async (content: string, domain: string) => {
+const postTodo = async (content: string, domain: Domain) => {
   return await fetch(`${domain}/todos`, {
     method: 'POST',
     headers: {
@@ -40,7 +40,7 @@ const postTodo = async (content: string, domain: string) => {
   });
 };
 
-const patchTodo = (todoId: number, domain: string) => {
+const patchTodo = (todoId: number, domain: Domain) => {
   return fetch(`${domain}/todos/${todoId}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const patchTodo = (todoId: number, domain: string) => {
   });
 };
 
-const deleteTodo = (todoId: number, domain: string) => {
+const deleteTodo = (todoId: number, domain: Domain) => {
   return fetch(`${domain}/todos/${todoId}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -58,13 +58,13 @@ const deleteTodo = (todoId: number, domain: string) => {
   });
 };
 
-export const useGetTodoAPI = (domain = 'https://localhost:8080') =>
+export const useGetTodoAPI = (domain: Domain) =>
   useQuery({
     queryKey: ['todos', domain],
     queryFn: () => getTodo(domain),
   });
 
-export const usePostTodoApi = (domain = 'http://localhost:8080') => {
+export const usePostTodoApi = (domain: Domain) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -84,7 +84,7 @@ export const usePostTodoApi = (domain = 'http://localhost:8080') => {
   return mutate;
 };
 
-export const usePatchTodoApi = (domain = 'http://localhost:8080') => {
+export const usePatchTodoApi = (domain: Domain) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -104,7 +104,7 @@ export const usePatchTodoApi = (domain = 'http://localhost:8080') => {
   return mutate;
 };
 
-export const useDeleteTodoApi = (domain = 'http://localhost:8080') => {
+export const useDeleteTodoApi = (domain: Domain) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 

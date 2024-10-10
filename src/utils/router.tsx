@@ -3,6 +3,7 @@ import { Outlet, createBrowserRouter } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import CRUD from '@/pages/CRUD';
 import Email from '@/pages/Email';
+import FileUploader from '@/pages/FileUpload';
 import OAuth from '@/pages/OAuth';
 import Pagination from '@/pages/Pagination';
 import QualityAssurance from '@/pages/QualityAssurance';
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
       {
         path: '/qualityAssurance',
         element: <QualityAssurance />,
+      },
+      {
+        path: '/fileuploader',
+        element: <FileUploader />,
       },
     ],
   },
