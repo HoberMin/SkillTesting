@@ -3,9 +3,15 @@ import ky, { KyRequest } from 'ky';
 import { toast } from '@/components/toast/use-toast';
 import { getDomain } from '@/utils/domain';
 
-import { getAccessToken } from './authentication';
+import { getAccessToken, setAccessToken } from './authentication';
 
-const api = ky.create({
+interface ErrorResponse {
+  status: number;
+  code: string;
+}
+
+export const api = ky.create({
+  credentials: 'include',
   prefixUrl: `${getDomain()}`,
   headers: {
     'Content-Type': 'application/json',
@@ -21,11 +27,20 @@ const api = ky.create({
   },
 });
 
-const reissue = (request: KyRequest) =>
+const reissue = (request: KyRequest) => {
+  // http 통신일 경우 쿠키 설정
+  // const cookie = sessionStorage.getItem('refreshToken');
+  // console.log(cookie);
+  // if (cookie) {
+  //   document.cookie = `refreshToken=${cookie}`;
+  // }
+
   api
-    .post('auth/reissue')
+    .get('auth/reissue')
     .text()
     .then(token => {
+      setAccessToken(token);
+
       request.headers.set('Authorization', `Bearer ${token}`);
       return ky(request);
     })
@@ -36,19 +51,21 @@ const reissue = (request: KyRequest) =>
         description: '재로그인이 필요합니다.',
       });
     });
+};
 
-const ApiClient = api.extend({
+export const ApiClient = api.extend({
   hooks: {
     afterResponse: [
       (_request, _options, response) => response,
       async (request, _options, response) => {
         if (response.ok) return response;
-        if (response.status === 401) {
+
+        const data: ErrorResponse = await response.json();
+
+        if (data.code === 'ERR_ACCESS_TOKEN_EXPIRED') {
           return reissue(request);
         }
       },
     ],
   },
 });
-
-export default ApiClient;

@@ -1,6 +1,3 @@
-import { useState } from 'react';
-
-import { getMemberApi } from '@/apis/authentication';
 import {
   Accordion,
   AccordionContent,
@@ -8,17 +5,12 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-const OAuthUserInfo = () => {
-  const getMember = getMemberApi();
+type TProps = {
+  nickName: string | null;
+  handleCheckSignInStatus: () => void;
+};
 
-  const [nickName, setNickName] = useState('');
-
-  const handleCheckSignInStatus = async () => {
-    // getMember() 사용해서 data.nickname 받아오기
-    const member = await getMember();
-    setNickName(member.nickname);
-  };
-
+const OAuthUserInfo = ({ nickName, handleCheckSignInStatus }: TProps) => {
   //   if (isPending) return <>Loading...</>;
 
   return (

@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
-import { postCodeApi } from '@/apis/authentication';
+import { usePostCodeApi } from '@/apis/authentication';
 
 const RedirectPage = () => {
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code');
-  const postCode = postCodeApi();
+  const postCode = usePostCodeApi();
 
   useEffect(() => {
     if (code) {

@@ -1,34 +1,57 @@
 import { useMutation } from '@tanstack/react-query';
-import ky from 'ky';
 import { useNavigate } from 'react-router-dom';
 
 import { toast } from '@/components/toast/use-toast';
-import { getDomain } from '@/utils/domain';
 
-import ApiClient from './client';
+// import { getDomain } from '@/utils/domain';
+import { ApiClient, api } from './client';
 
 interface Token {
   accessToken: string;
 }
 
+// interface TokenResponse {
+//   headers: Headers;
+//   body: Token;
+// }
+
 interface Member {
-  nickname: string;
+  nickname: string | null;
 }
 
 let accessToken = '';
 
-const postCode = async (code: string): Promise<Token> => {
-  const domain = getDomain();
+export const getAccessToken = () => accessToken;
+export const setAccessToken = (token: string) => (accessToken = token);
 
-  return ky.post(`${domain}/auth`, { json: { code } }).json();
+const postCode = async (code: string): Promise<Token> => {
+  const response = await api.post('auth', {
+    json: { code },
+  });
+
+  return await response.json();
 };
 
-export const postCodeApi = () => {
+export const usePostCodeApi = () => {
   const navigate = useNavigate();
   const { mutate } = useMutation({
     mutationFn: (code: string) => postCode(code),
     onSuccess: (res: Token) => {
       accessToken = res.accessToken;
+
+      // if (getDomain()?.startsWith('http:')) {
+      // sessionStorage.setItem(
+      //   'refreshToken',
+      //   'eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjgzMDE1MTMsImV4cCI6MTczMDg5MzUxM30.EwIsLp3qe9BbeO5uec60c6oeKEgJTqG2LKgjg6A9KX4',
+      // );
+      // const setCookieHeader = res.headers.get('Set-Cookie');
+      // console.log('setCookieHeader', setCookieHeader);
+      // if (setCookieHeader) {
+      //   const cookie = setCookieHeader.split(';')[0];
+      //   sessionStorage.setItem('refreshToken', cookie);
+      // }
+      // }
+
       navigate('/oauth');
     },
     onError: () => {
@@ -43,27 +66,14 @@ export const postCodeApi = () => {
   return mutate;
 };
 
-export const getAccessToken = () => accessToken;
-
 const getMember = (): Promise<Member> => {
   return ApiClient.get('member').json();
-  // .then(res => {
-  //   if (!res.ok) {
-  //     throw new Error(`HTTP error! status: ${res.status}`);
-  //   }
-  //   return res.json();
-  // })
-  // .then(data => data as Member);
 };
 
-export const getMemberApi = () => {
+export const useGetMemberApi = () => {
   const { mutateAsync } = useMutation({
     mutationFn: () => getMember(),
   });
 
   return mutateAsync;
-  // useQuery({
-  //   queryKey: ['member'],
-  //   queryFn: getMember,
-  // });
 };
