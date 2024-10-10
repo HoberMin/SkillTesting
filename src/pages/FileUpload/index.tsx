@@ -49,7 +49,7 @@ const FileUploader = () => {
 
   return (
     <main className='flex h-full w-full flex-col justify-center'>
-      <div className='mx-auto flex w-[600px] max-w-[200px] flex-col items-center gap-5'>
+      <div className='mx-auto flex w-[600px] max-w-[300px] flex-col items-center gap-5'>
         {profile ? (
           <img
             src={profile}
