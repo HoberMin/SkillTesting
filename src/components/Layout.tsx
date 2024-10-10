@@ -20,7 +20,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 
   const menuItems = [
     { path: '/crud', label: 'CRUD' },
-    { path: '/oauth', label: 'OAuth' },
+    // { path: '/oauth', label: 'OAuth' },
     { path: '/pagination', label: 'Paging' },
     { path: '/email', label: 'Email' },
     { path: '/fileuploader', label: 'File Uploader' },

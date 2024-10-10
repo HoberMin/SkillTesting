@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { toast } from '@/components/toast/use-toast';
+import { Domain } from '@/store';
 
-// import { getDomain } from '@/utils/domain';
 import { ApiClient, api } from './client';
 
 interface Token {
@@ -24,18 +24,18 @@ let accessToken = '';
 export const getAccessToken = () => accessToken;
 export const setAccessToken = (token: string) => (accessToken = token);
 
-const postCode = async (code: string): Promise<Token> => {
-  const response = await api.post('auth', {
+const postCode = async (code: string, domain: Domain): Promise<Token> => {
+  const response = await api.post(`${domain}/auth`, {
     json: { code },
   });
 
   return await response.json();
 };
 
-export const usePostCodeApi = () => {
+export const usePostCodeApi = (domain: Domain) => {
   const navigate = useNavigate();
   const { mutate } = useMutation({
-    mutationFn: (code: string) => postCode(code),
+    mutationFn: (code: string) => postCode(code, domain),
     onSuccess: (res: Token) => {
       accessToken = res.accessToken;
 

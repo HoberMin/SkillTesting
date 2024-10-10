@@ -1,7 +1,6 @@
 import ky, { KyRequest } from 'ky';
 
 import { toast } from '@/components/toast/use-toast';
-import { getDomain } from '@/utils/domain';
 
 import { getAccessToken, setAccessToken } from './authentication';
 
@@ -12,7 +11,6 @@ interface ErrorResponse {
 
 export const api = ky.create({
   credentials: 'include',
-  prefixUrl: `${getDomain()}`,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   getAccessToken,
@@ -8,7 +7,6 @@ import {
 } from '@/apis/authentication';
 import { api } from '@/apis/client';
 import { toast } from '@/components/toast/use-toast';
-import ServerInputModal from '@/pages/CRUD/components/ServerInputModal';
 
 import OAuthKakaoButton from './OAuthKakaoButton';
 import OAuthUserInfo from './OAuthUserInfo';
@@ -52,20 +50,21 @@ const OAuthContainer = () => {
   return (
     <main className='flex h-full w-full flex-col justify-center gap-[15px]'>
       <div className='mx-auto flex gap-[15px]'>
-        <ServerInputModal />
         {nickname ? (
-          <button className='h-[50px] w-[100px] rounded-[7px] bg-[#fee501]'>
-            로그아웃
-          </button>
+          <>
+            <button className='h-[50px] w-[100px] rounded-[7px] bg-[#fee501]'>
+              로그아웃
+            </button>
+            <button
+              className='h-[50px] w-[100px] rounded-[5px] border'
+              onClick={handleReissue}
+            >
+              Reissue
+            </button>
+          </>
         ) : (
           <OAuthKakaoButton />
         )}
-        <button
-          className='h-[50px] w-[100px] rounded-[5px] border'
-          onClick={handleReissue}
-        >
-          Reissue
-        </button>
       </div>
       <div className='mx-auto flex w-[400px]'>
         <OAuthUserInfo

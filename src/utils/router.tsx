@@ -8,7 +8,6 @@ import OAuth from '@/pages/OAuth';
 import Pagination from '@/pages/Pagination';
 import QualityAssurance from '@/pages/QualityAssurance';
 import Redirect from '@/pages/Redirect';
-import Socket from '@/pages/Socket';
 
 export const router = createBrowserRouter([
   {
