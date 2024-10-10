@@ -23,6 +23,7 @@ const Layout = ({ children }: PropsWithChildren) => {
     { path: '/oauth', label: 'OAuth' },
     { path: '/pagination', label: 'Paging' },
     { path: '/email', label: 'Email' },
+    { path: '/fileuploader', label: 'File Uploader' },
   ];
 
   return (
