@@ -7,6 +7,16 @@ interface DomainStore {
   setDomain: (newDomain: string) => void;
 }
 
+interface QAStore {
+  isQA: boolean;
+  setIsQA: () => void;
+}
+
+export const useQAStore = create<QAStore>(set => ({
+  isQA: false,
+  setIsQA: () => set({ isQA: true }),
+}));
+
 const useDomainStore = create<DomainStore>(set => ({
   domain: undefined,
   setDomain: (newDomain: string) => set({ domain: newDomain }),
