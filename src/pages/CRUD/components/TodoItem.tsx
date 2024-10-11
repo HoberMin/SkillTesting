@@ -6,12 +6,18 @@ import { useToast } from '../../../components/toast/use-toast';
 import TodoEditIcon from './TodoEditIcon';
 
 interface TodoItemProps {
-  checked: boolean;
+  checked?: boolean;
   todo: string;
   todoId: number;
+  isInfinity?: boolean;
 }
 
-const TodoItem = ({ checked, todo, todoId }: TodoItemProps) => {
+const TodoItem = ({
+  checked,
+  todo,
+  todoId,
+  isInfinity = false,
+}: TodoItemProps) => {
   const { domain } = useDomainStore();
   const patchTodo = usePatchTodoApi(domain);
   const { toast } = useToast();
@@ -28,13 +34,15 @@ const TodoItem = ({ checked, todo, todoId }: TodoItemProps) => {
   };
 
   return (
-    <div className='px-8 py-4'>
+    <div className='border-b border-gray-100 px-8 py-4'>
       <div className='flex items-center justify-between font-medium'>
         <div className='flex items-center gap-2'>
-          <Switch checked={checked || false} onClick={handleTodoPut} />
+          {isInfinity || (
+            <Switch checked={checked || false} onClick={handleTodoPut} />
+          )}
           <span>{todo}</span>
         </div>
-        <TodoEditIcon todoId={todoId} />
+        {isInfinity || <TodoEditIcon todoId={todoId} />}
       </div>
     </div>
   );
