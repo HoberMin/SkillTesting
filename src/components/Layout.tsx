@@ -24,6 +24,7 @@ const Layout = ({ children }: PropsWithChildren) => {
     { path: '/pagination', label: 'Paging' },
     { path: '/email', label: 'Email' },
     { path: '/fileuploader', label: 'File Uploader' },
+    { path: '/fcm', label: 'FCM Token' },
   ];
 
   return (
