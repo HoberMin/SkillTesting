@@ -18,7 +18,7 @@ interface InfinityScrollData {
 const getInfinityScroll = async (size = '10', page: string, domain: Domain) => {
   const params = new URLSearchParams({ size, page }).toString();
 
-  return await fetch(`${domain}/todos?${params}`, {
+  return await fetch(`${domain}/paging?${params}`, {
     headers: {
       'Content-Type': 'application/json',
     },
