@@ -16,15 +16,15 @@ import { Button } from './button';
 
 const Layout = ({ children }: PropsWithChildren) => {
   const { domain } = useDomainStore();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   const menuItems = [
     { path: '/crud', label: 'CRUD' },
     // { path: '/oauth', label: 'OAuth' },
-    { path: '/pagination', label: 'Paging' },
+    { path: '/paging/1', label: 'Paging' },
     { path: '/email', label: 'Email' },
-    { path: '/fileuploader', label: 'File Uploader' },
-    { path: '/fcm', label: 'FCM Token' },
+    { path: '/imageuploader', label: 'Image Uploader' },
+    { path: '/fcm', label: 'FCM' },
   ];
 
   return (
@@ -63,7 +63,7 @@ const Layout = ({ children }: PropsWithChildren) => {
                 <div
                   className={cn(
                     `cursor-pointer p-4 text-center text-lg ${
-                      location.pathname === item.path
+                      pathname.includes(item.path.replace(/\d+$/, ''))
                         ? 'bg-white'
                         : 'bg-[#D7D7D7]'
                     } hover:bg-white`,
@@ -88,7 +88,7 @@ const Layout = ({ children }: PropsWithChildren) => {
             </div>
           </Link>
         </nav>
-        <div className='w-full'>{children}</div>
+        <div className='flex w-full flex-col'>{children}</div>
       </div>
     </div>
   );

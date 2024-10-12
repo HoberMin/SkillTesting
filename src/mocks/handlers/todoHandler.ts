@@ -1,7 +1,5 @@
 import { HttpResponse, http } from 'msw';
 
-import { infinityScrollTodos } from './dummyTodo';
-
 export type Todo = {
   id: number;
   content: string;
@@ -66,24 +64,5 @@ export const todoHandler = [
         status: 200,
       },
     );
-  }),
-
-  http.get('/paging', ({ request }) => {
-    const url = new URL(request.url);
-    const size = parseInt(url.searchParams.get('size') || '10');
-    const page = parseInt(url.searchParams.get('page') || '0');
-
-    const startIndex = page * size;
-    const endIndex = startIndex + size;
-
-    const paginatedTodos = infinityScrollTodos.slice(startIndex, endIndex);
-    const hasNext = endIndex < infinityScrollTodos.length;
-
-    return HttpResponse.json({
-      todos: paginatedTodos,
-      currentPageNumber: page,
-      size: size,
-      hasNext: hasNext,
-    });
   }),
 ];
