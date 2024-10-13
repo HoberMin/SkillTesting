@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import ky, { KyRequest } from 'ky';
 import { useNavigate } from 'react-router-dom';
 
 import { toast } from '@/components/toast/use-toast';
@@ -66,13 +67,65 @@ export const usePostCodeApi = (domain: Domain) => {
   return mutate;
 };
 
-const getMember = (): Promise<Member> => {
-  return ApiClient.get('member').json();
+const getMember = (domain: Domain): Promise<Member> => {
+  return ApiClient.get(`${domain}/member`).json();
 };
 
-export const useGetMemberApi = () => {
+export const useGetMemberApi = (domain: Domain) => {
   const { mutateAsync } = useMutation({
-    mutationFn: () => getMember(),
+    mutationFn: () => getMember(domain),
+  });
+
+  return mutateAsync;
+};
+
+export const interceptReissue = (request: KyRequest) => {
+  api
+    .get('auth/reissue')
+    .text()
+    .then(token => {
+      setAccessToken(token);
+
+      request.headers.set('Authorization', `Bearer ${token}`);
+      return ky(request);
+    })
+    .catch(() => {
+      toast({
+        variant: 'destructive',
+        title: 'refresh-token 만료!',
+        description: '재로그인이 필요합니다.',
+      });
+    });
+};
+
+export const reissue = () => {
+  api
+    .get('auth/reissue')
+    .text()
+    .then(token => {
+      setAccessToken(token);
+    })
+    .catch(() => {
+      toast({
+        variant: 'destructive',
+        title: 'refresh-token 만료!',
+        description: '재로그인이 필요합니다.',
+      });
+    });
+};
+
+const postLogout = (domain: Domain) => ApiClient.post(`${domain}/auth/logout`);
+
+export const usePostLogoutApi = (domain: Domain) => {
+  const { mutateAsync } = useMutation({
+    mutationFn: () => postLogout(domain),
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: '로그아웃 실패',
+        description: 'Network탭을 확인해주세요 !',
+      });
+    },
   });
 
   return mutateAsync;

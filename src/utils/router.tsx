@@ -5,6 +5,7 @@ import CRUD from '@/pages/CRUD';
 import Email from '@/pages/Email';
 import FCMPage from '@/pages/FCM';
 import FileUploader from '@/pages/FileUpload';
+import Home from '@/pages/Home';
 import OAuth from '@/pages/OAuth';
 import Pagination from '@/pages/Pagination';
 import QualityAssurance from '@/pages/QualityAssurance';
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <CRUD />,
+        element: <Home />,
       },
       {
         path: '/crud',

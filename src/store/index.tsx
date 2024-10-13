@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 export type Domain = string | undefined;
 
@@ -17,9 +18,17 @@ export const useQAStore = create<QAStore>(set => ({
   setIsQA: () => set({ isQA: true }),
 }));
 
-const useDomainStore = create<DomainStore>(set => ({
-  domain: undefined,
-  setDomain: (newDomain: string) => set({ domain: newDomain }),
-}));
+const useDomainStore = create(
+  persist<DomainStore>(
+    set => ({
+      domain: undefined,
+      setDomain: (newDomain: string) => set({ domain: newDomain }),
+    }),
+    {
+      name: 'domain-storage',
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+);
 
 export default useDomainStore;

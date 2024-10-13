@@ -1,8 +1,6 @@
-import ky, { KyRequest } from 'ky';
+import ky from 'ky';
 
-import { toast } from '@/components/toast/use-toast';
-
-import { getAccessToken, setAccessToken } from './authentication';
+import { getAccessToken, interceptReissue } from './authentication';
 
 interface ErrorResponse {
   status: number;
@@ -25,32 +23,6 @@ export const api = ky.create({
   },
 });
 
-const reissue = (request: KyRequest) => {
-  // http 통신일 경우 쿠키 설정
-  // const cookie = sessionStorage.getItem('refreshToken');
-  // console.log(cookie);
-  // if (cookie) {
-  //   document.cookie = `refreshToken=${cookie}`;
-  // }
-
-  api
-    .get('auth/reissue')
-    .text()
-    .then(token => {
-      setAccessToken(token);
-
-      request.headers.set('Authorization', `Bearer ${token}`);
-      return ky(request);
-    })
-    .catch(() => {
-      toast({
-        variant: 'destructive',
-        title: 'refresh-token 만료!',
-        description: '재로그인이 필요합니다.',
-      });
-    });
-};
-
 export const ApiClient = api.extend({
   hooks: {
     afterResponse: [
@@ -61,7 +33,7 @@ export const ApiClient = api.extend({
         const data: ErrorResponse = await response.json();
 
         if (data.code === 'ERR_ACCESS_TOKEN_EXPIRED') {
-          return reissue(request);
+          return interceptReissue(request);
         }
       },
     ],

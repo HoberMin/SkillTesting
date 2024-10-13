@@ -91,7 +91,7 @@ const ServerInputModal = () => {
                 disabled
               />
               <input
-                className='w-full rounded-[5px] border p-3 focus:outline-none'
+                className='w-full rounded-[5px] border p-3 placeholder-gray-200 focus:outline-none'
                 value={localURL}
                 onChange={e => handleInputChange(e, setLocalURL)}
                 onKeyDown={e => activeEnterLocalURL(e)}

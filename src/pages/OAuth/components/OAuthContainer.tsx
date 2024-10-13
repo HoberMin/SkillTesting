@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
 
 import {
-  getAccessToken,
-  setAccessToken,
+  reissue,
   useGetMemberApi,
+  usePostLogoutApi,
 } from '@/apis/authentication';
-import { api } from '@/apis/client';
-import { toast } from '@/components/toast/use-toast';
+import useDomainStore from '@/store';
 
 import OAuthKakaoButton from './OAuthKakaoButton';
 import OAuthUserInfo from './OAuthUserInfo';
 
 const OAuthContainer = () => {
-  const getMember = useGetMemberApi();
+  const { domain } = useDomainStore();
+  const getMember = useGetMemberApi(domain);
+  const postLogout = usePostLogoutApi(domain);
 
   const [nickname, setNickname] = useState<string | null>(null);
 
@@ -26,25 +27,16 @@ const OAuthContainer = () => {
   }, []);
 
   const handleReissue = () => {
-    // const cookie = sessionStorage.getItem('refreshToken');
-    // if (cookie) {
-    //   document.cookie = `refreshToken=${cookie}`;
-    // }
+    reissue();
+  };
 
-    api
-      .get('auth/reissue')
-      .text()
-      .then(token => {
-        setAccessToken(token);
-        console.log(getAccessToken());
-      })
-      .catch(() => {
-        toast({
-          variant: 'destructive',
-          title: 'refresh-token 만료!',
-          description: '재로그인이 필요합니다.',
-        });
-      });
+  const handleLogout = () => {
+    postLogout().then(() => {
+      setNickname(null);
+    });
+
+    // 일단은 로그아웃 된 척
+    setNickname(null);
   };
 
   return (
@@ -52,7 +44,10 @@ const OAuthContainer = () => {
       <div className='mx-auto flex gap-[15px]'>
         {nickname ? (
           <>
-            <button className='h-[50px] w-[100px] rounded-[7px] bg-[#fee501]'>
+            <button
+              onClick={handleLogout}
+              className='h-[50px] w-[100px] rounded-[7px] bg-[#fee501]'
+            >
               로그아웃
             </button>
             <button
