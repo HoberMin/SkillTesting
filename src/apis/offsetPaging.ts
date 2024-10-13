@@ -15,10 +15,10 @@ interface InfinityScrollData {
   hasNext: boolean;
 }
 
-const getInfinityScroll = async (size = '10', page: string, domain: Domain) => {
+const getOffsetPaging = async (size = '10', page: string, domain: Domain) => {
   const params = new URLSearchParams({ size, page }).toString();
 
-  return await fetch(`${domain}/paging?${params}`, {
+  return await fetch(`${domain}/offset?${params}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -32,12 +32,12 @@ const getInfinityScroll = async (size = '10', page: string, domain: Domain) => {
     .then(data => data as InfinityScrollData);
 };
 
-export const useGetInfinityScrollAPI = (domain: Domain) => {
+export const useGetOffsetPagingAPI = (domain: Domain) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isError } =
     useInfiniteQuery({
-      queryKey: ['InfinityScroll', domain],
+      queryKey: ['offset-paging', domain],
       queryFn: ({ pageParam }) =>
-        getInfinityScroll('10', pageParam.toString(), domain),
+        getOffsetPaging('10', pageParam.toString(), domain),
       initialPageParam: 0,
       getNextPageParam: ({ hasNext, currentPageNumber }) =>
         hasNext ? currentPageNumber + 1 : undefined,

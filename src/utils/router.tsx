@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
         element: <Redirect />,
       },
       {
-        path: '/pagination',
+        path: '/paging/:pagingId',
         element: <Pagination />,
       },
       {
@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
         element: <QualityAssurance />,
       },
       {
-        path: '/fileuploader',
+        path: '/imageuploader',
         element: <FileUploader />,
       },
       {
