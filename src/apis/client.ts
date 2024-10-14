@@ -33,7 +33,28 @@ export const ApiClient = api.extend({
         const data: ErrorResponse = await response.json();
 
         if (data.code === 'ERR_ACCESS_TOKEN_EXPIRED') {
-          return interceptReissue(request);
+          return interceptReissue(request, 1);
+        }
+      },
+    ],
+  },
+});
+
+export const cookieApiClient = ky.create({
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  hooks: {
+    afterResponse: [
+      (_request, _options, response) => response,
+      async (request, _options, response) => {
+        if (response.ok) return response;
+
+        const data: ErrorResponse = await response.json();
+
+        if (data.code === 'ERR_ACCESS_TOKEN_EXPIRED') {
+          return interceptReissue(request, 2);
         }
       },
     ],
