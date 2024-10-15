@@ -13,7 +13,7 @@ import useDomainStore, { useTokenTypeStore } from '@/store';
 import OAuthKakaoButton from './OAuthKakaoButton';
 import OAuthUserInfo from './OAuthUserInfo';
 
-const OAuth = () => {
+const OAuthMix = () => {
   const { domain } = useDomainStore();
   const { setTokenType } = useTokenTypeStore();
 
@@ -105,4 +105,4 @@ const OAuth = () => {
   );
 };
 
-export default OAuth;
+export default OAuthMix;
