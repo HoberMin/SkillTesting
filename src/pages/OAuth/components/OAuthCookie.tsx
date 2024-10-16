@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import {
   reissue,
-  useGetMemberApi,
-  usePostLogoutApi,
+  useGetMemberWithCookieApi,
+  usePostLogoutWithCookieApi,
 } from '@/apis/authentication';
 import { Button } from '@/components/button';
 import useDomainStore, { useTokenTypeStore } from '@/store';
@@ -17,8 +17,8 @@ const OAuthCookie = () => {
   const { domain } = useDomainStore();
   const { setTokenType } = useTokenTypeStore();
 
-  const getMember = useGetMemberApi(domain);
-  const postLogout = usePostLogoutApi(domain);
+  const getMemberWithCookie = useGetMemberWithCookieApi(domain);
+  const postLogoutWithCookie = usePostLogoutWithCookieApi(domain);
 
   const [nickname, setNickname] = useState<string | null>(null);
 
@@ -26,12 +26,12 @@ const OAuthCookie = () => {
     setTokenType(3);
   };
   const handleCheckSignInStatus = async () => {
-    const { nickname } = await getMember();
+    const { nickname } = await getMemberWithCookie();
     setNickname(nickname);
   };
 
   useEffect(() => {
-    handleCheckSignInStatus();
+    if (domain) handleCheckSignInStatus();
   }, []);
 
   const handleReissue = () => {
@@ -39,12 +39,9 @@ const OAuthCookie = () => {
   };
 
   const handleLogout = () => {
-    postLogout().then(() => {
+    postLogoutWithCookie().then(() => {
       setNickname(null);
     });
-
-    // 일단은 로그아웃 된 척
-    setNickname(null);
   };
 
   return (

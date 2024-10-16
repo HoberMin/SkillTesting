@@ -16,7 +16,6 @@ export const emailHandler = [
   }),
   http.post('/authentication', async ({ request }) => {
     const { authentication } = (await request.json()) as AuthenticationRequest;
-    console.log(authentication);
 
     if (authentication !== 'av23ca') {
       return HttpResponse.json({ isSuccess: false }, { status: 201 });

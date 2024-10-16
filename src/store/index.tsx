@@ -18,11 +18,6 @@ interface TokenTypeStore {
   setTokenType: (newType: number) => void;
 }
 
-interface TokenStore {
-  refreshToken: string | undefined;
-  setRefreshToken: (newType: string) => void;
-}
-
 export const useQAStore = create<QAStore>(set => ({
   isQA: false,
   setIsQA: () => set({ isQA: true }),
@@ -50,19 +45,6 @@ export const useTokenTypeStore = create(
     {
       name: 'tokenType-storage',
       storage: createJSONStorage(() => sessionStorage),
-    },
-  ),
-);
-
-export const useRefreshTokenStore = create(
-  persist<TokenStore>(
-    set => ({
-      refreshToken: undefined,
-      setRefreshToken: (newToken: string) => set({ refreshToken: newToken }),
-    }),
-    {
-      name: 'refreshtoken-storage',
-      storage: createJSONStorage(() => localStorage),
     },
   ),
 );

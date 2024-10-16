@@ -31,7 +31,7 @@ const OAuthMix = () => {
   };
 
   useEffect(() => {
-    handleCheckSignInStatus();
+    if (domain) handleCheckSignInStatus();
   }, []);
 
   const handleReissue = () => {
@@ -42,9 +42,6 @@ const OAuthMix = () => {
     postLogout().then(() => {
       setNickname(null);
     });
-
-    // 일단은 로그아웃 된 척
-    setNickname(null);
   };
 
   return (
@@ -74,7 +71,7 @@ const OAuthMix = () => {
       <main className='flex h-full w-full flex-col justify-center gap-5'>
         <div className='mx-auto flex w-[600px] flex-col items-center'>
           {nickname ? (
-            <>
+            <div className='flex gap-5'>
               <button
                 onClick={handleLogout}
                 className='h-[50px] w-[100px] rounded-[7px] bg-[#fee501]'
@@ -87,7 +84,7 @@ const OAuthMix = () => {
               >
                 Reissue
               </button>
-            </>
+            </div>
           ) : (
             <div onClick={handleTokenType} className='w-[100px]'>
               <OAuthKakaoButton />
