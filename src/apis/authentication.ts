@@ -162,10 +162,10 @@ export const useGetMemberWithCookieApi = (domain: Domain) => {
 
 export const getReissue = (request: KyRequest) => {
   return ApiClient.get('auth/reissue')
-    .text()
-    .then(token => {
-      console.log('token', token);
-      setAccessToken(token);
+    .json<TokenResponse>()
+    .then(({ accessToken }) => {
+      console.log('token', accessToken);
+      setAccessToken(accessToken);
       return ApiClient(request);
     })
     .catch(() => {
@@ -179,9 +179,9 @@ export const getReissue = (request: KyRequest) => {
 
 export const getReissueWithAuthorization = (request: KyRequest) => {
   return ApiClientWithAuthorization.get('auth/reissue/authorization')
-    .text()
-    .then(token => {
-      setAccessToken(token);
+    .json<TokenResponse>()
+    .then(({ accessToken }) => {
+      setAccessToken(accessToken);
       return ApiClientWithAuthorization(request);
     })
     .catch(() => {
@@ -195,9 +195,7 @@ export const getReissueWithAuthorization = (request: KyRequest) => {
 
 export const getReissueWithCookie = (request: KyRequest) => {
   return ApiClientWithCookie.get('auth/reissue/cookie')
-    .then(() => {
-      return ApiClientWithCookie(request);
-    })
+    .then(() => ApiClientWithCookie(request))
     .catch(() => {
       toast({
         variant: 'destructive',
@@ -209,9 +207,9 @@ export const getReissueWithCookie = (request: KyRequest) => {
 
 export const reissue = () =>
   ApiClient.get('auth/reissue')
-    .text()
-    .then(token => {
-      setAccessToken(token);
+    .json<TokenResponse>()
+    .then(({ accessToken }) => {
+      setAccessToken(accessToken);
     })
     .catch(() => {
       toast({
@@ -223,9 +221,9 @@ export const reissue = () =>
 
 export const reissueWithAuthorization = () =>
   ApiClientWithAuthorization.get('auth/reissue/authorization')
-    .text()
-    .then(token => {
-      setAccessToken(token);
+    .json<TokenResponse>()
+    .then(({ accessToken }) => {
+      setAccessToken(accessToken);
     })
     .catch(() => {
       toast({
