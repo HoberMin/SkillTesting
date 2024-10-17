@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useToast } from '@/components/toast/use-toast';
-import { getDomain } from '@/utils/domain';
+import { Domain } from '@/store';
 
 interface Todo {
   content: string;
@@ -13,9 +13,7 @@ interface Todos {
   todos: Todo[];
 }
 
-const getTodo = async () => {
-  const domain = getDomain();
-
+const getTodo = async (domain: Domain) => {
   return await fetch(`${domain}/todos`, {
     headers: {
       'Content-Type': 'application/json',
@@ -27,18 +25,13 @@ const getTodo = async () => {
       }
       return res.json();
     })
-    .then(data => data as Todos);
+    .then(data => {
+      console.log(data);
+      return data as Todos;
+    });
 };
 
-export const getTodoApi = () =>
-  useQuery({
-    queryKey: ['todos'],
-    queryFn: getTodo,
-  });
-
-const postTodo = async (content: string) => {
-  const domain = getDomain();
-
+const postTodo = async (content: string, domain: Domain) => {
   return await fetch(`${domain}/todos`, {
     method: 'POST',
     headers: {
@@ -50,9 +43,7 @@ const postTodo = async (content: string) => {
   });
 };
 
-const patchTodo = (todoId: number) => {
-  const domain = getDomain();
-
+const patchTodo = (todoId: number, domain: Domain) => {
   return fetch(`${domain}/todos/${todoId}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -60,9 +51,8 @@ const patchTodo = (todoId: number) => {
     method: 'PATCH',
   });
 };
-const deleteTodo = (todoId: number) => {
-  const domain = getDomain();
 
+const deleteTodo = (todoId: number, domain: Domain) => {
   return fetch(`${domain}/todos/${todoId}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -71,13 +61,20 @@ const deleteTodo = (todoId: number) => {
   });
 };
 
-export const postTodoApi = () => {
+export const useGetTodoAPI = (domain: Domain) =>
+  useQuery({
+    queryKey: ['todos', domain],
+    queryFn: () => getTodo(domain),
+  });
+
+export const usePostTodoApi = (domain: Domain) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const { mutate } = useMutation({
-    mutationFn: (contents: string) => postTodo(contents),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    mutationFn: (contents: string) => postTodo(contents, domain),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['todos', domain] }),
     onError: () => {
       toast({
         variant: 'destructive',
@@ -90,13 +87,14 @@ export const postTodoApi = () => {
   return mutate;
 };
 
-export const patchTodoApi = () => {
+export const usePatchTodoApi = (domain: Domain) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const { mutate } = useMutation({
-    mutationFn: (todoId: number) => patchTodo(todoId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    mutationFn: (todoId: number) => patchTodo(todoId, domain),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['todos', domain] }),
     onError: () => {
       toast({
         variant: 'destructive',
@@ -109,13 +107,14 @@ export const patchTodoApi = () => {
   return mutate;
 };
 
-export const deleteTodoApi = () => {
+export const useDeleteTodoApi = (domain: Domain) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const { mutate } = useMutation({
-    mutationFn: (todoId: number) => deleteTodo(todoId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    mutationFn: (todoId: number) => deleteTodo(todoId, domain),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['todos', domain] }),
     onError: () => {
       toast({
         variant: 'destructive',

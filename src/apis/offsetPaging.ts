@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { getDomain } from '@/utils/domain';
+import { Domain } from '@/store';
 
 interface Todo {
   content: string;
@@ -15,12 +15,10 @@ interface InfinityScrollData {
   hasNext: boolean;
 }
 
-const getInfinityScroll = async (size = '10', page: string) => {
-  const domain = getDomain();
-
+const getOffsetPaging = async (size = '10', page: string, domain: Domain) => {
   const params = new URLSearchParams({ size, page }).toString();
 
-  return await fetch(`${domain}/todos?${params}`, {
+  return await fetch(`${domain}/offset?${params}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -34,11 +32,12 @@ const getInfinityScroll = async (size = '10', page: string) => {
     .then(data => data as InfinityScrollData);
 };
 
-export const useGetInfinityScrollAPI = () => {
+export const useGetOffsetPagingAPI = (domain: Domain) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isError } =
     useInfiniteQuery({
-      queryKey: ['InfinityScroll'],
-      queryFn: ({ pageParam }) => getInfinityScroll('10', pageParam.toString()),
+      queryKey: ['offset-paging', domain],
+      queryFn: ({ pageParam }) =>
+        getOffsetPaging('10', pageParam.toString(), domain),
       initialPageParam: 0,
       getNextPageParam: ({ hasNext, currentPageNumber }) =>
         hasNext ? currentPageNumber + 1 : undefined,

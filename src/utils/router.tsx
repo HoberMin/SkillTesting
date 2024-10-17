@@ -2,10 +2,14 @@ import { Outlet, createBrowserRouter } from 'react-router-dom';
 
 import Layout from '@/components/Layout';
 import CRUD from '@/pages/CRUD';
+import Email from '@/pages/Email';
+import FCMPage from '@/pages/FCM';
+import FileUploader from '@/pages/FileUpload';
+import Home from '@/pages/Home';
 import OAuth from '@/pages/OAuth';
 import Pagination from '@/pages/Pagination';
 import QualityAssurance from '@/pages/QualityAssurance';
-import Socket from '@/pages/Socket';
+import Redirect from '@/pages/Redirect';
 
 export const router = createBrowserRouter([
   {
@@ -18,27 +22,43 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <CRUD />,
+        element: <Home />,
       },
       {
         path: '/crud',
         element: <CRUD />,
       },
       {
+        path: '/oauth/:oauthId',
+        element: <OAuth />,
+      },
+      {
         path: '/oauth',
         element: <OAuth />,
       },
       {
-        path: '/pagination',
+        path: '/oauth/redirect',
+        element: <Redirect />,
+      },
+      {
+        path: '/paging/:pagingId',
         element: <Pagination />,
       },
       {
-        path: '/socket',
-        element: <Socket />,
+        path: '/email',
+        element: <Email />,
       },
       {
         path: '/qualityAssurance',
         element: <QualityAssurance />,
+      },
+      {
+        path: '/imageuploader',
+        element: <FileUploader />,
+      },
+      {
+        path: '/fcm',
+        element: <FCMPage />,
       },
     ],
   },

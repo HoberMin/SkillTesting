@@ -1,12 +1,14 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-import { postTodoApi } from '@/apis/todo';
+import { usePostTodoApi } from '@/apis/todo';
+import useDomainStore from '@/store';
 
 import { Input } from '../../../components/input';
 
 const TodoInput = () => {
   const [todo, setTodo] = useState('');
-  const postTodo = postTodoApi();
+  const { domain } = useDomainStore();
+  const postTodo = usePostTodoApi(domain);
 
   const changeTodo = (e: ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value);
