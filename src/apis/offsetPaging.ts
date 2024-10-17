@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { Domain } from '@/store';
 
@@ -8,17 +8,19 @@ interface Todo {
   id: number;
 }
 
-interface InfinityScrollData {
+interface OffsetPaginglData {
   todos: Todo[];
   currentPageNumber: number;
+  totalPage: number;
   size: number;
+  hasPrevious: boolean;
   hasNext: boolean;
 }
 
 const getOffsetPaging = async (size = '10', page: string, domain: Domain) => {
   const params = new URLSearchParams({ size, page }).toString();
 
-  return await fetch(`${domain}/offset?${params}`, {
+  return await fetch(`${domain}/paging/offset?${params}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -29,25 +31,11 @@ const getOffsetPaging = async (size = '10', page: string, domain: Domain) => {
       }
       return res.json();
     })
-    .then(data => data as InfinityScrollData);
+    .then(data => data as OffsetPaginglData);
 };
 
-export const useGetOffsetPagingAPI = (domain: Domain) => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isError } =
-    useInfiniteQuery({
-      queryKey: ['offset-paging', domain],
-      queryFn: ({ pageParam }) =>
-        getOffsetPaging('10', pageParam.toString(), domain),
-      initialPageParam: 0,
-      getNextPageParam: ({ hasNext, currentPageNumber }) =>
-        hasNext ? currentPageNumber + 1 : undefined,
-    });
-
-  return {
-    todos: data?.pages.map(({ todos }) => todos).flat(),
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-    isError,
-  };
-};
+export const useGetOffsetPagingAPI = (domain: Domain, page: string) =>
+  useQuery({
+    queryKey: ['offset-paging', domain],
+    queryFn: () => getOffsetPaging('10', page, domain),
+  });

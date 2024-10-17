@@ -1,12 +1,14 @@
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import CursorPaging from './CursorPaging';
 import OffsetPaging from './OffsetPaging';
 
 const PaginationPage = () => {
-  const { pagingId } = useParams();
+  const { pathname } = useLocation();
 
-  return pagingId === '1' ? <OffsetPaging /> : <CursorPaging />;
+  const pagingType = pathname.split('/')[2];
+
+  return pagingType === 'offset' ? <OffsetPaging /> : <CursorPaging />;
 };
 
 export default PaginationPage;

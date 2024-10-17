@@ -3,26 +3,31 @@ import { HttpResponse, http } from 'msw';
 import { infinityScrollTodos } from './dummyTodo';
 
 export const pagingHandler = [
-  http.get('/offset', ({ request }) => {
+  http.get('/paging/offset', ({ request }) => {
     const url = new URL(request.url);
     const size = parseInt(url.searchParams.get('size') || '10');
     const page = parseInt(url.searchParams.get('page') || '0');
 
+    const totalItems = infinityScrollTodos.length;
+    const totalPage = Math.floor(totalItems / size);
     const startIndex = page * size;
     const endIndex = startIndex + size;
 
     const paginatedTodos = infinityScrollTodos.slice(startIndex, endIndex);
-    const hasNext = endIndex < infinityScrollTodos.length;
+    const hasNext = page < totalPage - 1;
+    const hasPrevious = page > 0;
 
     return HttpResponse.json({
       todos: paginatedTodos,
       currentPageNumber: page,
+      totalPage: totalPage,
       size: size,
+      hasPrevious: hasPrevious,
       hasNext: hasNext,
     });
   }),
 
-  http.get('/cursor', ({ request }) => {
+  http.get('/paging/cursor', ({ request }) => {
     const url = new URL(request.url);
     const size = parseInt(url.searchParams.get('size') || '10');
     const cursorId = parseInt(url.searchParams.get('cursorId') || '0');
