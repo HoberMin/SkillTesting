@@ -30,7 +30,7 @@ const TodoContainer = () => {
         <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
           <span>Cursor Paging</span>
           <Button>
-            <Link to='/paging/1'>Change to Offset</Link>
+            <Link to='/paging/offset/1'>Change to Offset</Link>
           </Button>
         </div>
         <main className='flex h-full w-full flex-col justify-center'>
@@ -47,7 +47,7 @@ const TodoContainer = () => {
       <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
         <span>Cursor Paging</span>
         <Button>
-          <Link to='/paging/1'>Change to Offset</Link>
+          <Link to='/paging/offset/1'>Change to Offset</Link>
         </Button>
       </div>
       <main className='flex w-full grow flex-col items-center justify-center'>
