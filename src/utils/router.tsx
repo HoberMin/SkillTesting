@@ -10,6 +10,7 @@ import OAuth from '@/pages/OAuth';
 import Pagination from '@/pages/Pagination';
 import QualityAssurance from '@/pages/QualityAssurance';
 import Redirect from '@/pages/Redirect';
+import SocketPage from '@/pages/Socket';
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: '/fcm',
         element: <FCMPage />,
+      },
+      {
+        path: '/socket',
+        element: <SocketPage />,
       },
     ],
   },

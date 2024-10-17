@@ -25,6 +25,7 @@ const Layout = ({ children }: PropsWithChildren) => {
     { path: '/email', label: 'Email' },
     { path: '/imageuploader', label: 'Image Uploader' },
     { path: '/fcm', label: 'FCM' },
+    { path: '/socket', label: 'SOCKET' },
   ];
 
   return (
