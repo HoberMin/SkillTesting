@@ -3,7 +3,7 @@ import { KyRequest } from 'ky';
 import { useNavigate } from 'react-router-dom';
 
 import { toast } from '@/components/toast/use-toast';
-import { Domain, useTokenTypeStore } from '@/store';
+import useDomainStore, { Domain, useTokenTypeStore } from '@/store';
 
 import {
   ApiClient,
@@ -161,7 +161,9 @@ export const useGetMemberWithCookieApi = (domain: Domain) => {
 };
 
 export const getReissue = (request: KyRequest) => {
-  return ApiClient.get('auth/reissue')
+  const { domain } = useDomainStore.getState();
+
+  return ApiClient.get(`${domain}/auth/reissue`)
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       console.log('token', accessToken);
@@ -178,7 +180,9 @@ export const getReissue = (request: KyRequest) => {
 };
 
 export const getReissueWithAuthorization = (request: KyRequest) => {
-  return ApiClientWithAuthorization.get('auth/reissue/authorization')
+  const { domain } = useDomainStore.getState();
+
+  return ApiClientWithAuthorization.get(`${domain}/auth/reissue/authorization`)
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       setAccessToken(accessToken);
@@ -194,7 +198,9 @@ export const getReissueWithAuthorization = (request: KyRequest) => {
 };
 
 export const getReissueWithCookie = (request: KyRequest) => {
-  return ApiClientWithCookie.get('auth/reissue/cookie')
+  const { domain } = useDomainStore.getState();
+
+  return ApiClientWithCookie.get(`${domain}/auth/reissue/cookie`)
     .then(() => ApiClientWithCookie(request))
     .catch(() => {
       toast({
@@ -205,8 +211,11 @@ export const getReissueWithCookie = (request: KyRequest) => {
     });
 };
 
-export const reissue = () =>
-  ApiClient.get('auth/reissue')
+export const reissue = () => {
+  const { domain } = useDomainStore.getState();
+  console.log(domain);
+
+  return ApiClient.get(`${domain}/auth/reissue`)
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       setAccessToken(accessToken);
@@ -218,6 +227,7 @@ export const reissue = () =>
         description: '재로그인이 필요합니다.',
       });
     });
+};
 
 export const reissueWithAuthorization = () =>
   ApiClientWithAuthorization.get('auth/reissue/authorization')
