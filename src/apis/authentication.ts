@@ -166,15 +166,14 @@ export const getReissue = (request: KyRequest) => {
   return ApiClient.get(`${domain}/auth/reissue`)
     .json<TokenResponse>()
     .then(({ accessToken }) => {
-      console.log('token', accessToken);
       setAccessToken(accessToken);
       return ApiClient(request);
     })
     .catch(() => {
       toast({
         variant: 'destructive',
-        title: 'refresh-token 만료!',
-        description: '재로그인이 필요합니다.',
+        title: 'refresh-token이 없습니다.',
+        description: '토큰이 만료되었거나, 쿠키 설정이 잘못되었습니다.',
       });
     });
 };
@@ -191,8 +190,8 @@ export const getReissueWithAuthorization = (request: KyRequest) => {
     .catch(() => {
       toast({
         variant: 'destructive',
-        title: 'refresh-token 만료!',
-        description: '재로그인이 필요합니다.',
+        title: 'refresh-token이 없습니다.',
+        description: '토큰이 만료되었거나, 헤더 설정이 잘못되었습니다.',
       });
     });
 };
@@ -205,8 +204,8 @@ export const getReissueWithCookie = (request: KyRequest) => {
     .catch(() => {
       toast({
         variant: 'destructive',
-        title: 'refresh-token 만료!',
-        description: '재로그인이 필요합니다.',
+        title: 'refresh-token이 없습니다.',
+        description: '토큰이 만료되었거나, 쿠키 설정이 잘못되었습니다.',
       });
     });
 };
@@ -219,12 +218,17 @@ export const reissue = () => {
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       setAccessToken(accessToken);
+      toast({
+        variant: 'default',
+        title: 'reissue 요청 성공 !!',
+        description: 'access-token이 정상적으로 재발급되었습니다.',
+      });
     })
     .catch(() => {
       toast({
         variant: 'destructive',
-        title: 'refresh-token 만료!',
-        description: '재로그인이 필요합니다.',
+        title: 'refresh-token이 없습니다.',
+        description: '토큰이 만료되었거나, 쿠키 설정이 잘못되었습니다.',
       });
     });
 };
@@ -234,23 +238,36 @@ export const reissueWithAuthorization = () =>
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       setAccessToken(accessToken);
+      toast({
+        variant: 'default',
+        title: 'reissue 요청 성공 !!',
+        description: 'access-token이 정상적으로 재발급되었습니다.',
+      });
     })
     .catch(() => {
       toast({
         variant: 'destructive',
-        title: 'refresh-token 만료!',
-        description: '재로그인이 필요합니다.',
+        title: 'refresh-token이 없습니다.',
+        description: '토큰이 만료되었거나, 헤더 설정이 잘못되었습니다.',
       });
     });
 
 export const reissueWithCookie = () =>
-  ApiClientWithCookie.get('auth/reissue/cookie').catch(() => {
-    toast({
-      variant: 'destructive',
-      title: 'refresh-token 만료!',
-      description: '재로그인이 필요합니다.',
+  ApiClientWithCookie.get('auth/reissue/cookie')
+    .then(() =>
+      toast({
+        variant: 'default',
+        title: 'reissue 요청 성공 !!',
+        description: 'access-token이 정상적으로 재발급되었습니다.',
+      }),
+    )
+    .catch(() => {
+      toast({
+        variant: 'destructive',
+        title: 'refresh-token이 없습니다.',
+        description: '토큰이 만료되었거나, 쿠키 설정이 잘못되었습니다.',
+      });
     });
-  });
 
 const postLogout = (domain: Domain) => ApiClient.post(`${domain}/auth/logout`);
 const postLogoutWithAuthorization = (domain: Domain) =>

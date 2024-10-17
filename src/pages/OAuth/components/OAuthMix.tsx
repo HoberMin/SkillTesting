@@ -7,6 +7,7 @@ import {
   useGetMemberApi,
   usePostLogoutApi,
 } from '@/apis/authentication';
+import NotDomainAlertBox from '@/components/NotDomainAlertBox';
 import { Button } from '@/components/button';
 import useDomainStore, { useTokenTypeStore } from '@/store';
 
@@ -43,6 +44,19 @@ const OAuthMix = () => {
       setNickname(null);
     });
   };
+
+  if (!domain) {
+    return (
+      <>
+        <div className='p-10 pb-0 text-2xl font-bold'>OAuth</div>
+        <main className='flex w-full grow flex-col justify-center'>
+          <div className='mx-auto flex w-[600px] flex-col gap-5'>
+            <NotDomainAlertBox />
+          </div>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
