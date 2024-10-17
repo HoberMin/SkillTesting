@@ -13,6 +13,11 @@ interface QAStore {
   setIsQA: () => void;
 }
 
+interface TokenTypeStore {
+  tokenType: number | undefined;
+  setTokenType: (newType: number) => void;
+}
+
 export const useQAStore = create<QAStore>(set => ({
   isQA: false,
   setIsQA: () => set({ isQA: true }),
@@ -26,6 +31,19 @@ const useDomainStore = create(
     }),
     {
       name: 'domain-storage',
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+);
+
+export const useTokenTypeStore = create(
+  persist<TokenTypeStore>(
+    set => ({
+      tokenType: undefined,
+      setTokenType: (newType: number) => set({ tokenType: newType }),
+    }),
+    {
+      name: 'tokenType-storage',
       storage: createJSONStorage(() => sessionStorage),
     },
   ),

@@ -7,9 +7,9 @@ import useDomainStore from '@/store';
 
 const RedirectPage = () => {
   const [searchParams] = useSearchParams();
+
   const code = searchParams.get('code');
   const { domain } = useDomainStore();
-  console.log(domain);
   const postCode = usePostCodeApi(domain);
 
   useEffect(() => {

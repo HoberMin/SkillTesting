@@ -3,7 +3,7 @@ const OAuthKakaoButton = () => {
 
   return (
     <a href={kakaoUrl} className='w-[100px]'>
-      <img src='kakao_login_large.png' alt='카카오 로그인' />
+      <img src='/kakao_login_large.png' alt='카카오 로그인' />
     </a>
   );
 };
