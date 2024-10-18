@@ -22,6 +22,7 @@ const Layout = ({ children }: PropsWithChildren) => {
     { path: '/crud', label: 'CRUD' },
     { path: '/oauth/1', label: 'OAuth' },
     { path: '/paging/1', label: 'Paging' },
+    { path: '/paging/offset/1', label: 'Paging' },
     { path: '/email', label: 'Email' },
     { path: '/imageuploader', label: 'Image Uploader' },
     { path: '/fcm', label: 'FCM' },

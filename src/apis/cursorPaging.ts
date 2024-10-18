@@ -18,7 +18,7 @@ interface InfinityScrollData {
 const getCursorPaging = async (size = '10', cursorId = '0', domain: Domain) => {
   const params = new URLSearchParams({ size, cursorId }).toString();
 
-  return await fetch(`${domain}/cursor?${params}`, {
+  return await fetch(`${domain}/paging/cursor?${params}`, {
     headers: {
       'Content-Type': 'application/json',
     },

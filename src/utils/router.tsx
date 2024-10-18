@@ -41,7 +41,11 @@ export const router = createBrowserRouter([
         element: <Redirect />,
       },
       {
-        path: '/paging/:pagingId',
+        path: '/paging/offset/:pagingId',
+        element: <Pagination />,
+      },
+      {
+        path: '/paging/cursor',
         element: <Pagination />,
       },
       {
