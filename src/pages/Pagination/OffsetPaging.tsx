@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import InfoModal from '@/components/InfoModal';
 import NotDomainAlertBox from '@/components/NotDomainAlertBox';
 import { Button } from '@/components/button';
 import useDomainStore from '@/store';
@@ -18,7 +19,7 @@ const ArticleContainer = () => {
             <Button>
               <Link to='/paging/cursor'>Change to Cursor</Link>
             </Button>
-            {/* <InfoModal /> */}
+            <InfoModal file='paging' />
           </div>
         </div>
         <main className='flex h-full w-full flex-col justify-center'>
@@ -38,7 +39,7 @@ const ArticleContainer = () => {
           <Button>
             <Link to='/paging/cursor'>Change to Cursor</Link>
           </Button>
-          {/* <InfoModal /> */}
+          <InfoModal file='paging' />
         </div>
       </div>
       <ArticleList />
