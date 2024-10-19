@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.markdown-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1;
+  p {
+    line-height: 2;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

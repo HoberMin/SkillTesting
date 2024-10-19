@@ -2,14 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 
 import { Domain } from '@/store';
 
-interface Todo {
-  content: string;
-  completed: boolean;
+export interface Article {
+  title: string;
+  createdAt: string;
   id: number;
 }
 
-interface OffsetPaginglData {
-  todos: Todo[];
+interface OffsetPagingData {
+  articles: Article[];
   currentPageNumber: number;
   totalPage: number;
   size: number;
@@ -20,7 +20,7 @@ interface OffsetPaginglData {
 const getOffsetPaging = async (size = '10', page: string, domain: Domain) => {
   const params = new URLSearchParams({ size, page }).toString();
 
-  return await fetch(`${domain}/paging/offset?${params}`, {
+  return await fetch(`${domain}/articles/paging/offset?${params}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -31,11 +31,11 @@ const getOffsetPaging = async (size = '10', page: string, domain: Domain) => {
       }
       return res.json();
     })
-    .then(data => data as OffsetPaginglData);
+    .then(data => data as OffsetPagingData);
 };
 
 export const useGetOffsetPagingAPI = (domain: Domain, page: string) =>
   useQuery({
     queryKey: ['offset-paging', domain],
-    queryFn: () => getOffsetPaging('10', page, domain),
+    queryFn: () => getOffsetPaging('6', page, domain),
   });

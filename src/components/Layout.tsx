@@ -21,7 +21,6 @@ const Layout = ({ children }: PropsWithChildren) => {
   const menuItems = [
     { path: '/crud', label: 'CRUD' },
     { path: '/oauth/1', label: 'OAuth' },
-    { path: '/paging/1', label: 'Paging' },
     { path: '/paging/offset/1', label: 'Paging' },
     { path: '/email', label: 'Email' },
     { path: '/imageuploader', label: 'Image Uploader' },
@@ -68,9 +67,12 @@ const Layout = ({ children }: PropsWithChildren) => {
                 <div
                   className={cn(
                     `cursor-pointer p-4 text-center text-lg ${
-                      pathname.includes(item.path.replace(/\d+$/, ''))
+                      pathname.startsWith('/paging') &&
+                      item.path.startsWith('/paging')
                         ? 'bg-white'
-                        : 'bg-[#D7D7D7]'
+                        : pathname.includes(item.path)
+                          ? 'bg-white'
+                          : 'bg-[#D7D7D7]'
                     } hover:bg-white`,
                   )}
                 >

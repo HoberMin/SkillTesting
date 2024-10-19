@@ -9,13 +9,13 @@ import { Button } from '@/components/button';
 import useDomainStore from '@/store';
 
 import AlertBox from '../../components/AlertBox';
-import TodoItem from '../CRUD/components/TodoItem';
+import ArticleItem from './components/ArticleItem';
 
 const TodoContainer = () => {
   const { ref, inView: isInview } = useInView();
   const { domain } = useDomainStore();
 
-  const { todos, hasNextPage, isFetchingNextPage, fetchNextPage, isError } =
+  const { articles, hasNextPage, isFetchingNextPage, fetchNextPage, isError } =
     useGetCursorPagingAPI(domain);
 
   useEffect(() => {
@@ -29,9 +29,12 @@ const TodoContainer = () => {
       <>
         <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
           <span>Cursor Paging</span>
-          <Button>
-            <Link to='/paging/offset/1'>Change to Offset</Link>
-          </Button>
+          <div className='flex items-center gap-[10px]'>
+            <Button>
+              <Link to='/paging/offset/1'>Change to Offset</Link>
+            </Button>
+            {/* <InfoModal file='' /> */}
+          </div>
         </div>
         <main className='flex h-full w-full flex-col justify-center'>
           <div className='mx-auto flex w-[600px] flex-col gap-5'>
@@ -46,22 +49,20 @@ const TodoContainer = () => {
     <>
       <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
         <span>Cursor Paging</span>
-        <Button>
-          <Link to='/paging/offset/1'>Change to Offset</Link>
-        </Button>
+        <div className='flex items-center gap-[10px]'>
+          <Button>
+            <Link to='/paging/offset/1'>Change to Offset</Link>
+          </Button>
+          {/* <InfoModal /> */}
+        </div>
       </div>
       <main className='flex w-full grow flex-col items-center justify-center'>
         <div className='mx-auto flex w-[600px] flex-col gap-5'>
-          {!isError && todos && (
+          {!isError && articles && (
             <>
               <div className='max-h-[500px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>
-                {todos.map(({ content, id }) => (
-                  <TodoItem
-                    todo={content}
-                    todoId={id}
-                    key={`${content}-${id}`}
-                    isInfinity={true}
-                  />
+                {articles.map(({ title, createdAt, id }) => (
+                  <ArticleItem key={id} title={title} createdAt={createdAt} />
                 ))}
                 {isFetchingNextPage && <div></div>}
                 <div ref={ref} className='h-[10px]'></div>
