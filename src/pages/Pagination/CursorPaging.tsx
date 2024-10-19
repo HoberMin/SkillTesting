@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { useGetCursorPagingAPI } from '@/apis/cursorPaging';
 import InfoModal from '@/components/InfoModal';
+import MakeArticle from '@/components/MakeArticle';
 import NotDomainAlertBox from '@/components/NotDomainAlertBox';
 import { Button } from '@/components/button';
 import useDomainStore from '@/store';
@@ -35,6 +36,7 @@ const TodoContainer = () => {
               <Link to='/paging/offset/1'>Change to Offset</Link>
             </Button>
             <InfoModal file='paging' />
+            <MakeArticle />
           </div>
         </div>
         <main className='flex h-full w-full flex-col justify-center'>
@@ -55,6 +57,7 @@ const TodoContainer = () => {
             <Link to='/paging/offset/1'>Change to Offset</Link>
           </Button>
           <InfoModal file='paging' />
+          <MakeArticle />
         </div>
       </div>
       <main className='flex w-full grow flex-col items-center justify-center'>
