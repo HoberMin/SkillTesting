@@ -1,8 +1,7 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { useGetOffsetPagingAPI } from '@/apis/offsetPaging';
 import AlertBox from '@/components/AlertBox';
-import { Button } from '@/components/button';
 import {
   Pagination,
   PaginationContent,
@@ -29,12 +28,6 @@ const ArticleList = () => {
   if (isError) {
     return (
       <>
-        <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
-          <span>Offset Paging</span>
-          <Button>
-            <Link to='/paging/cursor'>Change to Cursor</Link>
-          </Button>
-        </div>
         <main className='flex w-full grow flex-col justify-center gap-[30px]'>
           <div className='mx-auto flex w-[600px] flex-col gap-5'>
             {isError && <AlertBox />}
