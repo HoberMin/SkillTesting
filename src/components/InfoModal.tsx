@@ -32,7 +32,7 @@ const InfoModal = ({ file }: { file: string }) => {
       <DialogTrigger>
         <Button>도움말</Button>
       </DialogTrigger>
-      <DialogContent className='max-h-[700px] max-w-[700px] overflow-y-scroll px-12'>
+      <DialogContent className='max-h-[900px] max-w-[900px] overflow-y-scroll px-12'>
         <DialogHeader>
           <DialogTitle className='mb-4'>도움말</DialogTitle>
           <DialogDescription>
