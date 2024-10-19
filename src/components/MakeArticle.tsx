@@ -29,8 +29,6 @@ const MakeArticle = () => {
       createdAt: new Date().toISOString(),
     }));
 
-    console.log(filteredData);
-
     await fetch(`${domain}/articles/make`, {
       method: 'POST',
       headers: {

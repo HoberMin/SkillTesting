@@ -26,7 +26,6 @@ const getTodo = async (domain: Domain) => {
       return res.json();
     })
     .then(data => {
-      console.log(data);
       return data as Todos;
     });
 };
