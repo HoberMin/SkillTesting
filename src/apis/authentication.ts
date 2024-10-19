@@ -212,7 +212,6 @@ export const getReissueWithCookie = (request: KyRequest) => {
 
 export const reissue = () => {
   const { domain } = useDomainStore.getState();
-  console.log(domain);
 
   return ApiClient.get(`${domain}/auth/reissue`)
     .json<TokenResponse>()
