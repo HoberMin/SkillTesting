@@ -7,6 +7,7 @@ import {
   usePostAuthenticationAPI,
   usePostEmailAPI,
 } from '@/apis/emailAuthentication';
+import InfoModal from '@/components/InfoModal';
 import NotDomainAlertBox from '@/components/NotDomainAlertBox';
 import { Button } from '@/components/button';
 import {
@@ -99,8 +100,12 @@ const Email = () => {
   if (!domain) {
     return (
       <>
-        <div className='p-10 pb-0 text-2xl font-bold'>Email</div>
-
+        <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
+          <span>Email</span>
+          <div className='flex items-center gap-[10px]'>
+            <InfoModal file='email' />
+          </div>
+        </div>
         <main className='flex w-full grow flex-col justify-center'>
           <div className='mx-auto flex w-[600px] flex-col gap-5'>
             <NotDomainAlertBox />
@@ -112,7 +117,12 @@ const Email = () => {
 
   return (
     <>
-      <div className='p-10 pb-0 text-2xl font-bold'>Email</div>
+      <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
+        <span>Email</span>
+        <div className='flex items-center gap-[10px]'>
+          <InfoModal file='email' />
+        </div>
+      </div>
       <main className='flex w-full grow flex-col justify-center'>
         <div className='mx-auto flex w-[600px] flex-col gap-5'>
           <div className='flex max-h-[600px] flex-col gap-[20px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 p-[60px] shadow-xl'>
