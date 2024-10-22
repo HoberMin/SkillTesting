@@ -30,7 +30,7 @@ const postEmail = async (data: EmailForm, domain: Domain) => {
 };
 
 const postAuthentication = async (data: Authentication, domain: Domain) => {
-  return await fetch(`${domain}/authentication`, {
+  return await fetch(`${domain}/email/authentication`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

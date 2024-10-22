@@ -36,7 +36,7 @@
 사용자는 해당 API가 호출되면 백엔드 로직에서 이메일로 `6자리` 인증번호를 발송합니다.
 또한, 정상적으로 인증번호가 발송되었다면 `isOk`를 응답합니다
 
-### POST {{domain}}/authentication
+### POST {{domain}}/email/authentication
 
 ```json
 // request 예시

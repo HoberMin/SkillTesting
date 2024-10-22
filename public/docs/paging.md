@@ -175,87 +175,89 @@ Paging을 통해 **Request Query Parameter**의 개념을 이해하고, 대규�
 
 ```json
 // request 예시
-[
-  {
-    "id": 1,
-    "title": "sunt aut facere repellat ",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 2,
-    "title": "qui est esse",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 3,
-    "title": "ea molestias quasi exercitationem repellat qui ipsa sit aut",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 4,
-    "title": "eum et est occaecati",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 5,
-    "title": "nesciunt quas odio",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 6,
-    "title": "dolorem eum magni eos aperiam quia",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 7,
-    "title": "magnam facilis autem",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  ...
-  {
-    "id": 92,
-    "title": "ratione ex tenetur perferendis",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 93,
-    "title": "beatae soluta recusandae",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 94,
-    "title": "qui qui voluptates illo iste minima",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 95,
-    "title": "id minus libero illum nam ad officiis",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 96,
-    "title": "quaerat velit veniam",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 97,
-    "title": "quas fugiat ut perspiciatis vero provident",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 98,
-    "title": "laboriosam dolor voluptates",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 99,
-    "title": "temporibus sit alias ",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  },
-  {
-    "id": 100,
-    "title": "at nam consequatur ea labore ea harum",
-    "createdAt": "2024-10-19T15:20:41.332Z"
-  }
-]
+{
+  "articles" : [
+    {
+      "id": 1,
+      "title": "sunt aut facere repellat ",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 2,
+      "title": "qui est esse",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 3,
+      "title": "ea molestias quasi exercitationem repellat qui ipsa sit aut",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 4,
+      "title": "eum et est occaecati",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 5,
+      "title": "nesciunt quas odio",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 6,
+      "title": "dolorem eum magni eos aperiam quia",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 7,
+      "title": "magnam facilis autem",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    ...
+    {
+      "id": 92,
+      "title": "ratione ex tenetur perferendis",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 93,
+      "title": "beatae soluta recusandae",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 94,
+      "title": "qui qui voluptates illo iste minima",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 95,
+      "title": "id minus libero illum nam ad officiis",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 96,
+      "title": "quaerat velit veniam",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 97,
+      "title": "quas fugiat ut perspiciatis vero provident",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 98,
+      "title": "laboriosam dolor voluptates",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 99,
+      "title": "temporibus sit alias ",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    },
+    {
+      "id": 100,
+      "title": "at nam consequatur ea labore ea harum",
+      "createdAt": "2024-10-19T15:20:41.332Z"
+    }
+  ]
+}
 ```

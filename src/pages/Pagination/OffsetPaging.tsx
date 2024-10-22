@@ -41,8 +41,8 @@ const ArticleContainer = () => {
           <Button>
             <Link to='/paging/cursor'>Change to Cursor</Link>
           </Button>
-          <InfoModal file='paging' />
           <MakeArticle />
+          <InfoModal file='paging' />
         </div>
       </div>
       <ArticleList />
