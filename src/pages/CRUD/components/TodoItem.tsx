@@ -1,8 +1,8 @@
 import { usePatchTodoApi } from '@/apis/todo';
 import useDomainStore from '@/store';
 
-import { Switch } from '../../../components/switch';
 import { useToast } from '../../../components/toast/use-toast';
+import { Switch } from '../../../components/ui/switch';
 import TodoEditIcon from './TodoEditIcon';
 
 interface TodoItemProps {

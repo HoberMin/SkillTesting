@@ -12,7 +12,7 @@ import useDomainStore from '@/store';
 import { cn } from '@/utils/cn';
 
 import ServerInputModal from './ServerInputModal';
-import { Button } from './button';
+import { Button } from './ui/button';
 
 const Layout = ({ children }: PropsWithChildren) => {
   const { domain } = useDomainStore();
@@ -20,9 +20,9 @@ const Layout = ({ children }: PropsWithChildren) => {
 
   const menuItems = [
     { path: '/crud', label: 'CRUD' },
-    { path: '/oauth/1', label: 'OAuth' },
     { path: '/paging/offset/1', label: 'Paging' },
     { path: '/email', label: 'Email' },
+    { path: '/oauth/1', label: 'OAuth' },
     { path: '/imageuploader', label: 'Image Uploader' },
     { path: '/fcm', label: 'FCM' },
   ];

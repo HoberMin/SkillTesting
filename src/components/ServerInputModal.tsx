@@ -11,8 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
+} from './ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 
 const ServerInputModal = () => {
   const queryClient = useQueryClient();

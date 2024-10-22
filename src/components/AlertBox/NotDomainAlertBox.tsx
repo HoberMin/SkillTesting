@@ -1,6 +1,6 @@
 import { Terminal } from 'lucide-react';
 
-import { Alert, AlertDescription, AlertTitle } from './alert';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
 const NotDomainAlertBox = () => (
   <Alert>

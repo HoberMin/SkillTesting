@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { usePostTodoApi } from '@/apis/todo';
 import useDomainStore from '@/store';
 
-import { Input } from '../../../components/input';
+import { Input } from '../../../components/ui/input';
 
 const TodoInput = () => {
   const [todo, setTodo] = useState('');

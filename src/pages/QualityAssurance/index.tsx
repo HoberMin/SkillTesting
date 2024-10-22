@@ -2,8 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { usePostAssuranceAPI } from '@/apis/assuarance';
-import { Button } from '@/components/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -11,9 +11,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/form';
-import { Input } from '@/components/input';
-import { Label } from '@/components/label';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -22,8 +22,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/select';
-import { Textarea } from '@/components/textarea';
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { useQAStore } from '@/store';
 
 import { schema } from './QASchema';

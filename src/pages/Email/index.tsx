@@ -7,9 +7,9 @@ import {
   usePostAuthenticationAPI,
   usePostEmailAPI,
 } from '@/apis/emailAuthentication';
-import InfoModal from '@/components/InfoModal';
-import NotDomainAlertBox from '@/components/NotDomainAlertBox';
-import { Button } from '@/components/button';
+import NotDomainAlertBox from '@/components/AlertBox/NotDomainAlertBox';
+import MainLayout from '@/components/MainLayout';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -17,8 +17,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/form';
-import { Input } from '@/components/input';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import useDomainStore from '@/store';
 
 import { authenticationSchema, emailSchema } from './emailSchema';
@@ -104,107 +104,82 @@ const Email = () => {
 
   if (!domain) {
     return (
-      <>
-        <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
-          <span>Email</span>
-          <div className='flex items-center gap-[10px]'>
-            <InfoModal file='email' />
-          </div>
-        </div>
-        <main className='flex w-full grow flex-col justify-center'>
-          <div className='mx-auto flex w-[600px] flex-col gap-5'>
-            <NotDomainAlertBox />
-          </div>
-        </main>
-      </>
+      <MainLayout MainTitle='Email' docsTitle='email'>
+        <NotDomainAlertBox />
+      </MainLayout>
     );
   }
 
   return (
-    <>
-      <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
-        <span>Email</span>
-        <div className='flex items-center gap-[10px]'>
-          <InfoModal file='email' />
-        </div>
+    <MainLayout MainTitle='Email' docsTitle='email'>
+      <div className='flex max-h-[600px] flex-col gap-[20px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 p-[60px] shadow-xl'>
+        <Form {...emailForm}>
+          <form onSubmit={emailForm.handleSubmit(onEmailSubmit)}>
+            <FormField
+              control={emailForm.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem className='flex flex-col gap-0.5'>
+                  <FormLabel className='pl-1'>이메일</FormLabel>
+                  <div className='flex items-center gap-[10px]'>
+                    <FormControl>
+                      <Input placeholder='이메일을 입력하세요' {...field} />
+                    </FormControl>
+                    <Button type='submit' className='px-4 py-2 text-sm'>
+                      {isOk ? '재인증' : '인증'}
+                    </Button>
+                  </div>
+                  <FormMessage className='pl-1' />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+        {isOk && !isSuccess && (
+          <span className='text-sm text-blue-500'>
+            남은 시간: {formatTime(timer)}
+          </span>
+        )}
+        <Form {...authenticationForm}>
+          <form
+            onSubmit={authenticationForm.handleSubmit(onAuthenticationSubmit)}
+          >
+            <FormField
+              control={authenticationForm.control}
+              name='authentication'
+              render={({ field }) => (
+                <FormItem className='flex flex-col gap-0.5'>
+                  <FormLabel className='pl-1'>인증번호</FormLabel>
+                  <div className='flex items-center gap-[10px]'>
+                    <FormControl>
+                      <Input placeholder='인증번호를 입력하세요' {...field} />
+                    </FormControl>
+                    <Button
+                      type='submit'
+                      className='px-4 py-2 text-sm'
+                      disabled={isButtonDisabled || isSuccess}
+                    >
+                      확인
+                    </Button>
+                  </div>
+                  <FormMessage className='pl-1' />
+                  {isSuccess && (
+                    <FormLabel className='pl-1 text-green-500'>
+                      인증에 성공했습니다!
+                    </FormLabel>
+                  )}
+                  {isAuthenticationError && (
+                    <FormLabel className='pl-1 text-destructive'>
+                      잘못된 인증번호입니다.
+                    </FormLabel>
+                  )}
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
       </div>
-      <main className='flex w-full grow flex-col justify-center'>
-        <div className='mx-auto flex w-[600px] flex-col gap-5'>
-          <div className='flex max-h-[600px] flex-col gap-[20px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 p-[60px] shadow-xl'>
-            <Form {...emailForm}>
-              <form onSubmit={emailForm.handleSubmit(onEmailSubmit)}>
-                <FormField
-                  control={emailForm.control}
-                  name='email'
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col gap-0.5'>
-                      <FormLabel className='pl-1'>이메일</FormLabel>
-                      <div className='flex items-center gap-[10px]'>
-                        <FormControl>
-                          <Input placeholder='이메일을 입력하세요' {...field} />
-                        </FormControl>
-                        <Button type='submit' className='px-4 py-2 text-sm'>
-                          {isOk ? '재인증' : '인증'}
-                        </Button>
-                      </div>
-                      <FormMessage className='pl-1' />
-                    </FormItem>
-                  )}
-                />
-              </form>
-            </Form>
-            {isOk && !isSuccess && (
-              <span className='text-sm text-blue-500'>
-                남은 시간: {formatTime(timer)}
-              </span>
-            )}
-            <Form {...authenticationForm}>
-              <form
-                onSubmit={authenticationForm.handleSubmit(
-                  onAuthenticationSubmit,
-                )}
-              >
-                <FormField
-                  control={authenticationForm.control}
-                  name='authentication'
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col gap-0.5'>
-                      <FormLabel className='pl-1'>인증번호</FormLabel>
-                      <div className='flex items-center gap-[10px]'>
-                        <FormControl>
-                          <Input
-                            placeholder='인증번호를 입력하세요'
-                            {...field}
-                          />
-                        </FormControl>
-                        <Button
-                          type='submit'
-                          className='px-4 py-2 text-sm'
-                          disabled={isButtonDisabled || isSuccess} // 버튼 비활성화 로직
-                        >
-                          확인
-                        </Button>
-                      </div>
-                      <FormMessage className='pl-1' />
-                      {isSuccess && (
-                        <FormLabel className='pl-1 text-green-500'>
-                          인증에 성공했습니다!
-                        </FormLabel>
-                      )}
-                      {isAuthenticationError && (
-                        <FormLabel className='pl-1 text-destructive'>
-                          잘못된 인증번호입니다.
-                        </FormLabel>
-                      )}
-                    </FormItem>
-                  )}
-                />
-              </form>
-            </Form>
-          </div>
-        </div>
-      </main>
-    </>
+    </MainLayout>
   );
 };
 export default Email;

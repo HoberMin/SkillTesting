@@ -48,10 +48,11 @@ export const usePostFCMToken = (domain: Domain) => {
 
   const { mutateAsync } = useMutation({
     mutationFn: (token: string) => postFCMToken(token, domain),
-    onSuccess: () =>
+    onSuccess: () => {
       toast({
         title: '토큰 전송 요청 성공!',
-      }),
+      });
+    },
     onError: () => {
       toast({
         variant: 'destructive',
