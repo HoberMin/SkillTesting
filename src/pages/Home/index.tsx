@@ -1,4 +1,14 @@
+import { useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 const Home = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('tutorial_end') !== 'end') navigate('/tutorial');
+  }, []);
+
   return (
     <main className='flex h-full w-full flex-col justify-center'>
       <div className='mx-auto flex flex-col'>
