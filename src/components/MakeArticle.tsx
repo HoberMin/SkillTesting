@@ -23,11 +23,13 @@ const MakeArticle = () => {
       .then(response => response.json())
       .then(json => json as ArticlePlaceholder[]);
 
-    const filteredData = jsonPlaceholders.map(placeholder => ({
-      id: placeholder.id,
-      title: placeholder.title,
-      createdAt: new Date().toISOString(),
-    }));
+    const filteredData = {
+      articles: jsonPlaceholders.map(placeholder => ({
+        id: placeholder.id,
+        title: placeholder.title,
+        createdAt: new Date().toISOString(),
+      })),
+    };
 
     await fetch(`${domain}/articles/make`, {
       method: 'POST',
