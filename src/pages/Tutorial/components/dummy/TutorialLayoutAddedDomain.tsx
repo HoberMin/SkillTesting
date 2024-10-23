@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { ReactNode } from 'react';
 
 import {
   Tooltip,
@@ -8,13 +8,16 @@ import {
 } from '@radix-ui/react-tooltip';
 import { Link, useLocation } from 'react-router-dom';
 
+import ServerInputModal from '@/components/ServerInputModal';
+import { Button } from '@/components/button';
 import useDomainStore from '@/store';
 import { cn } from '@/utils/cn';
 
-import ServerInputModal from './ServerInputModal';
-import { Button } from './button';
-
-const Layout = ({ children }: PropsWithChildren) => {
+interface Tprops {
+  children: ReactNode;
+  currentStep: number;
+}
+const TutorialLayoutAddedDomain = ({ children, currentStep }: Tprops) => {
   const { domain } = useDomainStore();
   const { pathname } = useLocation();
 
@@ -28,7 +31,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   ];
 
   return (
-    <div className='flex h-screen flex-col'>
+    <div className='pointer-events-none flex h-screen flex-col'>
       <header className='flex items-center justify-between border-b p-[20px]'>
         <Link to='/'>
           <span className='text-2xl font-bold text-[#373737]'>
@@ -36,27 +39,22 @@ const Layout = ({ children }: PropsWithChildren) => {
           </span>
         </Link>
         <div className='flex items-center gap-[20px]'>
-          {/* <a
-            className='inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'
-            href='https://documenter.getpostman.com/view/17268285/2sA3s7kUzi'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            API specification
-          </a> */}
           <ServerInputModal />
-          {domain && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild className='mr-[40px]'>
-                  <Button variant='outline'>My Base URL</Button>
-                </TooltipTrigger>
-                <TooltipContent className='z-10 mt-2 rounded-md border bg-black p-4 py-2 text-white'>
-                  {domain}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild className='mr-[40px]'>
+                <Button
+                  className={currentStep === 3 ? 'z-40' : 'z-10'}
+                  variant='outline'
+                >
+                  My Base URL
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className='z-10 mt-2 rounded-md border bg-black p-4 py-2 text-white'>
+                {domain}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </header>
       <div className='flex w-full grow'>
@@ -81,16 +79,21 @@ const Layout = ({ children }: PropsWithChildren) => {
               </Link>
             ))}
           </div>
-          <Link to={'/qualityAssurance'}>
-            <div
-              className={cn(
-                `cursor-pointer p-4 text-center text-lg text-[#6D6D6D] hover:bg-white`,
-                `${location.pathname === '/qualityAssurance' ? 'bg-white' : 'bg-[#D7D7D7]'}`,
-              )}
-            >
-              Quality Assurance
-            </div>
-          </Link>
+          <div className={`${currentStep === 7 ? 'z-40' : 'z-10'}`}>
+            <Link to={'/qualityAssurance'}>
+              <div
+                className={cn(
+                  `cursor-pointer p-4 text-center text-lg text-[#6D6D6D] ${
+                    location.pathname === '/qualityAssurance'
+                      ? 'bg-white'
+                      : 'bg-[#D7D7D7]'
+                  } hover:bg-white`,
+                )}
+              >
+                Quality Assurance
+              </div>
+            </Link>
+          </div>
         </nav>
         <div className='flex w-full flex-col'>{children}</div>
       </div>
@@ -98,4 +101,4 @@ const Layout = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default Layout;
+export default TutorialLayoutAddedDomain;

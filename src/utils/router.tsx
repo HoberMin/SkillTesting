@@ -10,6 +10,7 @@ import OAuth from '@/pages/OAuth';
 import Pagination from '@/pages/Pagination';
 import QualityAssurance from '@/pages/QualityAssurance';
 import Redirect from '@/pages/Redirect';
+import Tutorial from '@/pages/Tutorial';
 
 export const router = createBrowserRouter([
   {
@@ -65,5 +66,13 @@ export const router = createBrowserRouter([
         element: <FCMPage />,
       },
     ],
+  },
+  {
+    path: '/tutorial',
+    element: (
+      <>
+        <Tutorial />
+      </>
+    ),
   },
 ]);
