@@ -23,11 +23,11 @@ const CRUD = ({ currentStep }: Tprops) => {
         <span>CRUD</span>
         <div
           className={cn(
-            'flex h-10 w-16 items-center justify-center gap-[10px] rounded bg-[#262E3F] text-sm font-medium text-white',
+            'flex h-10 w-20 items-center justify-center gap-[10px] rounded bg-[#262E3F] text-sm font-medium text-white',
             currentStep === 4 ? 'z-40' : 'z-10',
           )}
         >
-          도움말
+          API 명세
         </div>
       </div>
       <main className='flex w-full grow flex-col justify-center'>

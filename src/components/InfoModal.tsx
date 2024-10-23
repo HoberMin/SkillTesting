@@ -30,13 +30,13 @@ const InfoModal = ({ file }: { file: string }) => {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>도움말</Button>
+        <Button>API 명세</Button>
       </DialogTrigger>
       <DialogContent className='max-h-[900px] max-w-[900px] overflow-y-scroll px-12'>
         <DialogHeader>
-          <DialogTitle className='mb-4'>도움말</DialogTitle>
+          <DialogTitle className='mb-4'>API 명세</DialogTitle>
           <DialogDescription>
-            <div className='markdown-content'>
+            <div className='markdown-content pb-20 pt-10'>
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
