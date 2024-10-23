@@ -12,6 +12,10 @@ interface AuthenticationResponse {
   isSuccess: boolean;
 }
 
+interface AuthenticationRequest extends Authentication {
+  email: string;
+}
+
 const postEmail = async (data: EmailForm, domain: Domain) => {
   return await fetch(`${domain}/email`, {
     method: 'POST',
@@ -67,7 +71,8 @@ export const usePostAuthenticationAPI = (domain: Domain) => {
   const { toast } = useToast();
 
   const { mutateAsync } = useMutation({
-    mutationFn: (data: Authentication) => postAuthentication(data, domain),
+    mutationFn: (data: AuthenticationRequest) =>
+      postAuthentication(data, domain),
     onError: () => {
       toast({
         variant: 'destructive',
