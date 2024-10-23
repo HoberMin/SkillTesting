@@ -84,11 +84,8 @@ const Layout = ({ children }: PropsWithChildren) => {
           <Link to={'/qualityAssurance'}>
             <div
               className={cn(
-                `cursor-pointer p-4 text-center text-lg text-[#6D6D6D] ${
-                  location.pathname === '/qualityAssurance'
-                    ? 'bg-white'
-                    : 'bg-[#D7D7D7]'
-                } hover:bg-white`,
+                `cursor-pointer p-4 text-center text-lg text-[#6D6D6D] hover:bg-white`,
+                `${location.pathname === '/qualityAssurance' ? 'bg-white' : 'bg-[#D7D7D7]'}`,
               )}
             >
               Quality Assurance
