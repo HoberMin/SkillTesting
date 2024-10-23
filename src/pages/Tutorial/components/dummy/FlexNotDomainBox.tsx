@@ -1,4 +1,4 @@
-import NotDomainAlertBox from '@/components/NotDomainAlertBox';
+import NotDomainAlertBox from '@/components/AlertBox/NotDomainAlertBox';
 
 const FlexNotDomainBox = () => {
   return (

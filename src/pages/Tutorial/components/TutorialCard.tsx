@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/card';
-import { Button } from '@/components/ui/button';
+} from '@/components/ui/card';
 import { cn } from '@/utils/cn';
 
 const tutorialData = [
@@ -99,7 +99,7 @@ const TutorialCard = ({ currentStep, setCurrentStep, className }: Tprops) => {
       </CardHeader>
 
       <CardContent className='text-md pb-4 text-sm'>
-        <p>{tutorialData[currentStep].content}</p>
+        {tutorialData[currentStep].content}
       </CardContent>
       <CardFooter className='flex justify-between'>
         {currentStep > 0 ? (

@@ -9,7 +9,7 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 
 import ServerInputModal from '@/components/ServerInputModal';
-import { Button } from '@/components/button';
+import { Button } from '@/components/ui/button';
 import useDomainStore from '@/store';
 import { cn } from '@/utils/cn';
 
