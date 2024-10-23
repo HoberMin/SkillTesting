@@ -30,7 +30,10 @@ const TutorialLayout = ({ children, currentStep }: Tprops) => {
           </span>
         </Link>
         <div
-          className={`flex h-10 w-32 items-center justify-center rounded border bg-white text-sm font-medium ${currentStep === 0 ? 'z-50' : 'z-10'}`}
+          className={cn(
+            'flex h-10 w-32 items-center justify-center rounded border bg-white text-sm font-medium',
+            currentStep === 0 ? 'z-40' : 'z-10',
+          )}
         >
           Edit Base URL
         </div>

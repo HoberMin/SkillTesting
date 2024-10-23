@@ -1,5 +1,6 @@
-import TodoInput from '../../CRUD/components/TodoInput';
-import TodoItem from '../../CRUD/components/TodoItem';
+import TodoInput from '@/pages/CRUD/components/TodoInput';
+import TodoItem from '@/pages/CRUD/components/TodoItem';
+import { cn } from '@/utils/cn';
 
 const dummyData = {
   todos: [
@@ -15,19 +16,26 @@ interface Tprops {
   currentStep: number;
 }
 const CRUD = ({ currentStep }: Tprops) => {
+  console.log(currentStep);
   return (
     <>
       <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
         <span>CRUD</span>
         <div
-          className={`flex h-10 w-16 items-center justify-center gap-[10px] rounded bg-[#262E3F] text-sm font-medium text-white ${currentStep === 4 ? 'z-50' : 'z-10'}`}
+          className={cn(
+            'flex h-10 w-16 items-center justify-center gap-[10px] rounded bg-[#262E3F] text-sm font-medium text-white',
+            currentStep === 4 ? 'z-40' : 'z-10',
+          )}
         >
           도움말
         </div>
       </div>
       <main className='flex w-full grow flex-col justify-center'>
         <div
-          className={`mx-auto flex w-[600px] flex-col gap-5 bg-white p-2 ${currentStep === 5 ? 'z-50' : 'z-10'}`}
+          className={cn(
+            'mx-auto flex w-[600px] flex-col gap-5 bg-white p-2',
+            currentStep === 5 ? 'z-40' : 'z-10',
+          )}
         >
           <TodoInput />
           <div className='max-h-[600px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>

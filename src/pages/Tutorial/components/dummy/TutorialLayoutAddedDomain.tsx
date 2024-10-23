@@ -44,7 +44,7 @@ const TutorialLayoutAddedDomain = ({ children, currentStep }: Tprops) => {
             <Tooltip>
               <TooltipTrigger asChild className='mr-[40px]'>
                 <Button
-                  className={`${currentStep === 3 ? 'z-50' : 'z-10'}`}
+                  className={currentStep === 3 ? 'z-40' : 'z-10'}
                   variant='outline'
                 >
                   My Base URL
@@ -79,7 +79,7 @@ const TutorialLayoutAddedDomain = ({ children, currentStep }: Tprops) => {
               </Link>
             ))}
           </div>
-          <div className={`${currentStep === 7 ? 'z-50' : 'z-10'}`}>
+          <div className={`${currentStep === 7 ? 'z-40' : 'z-10'}`}>
             <Link to={'/qualityAssurance'}>
               <div
                 className={cn(

@@ -1,14 +1,13 @@
 import { useState } from 'react';
 
-import TutorialCard from '@/components/tutorial/TutorialCard';
-
 import Overlay from './Overlay';
-import CRUD from './dummy/CRUD';
-import ExitUrl from './dummy/FlexNotDomainBox';
-import ServerInputHttp from './dummy/ServerInputHttp';
-import ServerInputHttps from './dummy/ServerInputHttps';
-import TutorialLayout from './dummy/TutorialLayout';
-import TutorialLayoutAddedDomain from './dummy/TutorialLayoutAddedDomain';
+import TutorialCard from './components/TutorialCard';
+import CRUD from './components/dummy/CRUD';
+import ExitUrl from './components/dummy/FlexNotDomainBox';
+import ServerInputHttp from './components/dummy/ServerInputHttp';
+import ServerInputHttps from './components/dummy/ServerInputHttps';
+import TutorialLayout from './components/dummy/TutorialLayout';
+import TutorialLayoutAddedDomain from './components/dummy/TutorialLayoutAddedDomain';
 
 const TutorialPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -21,7 +20,7 @@ const TutorialPage = () => {
           <TutorialCard
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
-            styles='right-12 top-24'
+            className='right-12 top-24'
           />
           <ExitUrl />
         </TutorialLayout>
@@ -35,7 +34,7 @@ const TutorialPage = () => {
           <TutorialCard
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
-            styles='left-22 top-[45%]'
+            className='left-[30%] top-[20%]'
           />
           <ServerInputHttp />
         </TutorialLayout>
@@ -49,7 +48,7 @@ const TutorialPage = () => {
           <TutorialCard
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
-            styles='left-22 top-[45%]'
+            className='right-[20%] top-[24%]'
           />
           <ServerInputHttps />
         </TutorialLayout>
@@ -59,12 +58,11 @@ const TutorialPage = () => {
     return (
       <>
         <Overlay />
-
         <TutorialLayoutAddedDomain currentStep={currentStep}>
           <TutorialCard
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
-            styles='right-12 top-24'
+            className='right-12 top-24'
           />
         </TutorialLayoutAddedDomain>
       </>
@@ -77,7 +75,7 @@ const TutorialPage = () => {
           <TutorialCard
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
-            styles='right-40 top-24'
+            className='right-40 top-24'
           />
           <CRUD currentStep={currentStep} />
         </TutorialLayoutAddedDomain>
@@ -87,12 +85,11 @@ const TutorialPage = () => {
     return (
       <>
         <Overlay />
-
         <TutorialLayoutAddedDomain currentStep={currentStep}>
           <TutorialCard
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
-            styles='left-[42%] top-14'
+            className='left-[42%] top-8'
           />
           <CRUD currentStep={currentStep} />
         </TutorialLayoutAddedDomain>
@@ -102,12 +99,11 @@ const TutorialPage = () => {
     return (
       <>
         <Overlay />
-
         <TutorialLayoutAddedDomain currentStep={currentStep}>
           <TutorialCard
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
-            styles='right-10 top-24'
+            className='right-10 top-24'
           />
           <CRUD currentStep={currentStep} />
         </TutorialLayoutAddedDomain>
@@ -116,12 +112,11 @@ const TutorialPage = () => {
   return (
     <>
       <Overlay />
-
       <TutorialLayoutAddedDomain currentStep={currentStep}>
         <TutorialCard
           currentStep={currentStep}
           setCurrentStep={setCurrentStep}
-          styles='left-20 bottom-24'
+          className='bottom-24 left-20'
         />
         <CRUD currentStep={currentStep} />
       </TutorialLayoutAddedDomain>

@@ -1,8 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/card';
 import { Button } from '@/components/ui/button';
-
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../card';
+import { cn } from '@/utils/cn';
 
 const tutorialData = [
   {
@@ -39,16 +45,16 @@ const tutorialData = [
   {
     title: '문의 사항 및 이슈 전달',
     content:
-      'QA탭에서 궁금한 점이나 에러사항을 전달할 수 있습니다. \n 익명도 가능하니, 편하게 참여해주세요 :)',
+      'QA탭에서 궁금한 점이나 에러사항을 전달할 수 있습니다. \n 익명도 가능하니, 편하게 참여해주세요!',
   },
 ];
 
-type Tprops = {
+interface Tprops {
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
-  styles: string;
-};
-const TutorialCard = ({ currentStep, setCurrentStep, styles }: Tprops) => {
+  className: string;
+}
+const TutorialCard = ({ currentStep, setCurrentStep, className }: Tprops) => {
   const navigate = useNavigate();
 
   const handleNext = () => {
@@ -71,12 +77,17 @@ const TutorialCard = ({ currentStep, setCurrentStep, styles }: Tprops) => {
 
   return (
     <Card
-      className={`${styles} pointer-events-auto fixed z-50 flex w-[350px] flex-col`}
+      className={cn(
+        'pointer-events-auto absolute z-50 flex w-[366px] flex-col bg-white shadow-xl shadow-indigo-200/40',
+        className,
+      )}
     >
       <CardHeader>
         <div className='flex justify-between'>
           <div>
-            <CardTitle>{tutorialData[currentStep].title}</CardTitle>
+            <CardTitle className='text-md pb-4 text-base'>
+              {tutorialData[currentStep].title}
+            </CardTitle>
           </div>
           <button
             className='text-xs text-gray-400 underline underline-offset-1'
@@ -87,7 +98,7 @@ const TutorialCard = ({ currentStep, setCurrentStep, styles }: Tprops) => {
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className='text-md pb-4 text-sm'>
         <p>{tutorialData[currentStep].content}</p>
       </CardContent>
       <CardFooter className='flex justify-between'>
