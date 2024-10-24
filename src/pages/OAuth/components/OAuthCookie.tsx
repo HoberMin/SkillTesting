@@ -90,7 +90,7 @@ const OAuthCookie = () => {
           <p className='text-base font-light'>Access Token : Cookie</p>
         </div>
         <div className='flex flex-col gap-3'>
-          <InfoModal file='crud' />
+          <InfoModal file='oauth_cookie' />
           <Link to='/oauth/1'>
             <Button className='mt-[12px] w-[350px]'>
               Cookie / Authorization Header
