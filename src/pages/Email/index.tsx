@@ -41,6 +41,7 @@ const Email = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isAuthenticationError, setAuthenticationError] = useState(false);
   const [timer, setTimer] = useState(300);
+  const [savedEmail, setSavedEmail] = useState('');
 
   useEffect(() => {
     let countdown: NodeJS.Timeout | undefined;
@@ -75,12 +76,16 @@ const Email = () => {
     if (isOk) {
       setIsOk(true);
       setIsButtonDisabled(false);
+      setSavedEmail(data.email);
       setTimer(300);
     }
   };
 
   const onAuthenticationSubmit = async (data: Authentication) => {
-    const { isSuccess } = await postAuthentication(data);
+    const { isSuccess } = await postAuthentication({
+      ...data,
+      email: savedEmail,
+    });
     setIsSuccess(isSuccess);
     if (isSuccess) {
       setIsButtonDisabled(true);

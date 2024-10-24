@@ -113,7 +113,7 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 
 - Success
 
-  `200 ok`
+`200 ok`
 
 accessToken는 쿠키로 저장한다.
 

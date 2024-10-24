@@ -29,7 +29,7 @@
 
 //response 예시
 {
-    isOk : true
+    "isOk" : true
 }
 ```
 
@@ -41,7 +41,8 @@
 ```json
 // request 예시
 {
-    "authentication" : "123456"
+    "authentication" : "123456",
+    "email" : "ssafy@naver.com"
 }
 
 //response 예시 - 인증번호가 맞을 때
