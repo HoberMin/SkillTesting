@@ -8,7 +8,7 @@ import {
 import dracula from 'react-syntax-highlighter/dist/cjs/styles/prism/dracula';
 import remarkGfm from 'remark-gfm';
 
-import { Button } from './button';
+import { Button } from './ui/button';
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './dialog';
+} from './ui/dialog';
 
 const InfoModal = ({ file }: { file: string }) => {
   const [markdown, setMarkdown] = useState('');

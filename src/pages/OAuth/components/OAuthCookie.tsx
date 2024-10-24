@@ -7,9 +7,9 @@ import {
   useGetMemberWithCookieApi,
   usePostLogoutWithCookieApi,
 } from '@/apis/authentication';
+import NotDomainAlertBox from '@/components/AlertBox/NotDomainAlertBox';
 import InfoModal from '@/components/InfoModal';
-import NotDomainAlertBox from '@/components/NotDomainAlertBox';
-import { Button } from '@/components/button';
+import { Button } from '@/components/ui/button';
 import useDomainStore, { useTokenTypeStore } from '@/store';
 
 import OAuthKakaoButton from './OAuthKakaoButton';

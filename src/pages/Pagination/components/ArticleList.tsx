@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
 
 import { useGetOffsetPagingAPI } from '@/apis/offsetPaging';
-import AlertBox from '@/components/AlertBox';
+import ResponseErrorAlertBox from '@/components/AlertBox/ResponseErrorAlertBox';
+import Spinner from '@/components/Spinner';
 import {
   Pagination,
   PaginationContent,
@@ -22,18 +23,16 @@ const ArticleList = () => {
   const { data, isError, isPending } = useGetOffsetPagingAPI(domain, pagingId);
 
   if (isPending) {
-    return null;
+    return <Spinner text='로딩중' />;
   }
 
-  if (isError) {
+  if (isError || data.articles === undefined) {
     return (
-      <>
-        <main className='flex w-full grow flex-col justify-center gap-[30px]'>
-          <div className='mx-auto flex w-[600px] flex-col gap-5'>
-            {isError && <AlertBox />}
-          </div>
-        </main>
-      </>
+      <main className='flex w-full grow flex-col justify-center gap-[30px]'>
+        <div className='mx-auto flex w-[600px] flex-col gap-5'>
+          <ResponseErrorAlertBox />
+        </div>
+      </main>
     );
   }
 
@@ -102,7 +101,7 @@ const ArticleList = () => {
               />
             ))}
         </div>
-        {isError && <AlertBox />}
+        {isError && <ResponseErrorAlertBox />}
       </div>
       <Pagination>
         <PaginationContent>

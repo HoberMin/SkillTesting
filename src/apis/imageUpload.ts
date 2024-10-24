@@ -3,6 +3,10 @@ import { useMutation } from '@tanstack/react-query';
 import { useToast } from '@/components/toast/use-toast';
 import { Domain } from '@/store';
 
+interface ImageUploadResponse {
+  imageUrl: string;
+}
+
 const imageUpload = async (image: File, domain: Domain) => {
   const formData = new FormData();
 
@@ -14,25 +18,24 @@ const imageUpload = async (image: File, domain: Domain) => {
       'Content-Type': 'multipart/form-data',
     },
     body: formData,
-  });
+  })
+    .then(res => res.json())
+    .then(data => data as ImageUploadResponse);
 };
 
 export const usePostImageUploadAPI = (domain: Domain) => {
   const { toast } = useToast();
 
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: (image: File) => imageUpload(image, domain),
-    onSuccess: () =>
-      toast({
-        title: 'POST 요청 성공!',
-      }),
-    onError: () =>
+    onError: () => {
       toast({
         variant: 'destructive',
         title: 'POST 요청 에러',
         description: 'Network탭을 확인해주세요 !',
-      }),
+      });
+    },
   });
 
-  return mutate;
+  return mutateAsync;
 };

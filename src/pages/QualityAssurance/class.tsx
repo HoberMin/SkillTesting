@@ -1,4 +1,4 @@
-import { SelectGroup, SelectItem, SelectLabel } from '@/components/select';
+import { SelectGroup, SelectItem, SelectLabel } from '@/components/ui/select';
 
 export const ssafyClass = {
   seoul: (

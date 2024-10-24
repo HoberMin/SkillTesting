@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 
+import NotDomainAlertBox from '@/components/AlertBox/NotDomainAlertBox';
 import InfoModal from '@/components/InfoModal';
+import MainLayout from '@/components/MainLayout';
 import MakeArticle from '@/components/MakeArticle';
-import NotDomainAlertBox from '@/components/NotDomainAlertBox';
-import { Button } from '@/components/button';
+import { Button } from '@/components/ui/button';
 import useDomainStore from '@/store';
 
 import ArticleList from './components/ArticleList';
@@ -13,23 +14,9 @@ const ArticleContainer = () => {
 
   if (!domain) {
     return (
-      <>
-        <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
-          <span>Offset Paging</span>
-          <div className='flex items-center gap-[10px]'>
-            <Button>
-              <Link to='/paging/cursor'>Change to Cursor</Link>
-            </Button>
-            <InfoModal file='paging' />
-            <MakeArticle />
-          </div>
-        </div>
-        <main className='flex h-full w-full flex-col justify-center'>
-          <div className='mx-auto flex w-[600px] flex-col gap-5'>
-            <NotDomainAlertBox />
-          </div>
-        </main>
-      </>
+      <MainLayout MainTitle='Paging' docsTitle='paging'>
+        <NotDomainAlertBox />
+      </MainLayout>
     );
   }
 

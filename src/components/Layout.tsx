@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 
 import {
   Tooltip,
@@ -6,23 +6,29 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@radix-ui/react-tooltip';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import useDomainStore from '@/store';
 import { cn } from '@/utils/cn';
 
 import ServerInputModal from './ServerInputModal';
-import { Button } from './button';
+import { Button } from './ui/button';
 
 const Layout = ({ children }: PropsWithChildren) => {
   const { domain } = useDomainStore();
   const { pathname } = useLocation();
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('tutorial_end') !== 'end') navigate('/tutorial');
+  }, []);
+
   const menuItems = [
     { path: '/crud', label: 'CRUD' },
-    { path: '/oauth/1', label: 'OAuth' },
     { path: '/paging/offset/1', label: 'Paging' },
     { path: '/email', label: 'Email' },
+    { path: '/oauth/1', label: 'OAuth' },
     { path: '/imageuploader', label: 'Image Uploader' },
     { path: '/fcm', label: 'FCM' },
   ];

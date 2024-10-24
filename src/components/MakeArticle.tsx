@@ -1,6 +1,6 @@
 import useDomainStore from '@/store';
 
-import { Button } from './button';
+import { Button } from './ui/button';
 
 interface ArticlePlaceholder {
   userId: number;
