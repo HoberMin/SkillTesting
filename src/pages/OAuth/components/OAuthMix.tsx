@@ -92,7 +92,7 @@ const OAuthMix = () => {
           </p>
         </div>
         <div className='flex flex-col items-end gap-3'>
-          <InfoModal file='crud' />
+          <InfoModal file='oauth' />
           <Button disabled className='mt-[12px] w-[350px]'>
             Cookie / Authorization Header
           </Button>
