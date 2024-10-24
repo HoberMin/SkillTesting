@@ -35,11 +35,11 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 
 ## POST /oauth/authorization/auth
 
-Authorization Code를 통해 Access Token과 Refresh Token을 발급받습니다.
+**KAKAO Auth Code**를 통해 Access Token과 Refresh Token을 발급받습니다.
 
 ### [Request Body]
 
-`code: string` (Authorization code)
+`code: string` (KAKAO Auth Code)
 
 ### [Response Body]
 
@@ -67,8 +67,8 @@ Authorization Code를 통해 Access Token과 Refresh Token을 발급받습니다
 
 ### [Request Header]
 
-- `Authorization: Bearer <accessToken>`
-- `X-Refresh: <refreshToken>`
+- Authorization: Bearer **access_token_value**
+- X-Refresh: **refresh_token_value**
 
 (X-Refresh는 리프레시 토큰을 담기 위한 커스텀 헤더)
 
@@ -106,7 +106,7 @@ Authorization Code를 통해 Access Token과 Refresh Token을 발급받습니다
 
 ### [Request header]
 
-`X-Refresh: <refreshToken>`
+X-Refresh: **refresh_token_value**
 
 ### [Response body]
 
@@ -127,34 +127,6 @@ Authorization Code를 통해 Access Token과 Refresh Token을 발급받습니다
 }
 ```
 
-## POST /oauth/authorization/logout
+## Logout
 
-로그아웃 처리 시 Refresh Token을 서버에서 무효화합니다.
-
-### [Request header]
-
-`X-Refresh: <refreshToken>`
-
-### [Response body]
-
-- Success
-
-`200 OK`
-
-- Failure (401 Unauthorized) - `Refresh Token이 만료된 경우`
-
-```json
-{
-  "status": 401,
-  "code": "ERR_REFRESH_TOKEN_EXPIRED"
-}
-```
-
-- Failure (403 Forbidden) - `이미 로그아웃된 경우`
-
-```json
-{
-  "status": 403,
-  "code": "ERR_ALREADY_LOGGED_OUT"
-}
-```
+rt- 헤더 at-헤더 방식의 경우, 클라이언트에서 로그아웃을 진행합니다.
