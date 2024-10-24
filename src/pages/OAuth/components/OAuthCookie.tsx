@@ -7,6 +7,7 @@ import {
   useGetMemberWithCookieApi,
   usePostLogoutWithCookieApi,
 } from '@/apis/authentication';
+import InfoModal from '@/components/InfoModal';
 import NotDomainAlertBox from '@/components/NotDomainAlertBox';
 import { Button } from '@/components/button';
 import useDomainStore, { useTokenTypeStore } from '@/store';
@@ -48,8 +49,30 @@ const OAuthCookie = () => {
   if (!domain) {
     return (
       <>
-        <div className='p-10 pb-0 text-2xl font-bold'>OAuth</div>
-        <main className='flex w-full grow flex-col justify-center'>
+        <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
+          <div className='flex flex-col'>
+            <span>OAuth</span>
+            <p className='text-base font-light'>Refresh Token : Cookie</p>
+            <p className='text-base font-light'>Access Token : Cookie</p>
+          </div>
+          <div className='flex flex-col items-end gap-3'>
+            <InfoModal file='oauth_cookie' />
+            <Link to='/oauth/1'>
+              <Button className='mt-[12px] w-[350px]'>
+                Cookie / Authorization Header
+              </Button>
+            </Link>
+            <Link to='/oauth/2'>
+              <Button className='w-[350px]'>
+                Custom Header / Authorization Header
+              </Button>
+            </Link>
+            <Button disabled className='w-[350px]'>
+              Cookie / Cookie
+            </Button>
+          </div>
+        </div>
+        <main className='flex h-full w-full flex-col justify-center gap-5'>
           <div className='mx-auto flex w-[600px] flex-col gap-5'>
             <NotDomainAlertBox />
           </div>
@@ -67,8 +90,11 @@ const OAuthCookie = () => {
           <p className='text-base font-light'>Access Token : Cookie</p>
         </div>
         <div className='flex flex-col gap-3'>
+          <InfoModal file='crud' />
           <Link to='/oauth/1'>
-            <Button className='w-[350px]'>Cookie / Authorization Header</Button>
+            <Button className='mt-[12px] w-[350px]'>
+              Cookie / Authorization Header
+            </Button>
           </Link>
           <Link to='/oauth/2'>
             <Button className='w-[350px]'>
