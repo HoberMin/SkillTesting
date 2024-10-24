@@ -12,8 +12,8 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 ## 사용방법
 
 1. Authorization Code를 발급받아 토큰을 교환합니다.
-2. AccessToken을 사용해 유저 정보와 관련된 API 요청을 수행합니다.
-3. AccessToken을 RefreshToken으로 재발급하는 요청을 할 수 있습니다.
+2. Access Token을 사용해 유저 정보와 관련된 API 요청을 수행합니다.
+3. Access Token을 Refresh Token으로 재발급하는 요청을 할 수 있습니다.
 4. 로그아웃을 통해 서버에서 Refresh Token을 무효화할 수 있습니다.
 
 ## 주의 사항
@@ -35,11 +35,11 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 
 ## POST /oauth/auth
 
-Authorization Code를 통해 Access Token과 Refresh Token을 발급받습니다.
+**KAKAO Auth Code**를 통해 Access Token과 Refresh Token을 발급받습니다.
 
 ### [Request Body]
 
-`code: string` (Authorization code)
+`code: string` (KAKAO Auth Code)
 
 ### [Response Header]
 
@@ -71,7 +71,7 @@ Authorization Code를 통해 Access Token과 Refresh Token을 발급받습니다
 
 ### [Request Header]
 
-`Authorization: Bearer <JMT Token>`
+Authorization: Bearer **access_token_value**
 
 ### [Response body]
 
@@ -103,7 +103,9 @@ Authorization Code를 통해 Access Token과 Refresh Token을 발급받습니다
 
 ## GET /oauth/reissue
 
-만료된 Access Token을 Refresh Token을 사용해 재발급받습니다.
+유저 정보 요청(/member)을 보냈을 때 서버로 부터 401 응답이 내려오면 클라이언트는 reissue 요청을 통해 토큰을 재발급받습니다.
+
+이는 만료된 Access Token을 재발급 받는 것으로, Refresh Token을 통해 진행됩니다.
 
 ### [Request header]
 
@@ -132,9 +134,15 @@ Authorization Code를 통해 Access Token과 Refresh Token을 발급받습니다
 
 로그아웃 처리 시 Refresh Token을 서버에서 무효화합니다.
 
+쿠키를 만료 처리하고 브라우저에 심어, 브라우저에 있는 쿠키를 사라지게 하는 방식으로 진행됩니다.
+
 ### [Request header]
 
 `refreshToken - 쿠키`
+
+### [Response header]
+
+`refreshToken - 쿠키` (만료 처리한 쿠키)
 
 ### [Response body]
 
