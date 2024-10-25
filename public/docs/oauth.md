@@ -9,7 +9,9 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 - **Access Token**: API 요청 시 권한을 부여하는 토큰
 - **Refresh Token**: Access Token이 만료되었을 때 새로 발급받기 위한 토큰
 
-## 사용방법
+## 사용 방법
+
+OAuth 구현에 앞서 [**[카카오 로그인 공식문서]**](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api) 에서 OAuth의 흐름을 익혀주세요.
 
 1. Authorization Code를 발급받아 토큰을 교환합니다.
 2. Access Token을 사용해 유저 정보와 관련된 API 요청을 수행합니다.
@@ -37,69 +39,86 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 
 **KAKAO Auth Code**를 통해 Access Token과 Refresh Token을 발급받습니다.
 
-### [Request Body]
+#### **환경변수값**
 
-`code: string` (KAKAO Auth Code)
+- client_id : 0da56a0700a56821782b91c49ce03b42
+- redirect_uri: https://ssafysandbox.vercel.app/oauth/redirect
+- response_type: code
 
-### [Response Header]
-
-`refreshToken`: `쿠키`에 저장한다.
-(주의사항 참고!)
-
-### [Response Body]
-
-- Success
+### Request
 
 ```json
+// Request Body
+
 {
-  "accessToken": "access_token_value"
+  "code": "kakao_auth_code_value"
 }
 ```
 
-- Failure (400 Bad Request) - 인가 코드가 누락된 경우
+### Response
+
+```http
+Set-Cookie: refreshToken=...
+```
+
+주의사항을 참고해 리프레시 토큰을 쿠키에 저장합니다.
 
 ```json
+// Response Body
+
+// 1. Success
+{
+  "accessToken": "access_token_value"
+}
+
+// 2. Failure (400 Bad Request) - 인가 코드가 누락된 경우
+
 {
   "status": 400,
   "code": "ERR_MISSING_AUTHORIZATION_CODE"
 }
 ```
 
+[**[카카오 로그인 공식문서]**](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api) 참고
+
+>
+
 ## GET /oauth/member
 
 발급된 Access Token을 사용해 사용자 닉네임 정보를 조회합니다.
 
-### [Request Header]
+### Request
 
-Authorization: Bearer **access_token_value**
+```http
+// Request Header
 
-### [Response body]
+Authorization: Bearer {access_token_value}
+```
 
-- Success
+### Response
 
 ```json
+// Response body
+
+// 1. Success
 {
   "nickName": "메롱"
 }
-```
 
-- Failure (401 Unauthorized) - Access Token이 만료된 경우
-
-```json
+// 2. Failure (401 Unauthorized) - Access Token이 만료된 경우
 {
   "status": 401,
   "code": "ERR_ACCESS_TOKEN_EXPIRED"
 }
-```
 
-- Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
-
-```json
+// Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
 {
   "status": 404,
   "code": "ERR_NOT_FOUND_MEMBER"
 }
 ```
+
+>
 
 ## GET /oauth/reissue
 
@@ -107,23 +126,26 @@ Authorization: Bearer **access_token_value**
 
 이는 만료된 Access Token을 재발급 받는 것으로, Refresh Token을 통해 진행됩니다.
 
-### [Request header]
+### Request
 
-`refreshToken - 쿠키`
+```http
+// Request header
 
-### [Response body]
+Cookie: refreshToken={refresh_token_value};
+```
 
-- Success
+### Response
 
 ```json
+// Response body
+
+// 1. Success
 {
   "accessToken": "new_access_token_value"
 }
-```
 
-- Failure (401 Unauthorized) - Refresh Token이 만료된 경우
+// 3. Failure (401 Unauthorized) - Refresh Token이 만료된 경우
 
-```json
 {
   "status": 401,
   "code": "ERR_REFRESH_TOKEN_EXPIRED"
@@ -136,32 +158,37 @@ Authorization: Bearer **access_token_value**
 
 쿠키를 만료 처리하고 브라우저에 심어, 브라우저에 있는 쿠키를 사라지게 하는 방식으로 진행됩니다.
 
-### [Request header]
+### Request
 
-`refreshToken - 쿠키`
+```http
+// Request header
 
-### [Response header]
+Cookie: refreshToken={refresh_token_value};
+```
 
-`refreshToken - 쿠키` (만료 처리한 쿠키)
+### Response
 
-### [Response body]
+```http
+Set-Cookie: refreshToken=...
+```
 
-- Success
-
-`200 OK`
-
-- Failure (401 Unauthorized) - `Refresh Token이 만료된 경우`
+어떻게 쿠키를 만료 처리할지 찾아보세요!
 
 ```json
+// Response Body
+
+// 1. Success
+(200 OK 상태 코드만 반환하며, 바디는 생략할 수 있습니다.)
+
+// 2. Failure (401 Unauthorized) - Refresh Token이 만료된 경우
+
 {
   "status": 401,
   "code": "ERR_REFRESH_TOKEN_EXPIRED"
 }
-```
 
-- Failure (403 Forbidden) - `이미 로그아웃된 경우`
+// 3. Failure (403 Forbidden) - 이미 로그아웃된 경우
 
-```json
 {
   "status": 403,
   "code": "ERR_ALREADY_LOGGED_OUT"
