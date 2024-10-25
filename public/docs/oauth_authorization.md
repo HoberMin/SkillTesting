@@ -37,96 +37,118 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 
 **KAKAO Auth Code**를 통해 Access Token과 Refresh Token을 발급받습니다.
 
-### [Request Body]
+#### **환경변수값**
 
-`code: string` (KAKAO Auth Code)
+- client_id : 0da56a0700a56821782b91c49ce03b42
+- redirect_uri: https://ssafysandbox.vercel.app/oauth/redirect
+- response_type: code
 
-### [Response Body]
-
-- Success
+### Request
 
 ```json
+// Request Body
+
 {
-  "accessToken": "access_token_value",
-  "refreshToken": "refresh_token_value"
+  "code": "kakao_auth_code_value"
 }
 ```
 
-- Failure (400 Bad Request) - 인가 코드가 누락된 경우
+### Response
 
 ```json
+// Response Body
+
+// 1. Success
+{
+  "refreshToken": "refresh_token_value",
+  "accessToken": "access_token_value"
+}
+
+// 2. Failure (400 Bad Request) - 인가 코드가 누락된 경우
+
 {
   "status": 400,
   "code": "ERR_MISSING_AUTHORIZATION_CODE"
 }
 ```
 
+[**[카카오 로그인 공식문서]**](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api) 참고
+
+>
+
 ## GET /oauth/authorization/member
 
 발급된 Access Token을 사용해 사용자 닉네임 정보를 조회합니다.
 
-### [Request Header]
+### Request
 
-- Authorization: Bearer **access_token_value**
-- X-Refresh: **refresh_token_value**
+```http
+// Request Header
 
-(X-Refresh는 리프레시 토큰을 담기 위한 커스텀 헤더)
+Authorization: Bearer {access_token_value}
+```
 
-### [Response body]
-
-- Success
+### Response
 
 ```json
+// Response body
+
+// 1. Success
 {
   "nickName": "메롱"
 }
-```
 
-- Failure (401 Unauthorized) - Access Token이 만료된 경우
-
-```json
+// 2. Failure (401 Unauthorized) - Access Token이 만료된 경우
 {
   "status": 401,
   "code": "ERR_ACCESS_TOKEN_EXPIRED"
 }
-```
 
-- Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
-
-```json
+// Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
 {
   "status": 404,
   "code": "ERR_NOT_FOUND_MEMBER"
 }
 ```
 
+>
+
 ## GET /oauth/authorization/reissue
 
-만료된 Access Token을 Refresh Token을 사용해 재발급받습니다.
+유저 정보 요청(/member)을 보냈을 때 서버로 부터 401 응답이 내려오면 클라이언트는 reissue 요청을 통해 토큰을 재발급받습니다.
 
-### [Request header]
+이는 만료된 Access Token을 재발급 받는 것으로, Refresh Token을 통해 진행됩니다.
 
-X-Refresh: **refresh_token_value**
+### Request
 
-### [Response body]
+```http
+// Request header
 
-- Success
+X-Refresh: {refresh_token_value}
+```
+
+X-Refresh는 리프레시 토큰을 담기 위한 커스텀 헤더입니다.
+
+### Response
 
 ```json
+// Response body
+
+// 1. Success
 {
   "accessToken": "new_access_token_value"
 }
-```
 
-- Failure (401 Unauthorized) - Refresh Token이 만료된 경우
+// 3. Failure (401 Unauthorized) - Refresh Token이 만료된 경우
 
-```json
 {
   "status": 401,
   "code": "ERR_REFRESH_TOKEN_EXPIRED"
 }
 ```
 
+>
+
 ## Logout
 
-rt- 헤더 at-헤더 방식의 경우, 클라이언트에서 로그아웃을 진행합니다.
+Refresh Token: header Access Token: header 방식의 경우, 클라이언트에서 로그아웃을 진행합니다.

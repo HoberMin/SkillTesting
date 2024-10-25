@@ -30,6 +30,18 @@ let accessToken = '';
 export const getAccessToken = () => accessToken;
 export const setAccessToken = (token: string) => (accessToken = token);
 
+const getClientID = (domain: Domain) => {
+  return ApiClient.get(`${domain}/clientid`).json();
+};
+
+export const useGetClientID = (domain: Domain) => {
+  const { mutateAsync } = useMutation({
+    mutationFn: () => getClientID(domain),
+  });
+
+  return mutateAsync;
+};
+
 const postCode = async (
   code: string,
   domain: Domain,
