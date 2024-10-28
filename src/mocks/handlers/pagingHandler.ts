@@ -33,21 +33,26 @@ export const pagingHandler = [
     const cursorId = parseInt(url.searchParams.get('cursorId') || '0');
 
     const cursorIndex = infinityScrollArticles.findIndex(
-      todo => todo.id === cursorId,
+      article => article.id === cursorId,
     );
     const startIndex = cursorIndex >= 0 ? cursorIndex + 1 : 0;
     const endIndex = startIndex + size;
 
-    const paginatedTodos = infinityScrollArticles.slice(startIndex, endIndex);
-    const hasNext = endIndex < infinityScrollArticles.length;
+    if (startIndex >= infinityScrollArticles.length) {
+      return HttpResponse.json({
+        articles: [],
+        lastId: null,
+      });
+    }
+
+    const paginatedArticles = infinityScrollArticles.slice(
+      startIndex,
+      endIndex,
+    );
 
     return HttpResponse.json({
-      articles: paginatedTodos,
-      lastId: paginatedTodos.length
-        ? paginatedTodos[paginatedTodos.length - 1].id
-        : null,
-      size,
-      hasNext,
+      articles: paginatedArticles,
+      lastId: paginatedArticles[paginatedArticles.length - 1]?.id ?? null,
     });
   }),
 ];

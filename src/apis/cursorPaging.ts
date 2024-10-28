@@ -7,8 +7,6 @@ import { Article } from './offsetPaging';
 interface InfinityScrollData {
   articles: Article[];
   lastId: number;
-  size: number;
-  hasNext: boolean;
 }
 
 const getCursorPaging = async (size = '10', cursorId = '0', domain: Domain) => {
@@ -35,7 +33,8 @@ export const useGetCursorPagingAPI = (domain: Domain) => {
       queryFn: ({ pageParam }) =>
         getCursorPaging('10', pageParam.toString(), domain),
       initialPageParam: 0,
-      getNextPageParam: ({ hasNext, lastId }) => (hasNext ? lastId : undefined),
+      getNextPageParam: ({ articles, lastId }) =>
+        articles.length > 0 ? lastId : undefined,
     });
 
   return {

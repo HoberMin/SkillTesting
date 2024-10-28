@@ -33,7 +33,7 @@ const TodoContainer = () => {
   }
 
   return (
-    <MainLayout MainTitle='CURD' docsTitle='crud'>
+    <MainLayout MainTitle='CRUD' docsTitle='crud'>
       <TodoInput />
       <div className='max-h-[600px] overflow-x-hidden overflow-y-hidden overflow-y-scroll rounded-[8px] border border-gray-200 shadow-xl'>
         {data.todos.map(({ content, completed, id }) => (

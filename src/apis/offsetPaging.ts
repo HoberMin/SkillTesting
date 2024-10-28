@@ -10,11 +10,7 @@ export interface Article {
 
 interface OffsetPagingData {
   articles: Article[];
-  currentPageNumber: number;
   totalPage: number;
-  size: number;
-  hasPrevious: boolean;
-  hasNext: boolean;
 }
 
 const getOffsetPaging = async (size = '10', page: string, domain: Domain) => {
