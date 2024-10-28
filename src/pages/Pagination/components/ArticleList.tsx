@@ -36,7 +36,8 @@ const ArticleList = () => {
     );
   }
 
-  const { articles, currentPageNumber, totalPage } = data;
+  const { articles, totalPage } = data;
+  const currentPageNumber = Number(pagingId);
   const hasPrevious = currentPageNumber > 1;
   const hasNext = currentPageNumber < totalPage;
 

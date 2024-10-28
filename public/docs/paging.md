@@ -26,11 +26,7 @@ Paging을 통해 **Request Query Parameter**의 개념을 이해하고, 대규�
 ```json
 //response 예시
 {
-  "currentPageNumber": 1,
-  "size": 10,
   "totalPage": 5,
-  "hasNext": true,
-  "hasPrevious": false,
   "articles": [
     {
       "id": 4,
@@ -98,8 +94,6 @@ Paging을 통해 **Request Query Parameter**의 개념을 이해하고, 대규�
 //response 예시
 {
   "lastId": 37,
-  "size": 10,
-  "hasNext": true,
   "articles": [
     {
       "id": 4,
@@ -152,6 +146,12 @@ Paging을 통해 **Request Query Parameter**의 개념을 이해하고, 대규�
       "createdAt": "Sat Oct 19 2024 21:54:50 GMT+0900"
     }
   ]
+}
+
+//response (모든 데이터가 조회되었을 때)
+{
+  "lastId": undefined,
+  "articles": [ ]
 }
 ```
 
