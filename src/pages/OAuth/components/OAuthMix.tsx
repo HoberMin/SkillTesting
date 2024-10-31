@@ -41,9 +41,8 @@ const OAuthMix = () => {
   };
 
   const handleLogout = () => {
-    postLogout().then(() => {
-      setNickname(null);
-    });
+    postLogout();
+    setNickname(null);
   };
 
   if (!domain) {

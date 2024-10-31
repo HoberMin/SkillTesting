@@ -181,11 +181,19 @@ export const getReissue = (request: KyRequest) => {
       setAccessToken(accessToken);
       return ApiClient(request);
     })
-    .catch(() => {
+    .catch(error => {
+      const descriptions: Record<string, string> = {
+        ERR_ACCESS_TOKEN_EXPIRED: 'refresh-token이 만료되었습니다.',
+        ERR_MISSING_ACCESS_TOKEN: 'refresh-token이 없습니다.',
+      };
+
+      const description =
+        descriptions[error.response?.data?.code] || '네트워크 탭을 확인하세요.';
+
       toast({
         variant: 'destructive',
-        title: 'refresh-token이 없습니다.',
-        description: '토큰이 만료되었거나, 쿠키 설정이 잘못되었습니다.',
+        title: '토큰 재발급에 실패했습니다.',
+        description,
       });
     });
 };
@@ -199,11 +207,19 @@ export const getReissueWithAuthorization = (request: KyRequest) => {
       setAccessToken(accessToken);
       return ApiClientWithAuthorization(request);
     })
-    .catch(() => {
+    .catch(error => {
+      const descriptions: Record<string, string> = {
+        ERR_ACCESS_TOKEN_EXPIRED: 'refresh-token이 만료되었습니다.',
+        ERR_MISSING_ACCESS_TOKEN: 'refresh-token이 없습니다.',
+      };
+
+      const description =
+        descriptions[error.response?.data?.code] || '네트워크 탭을 확인하세요.';
+
       toast({
         variant: 'destructive',
-        title: 'refresh-token이 없습니다.',
-        description: '토큰이 만료되었거나, 헤더 설정이 잘못되었습니다.',
+        title: '토큰 재발급에 실패했습니다.',
+        description,
       });
     });
 };
@@ -213,11 +229,19 @@ export const getReissueWithCookie = (request: KyRequest) => {
 
   return ApiClientWithCookie.get(`${domain}/oauth/reissue/cookie`)
     .then(() => ApiClientWithCookie(request))
-    .catch(() => {
+    .catch(error => {
+      const descriptions: Record<string, string> = {
+        ERR_ACCESS_TOKEN_EXPIRED: 'refresh-token이 만료되었습니다.',
+        ERR_MISSING_ACCESS_TOKEN: 'refresh-token이 없습니다.',
+      };
+
+      const description =
+        descriptions[error.response?.data?.code] || '네트워크 탭을 확인하세요.';
+
       toast({
         variant: 'destructive',
-        title: 'refresh-token이 없습니다.',
-        description: '토큰이 만료되었거나, 쿠키 설정이 잘못되었습니다.',
+        title: '토큰 재발급에 실패했습니다.',
+        description,
       });
     });
 };
@@ -235,11 +259,19 @@ export const reissue = () => {
         description: 'access-token이 정상적으로 재발급되었습니다.',
       });
     })
-    .catch(() => {
+    .catch(error => {
+      const descriptions: Record<string, string> = {
+        ERR_ACCESS_TOKEN_EXPIRED: 'refresh-token이 만료되었습니다.',
+        ERR_MISSING_ACCESS_TOKEN: 'refresh-token이 없습니다.',
+      };
+
+      const description =
+        descriptions[error.response?.data?.code] || '네트워크 탭을 확인하세요.';
+
       toast({
         variant: 'destructive',
-        title: 'refresh-token이 없습니다.',
-        description: '토큰이 만료되었거나, 쿠키 설정이 잘못되었습니다.',
+        title: '토큰 재발급에 실패했습니다.',
+        description,
       });
     });
 };
@@ -255,11 +287,19 @@ export const reissueWithAuthorization = () =>
         description: 'access-token이 정상적으로 재발급되었습니다.',
       });
     })
-    .catch(() => {
+    .catch(error => {
+      const descriptions: Record<string, string> = {
+        ERR_ACCESS_TOKEN_EXPIRED: 'refresh-token이 만료되었습니다.',
+        ERR_MISSING_ACCESS_TOKEN: 'refresh-token이 없습니다.',
+      };
+
+      const description =
+        descriptions[error.response?.data?.code] || '네트워크 탭을 확인하세요.';
+
       toast({
         variant: 'destructive',
-        title: 'refresh-token이 없습니다.',
-        description: '토큰이 만료되었거나, 헤더 설정이 잘못되었습니다.',
+        title: '토큰 재발급에 실패했습니다.',
+        description,
       });
     });
 
@@ -272,11 +312,19 @@ export const reissueWithCookie = () =>
         description: 'access-token이 정상적으로 재발급되었습니다.',
       }),
     )
-    .catch(() => {
+    .catch(error => {
+      const descriptions: Record<string, string> = {
+        ERR_ACCESS_TOKEN_EXPIRED: 'refresh-token이 만료되었습니다.',
+        ERR_MISSING_ACCESS_TOKEN: 'refresh-token이 없습니다.',
+      };
+
+      const description =
+        descriptions[error.response?.data?.code] || '네트워크 탭을 확인하세요.';
+
       toast({
         variant: 'destructive',
-        title: 'refresh-token이 없습니다.',
-        description: '토큰이 만료되었거나, 쿠키 설정이 잘못되었습니다.',
+        title: '토큰 재발급에 실패했습니다.',
+        description,
       });
     });
 
@@ -288,15 +336,14 @@ const postLogoutWithCookie = (domain: Domain) =>
 export const usePostLogoutApi = (domain: Domain) => {
   const { mutateAsync } = useMutation({
     mutationFn: () => postLogout(domain),
-    onSuccess: () => {
-      setAccessToken('');
-    },
     onError: () => {
       toast({
-        variant: 'destructive',
-        title: '로그아웃 실패',
-        description: 'Network탭을 확인해주세요 !',
+        variant: 'default',
+        title: 'refresh-token이 없거나 만료되어 로그아웃 처리됩니다.',
       });
+    },
+    onSettled: () => {
+      setAccessToken('');
     },
   });
 
@@ -315,9 +362,8 @@ export const usePostLogoutWithCookieApi = (domain: Domain) => {
     mutationFn: () => postLogoutWithCookie(domain),
     onError: () => {
       toast({
-        variant: 'destructive',
-        title: '로그아웃 실패',
-        description: 'Network탭을 확인해주세요 !',
+        variant: 'default',
+        title: 'refresh-token이 없거나 만료되어 로그아웃 처리됩니다.',
       });
     },
   });

@@ -35,7 +35,7 @@ OAuth 구현에 앞서 [**[카카오 로그인 공식문서]**](https://develope
 - Access-Control-Allow-Origin: `https://ssafysandbox.vercel.app`
 - Access-Control-Allow-Credentials: `true`
 
-## POST /oauth/auth/cookie
+## POST /oauth/cookie/auth
 
 **KAKAO Auth Code**를 통해 Access Token과 Refresh Token을 발급받습니다.
 
@@ -83,7 +83,7 @@ Set-Cookie: accessToken=...
 
 >
 
-## GET /oauth/member/cookie
+## GET /oauth/cookie/member
 
 발급된 Access Token을 사용해 사용자 닉네임 정보를 조회합니다.
 
@@ -105,13 +105,19 @@ Cookie: accessToken=your_access_token_value;
   "nickName": "메롱"
 }
 
-// 2. Failure (401 Unauthorized) - Access Token이 만료된 경우
+// 2. Failure (400 Unauthorized) - Access Token이 누락된 경우
+{
+  "status": 400,
+  "code": "ERR_MISSING_ACCESS_TOKEN"
+}
+
+// 3. Failure (401 Unauthorized) - Access Token이 만료된 경우
 {
   "status": 401,
   "code": "ERR_ACCESS_TOKEN_EXPIRED"
 }
 
-// Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
+// 4. Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
 {
   "status": 404,
   "code": "ERR_NOT_FOUND_MEMBER"
@@ -120,7 +126,7 @@ Cookie: accessToken=your_access_token_value;
 
 >
 
-## GET /oauth/reissue/cookie
+## GET /oauth/cookie/reissue
 
 유저 정보 요청(/member)을 보냈을 때 서버로 부터 401 응답이 내려오면 클라이언트는 reissue 요청을 통해 토큰을 재발급받습니다.
 
@@ -146,6 +152,12 @@ Set-Cookie: accessToken=...
 // 1. Success
 (200 OK 상태 코드만 반환하며, 바디는 생략할 수 있습니다.)
 
+// 2. Failure (400 Bad Request) -  Refresh Token이 누락된 경우
+
+{
+  "status": 400,
+  "code": "ERR_MISSING_REFRESH_TOKEN"
+}
 
 // 3. Failure (401 Unauthorized) - Refresh Token이 만료된 경우
 
@@ -157,7 +169,7 @@ Set-Cookie: accessToken=...
 
 >
 
-## POST /oauth/logout/cookie
+## POST /oauth/cookie/logout
 
 로그아웃 처리 시 Refresh Token을 서버에서 무효화합니다.
 
@@ -185,17 +197,18 @@ Set-Cookie: refreshToken=...
 // 1. Success
 (200 OK 상태 코드만 반환하며, 바디는 생략할 수 있습니다.)
 
-// 2. Failure (401 Unauthorized) - Refresh Token이 만료된 경우
+// 2. Failure (400 Bad Request) -  Refresh Token이 누락된 경우
+
+{
+  "status": 400,
+  "code": "ERR_MISSING_REFRESH_TOKEN"
+}
+
+// 3. Failure (401 Unauthorized) - Refresh Token이 만료된 경우
 
 {
   "status": 401,
   "code": "ERR_REFRESH_TOKEN_EXPIRED"
 }
 
-// 3. Failure (403 Forbidden) - 이미 로그아웃된 경우
-
-{
-  "status": 403,
-  "code": "ERR_ALREADY_LOGGED_OUT"
-}
 ```
