@@ -2,19 +2,29 @@ import { useEffect } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
-import { usePostCodeApi } from '@/apis/authentication';
-import useDomainStore from '@/store';
+import {
+  usePostCodeApi,
+  usePostCodeWithAuthorizationApi,
+  usePostCodeWithCookieApi,
+} from '@/apis/authentication';
+import useDomainStore, { useTokenTypeStore } from '@/store';
 
 const RedirectPage = () => {
   const [searchParams] = useSearchParams();
+  const { tokenType } = useTokenTypeStore();
 
   const code = searchParams.get('code');
   const { domain } = useDomainStore();
+
   const postCode = usePostCodeApi(domain);
+  const postCodeWithAuthorization = usePostCodeWithAuthorizationApi(domain);
+  const postCodeWithCookie = usePostCodeWithCookieApi(domain);
 
   useEffect(() => {
-    if (code) {
-      postCode(code);
+    if (code && tokenType) {
+      if (tokenType === 1) postCode(code);
+      else if (tokenType === 2) postCodeWithAuthorization(code);
+      else postCodeWithCookie(code);
     }
   }, [code]);
 
