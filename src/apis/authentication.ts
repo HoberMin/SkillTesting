@@ -352,7 +352,7 @@ export const usePostLogoutApi = (domain: Domain) => {
 
 export const usePostLogoutWithAuthorizationApi = () => {
   return () => {
-    sessionStorage.setItem('refresh-token', '');
+    localStorage.setItem('refreshToken-storage', '');
     setAccessToken('');
   };
 };
