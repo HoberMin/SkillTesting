@@ -33,7 +33,7 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 - Access-Control-Allow-Origin: `https://ssafysandbox.vercel.app`
 - Access-Control-Allow-Credentials: `true`
 
-## POST /oauth/authorization/auth
+## POST /oauth/auth/authorization
 
 **KAKAO Auth Code**를 통해 Access Token과 Refresh Token을 발급받습니다.
 
@@ -76,7 +76,7 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 
 >
 
-## GET /oauth/authorization/member
+## GET /oauth/member/authorization
 
 발급된 Access Token을 사용해 사용자 닉네임 정보를 조회합니다.
 
@@ -113,7 +113,7 @@ Authorization: Bearer {access_token_value}
 
 >
 
-## GET /oauth/authorization/reissue
+## GET /oauth/reissue/authorization
 
 유저 정보 요청(/member)을 보냈을 때 서버로 부터 401 응답이 내려오면 클라이언트는 reissue 요청을 통해 토큰을 재발급받습니다.
 

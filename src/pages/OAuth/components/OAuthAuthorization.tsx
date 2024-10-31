@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
-  reissue,
+  reissueWithAuthorization,
   useGetMemberWithAuthorizationApi,
   usePostLogoutWithAuthorizationApi,
 } from '@/apis/authentication';
@@ -20,7 +20,7 @@ const OAuthAuthorization = () => {
   const { setTokenType } = useTokenTypeStore();
 
   const getMemberWithAuthorization = useGetMemberWithAuthorizationApi(domain);
-  const postLogoutWithAuthorization = usePostLogoutWithAuthorizationApi(domain);
+  const logoutWithAuthorization = usePostLogoutWithAuthorizationApi();
 
   const [nickname, setNickname] = useState<string | null>(null);
 
@@ -37,13 +37,12 @@ const OAuthAuthorization = () => {
   }, []);
 
   const handleReissue = () => {
-    reissue();
+    reissueWithAuthorization();
   };
 
   const handleLogout = () => {
-    postLogoutWithAuthorization().then(() => {
-      setNickname(null);
-    });
+    logoutWithAuthorization();
+    setNickname(null);
   };
 
   if (!domain) {
@@ -113,7 +112,7 @@ const OAuthAuthorization = () => {
       <main className='flex h-full w-full flex-col justify-center gap-5'>
         <div className='mx-auto flex w-[600px] flex-col items-center'>
           {nickname ? (
-            <>
+            <div className='flex gap-5'>
               <button
                 onClick={handleLogout}
                 className='h-[50px] w-[100px] rounded-[7px] bg-[#fee501]'
@@ -126,7 +125,7 @@ const OAuthAuthorization = () => {
               >
                 Reissue
               </button>
-            </>
+            </div>
           ) : (
             <div onClick={handleTokenType} className='w-[100px]'>
               <OAuthKakaoButton />

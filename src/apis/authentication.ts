@@ -57,7 +57,7 @@ const postCodeWithAuthorization = async (
   code: string,
   domain: Domain,
 ): Promise<TokenWithAuthorizationResponse> => {
-  const response = await api.post(`${domain}/oauth/authorization/auth`, {
+  const response = await api.post(`${domain}/oauth/auth/authorization`, {
     json: { code },
   });
 
@@ -68,7 +68,7 @@ const postCodeWithCookie = async (
   code: string,
   domain: Domain,
 ): Promise<TokenResponse> =>
-  await api.post(`${domain}/oauth/cookie/auth`, { json: { code } }).json();
+  await api.post(`${domain}/oauth/auth/cookie`, { json: { code } }).json();
 
 export const usePostCodeApi = (domain: Domain) => {
   const navigate = useNavigate();
@@ -140,12 +140,12 @@ const getMember = (domain: Domain): Promise<Member> => {
 
 const getMemberWithAuthorization = (domain: Domain): Promise<Member> => {
   return ApiClientWithAuthorization.get(
-    `${domain}/oauth/authorization/member`,
+    `${domain}/oauth/member/authorization`,
   ).json();
 };
 
 const getMemberWithCookie = (domain: Domain): Promise<Member> => {
-  return ApiClientWithCookie.get(`${domain}/oauth/cookie/member`).json();
+  return ApiClientWithCookie.get(`${domain}/oauth/member/cookie`).json();
 };
 
 export const useGetMemberApi = (domain: Domain) => {
@@ -193,7 +193,7 @@ export const getReissue = (request: KyRequest) => {
 export const getReissueWithAuthorization = (request: KyRequest) => {
   const { domain } = useDomainStore.getState();
 
-  return ApiClientWithAuthorization.get(`${domain}/oauth/authorization/reissue`)
+  return ApiClientWithAuthorization.get(`${domain}/oauth/reissue/authorization`)
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       setAccessToken(accessToken);
@@ -211,7 +211,7 @@ export const getReissueWithAuthorization = (request: KyRequest) => {
 export const getReissueWithCookie = (request: KyRequest) => {
   const { domain } = useDomainStore.getState();
 
-  return ApiClientWithCookie.get(`${domain}/oauth/cookie/reissue`)
+  return ApiClientWithCookie.get(`${domain}/oauth/reissue/cookie`)
     .then(() => ApiClientWithCookie(request))
     .catch(() => {
       toast({
@@ -245,7 +245,7 @@ export const reissue = () => {
 };
 
 export const reissueWithAuthorization = () =>
-  ApiClientWithAuthorization.get('oauth/authorization/reissue')
+  ApiClientWithAuthorization.get('oauth/reissue/authorization')
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       setAccessToken(accessToken);
@@ -264,7 +264,7 @@ export const reissueWithAuthorization = () =>
     });
 
 export const reissueWithCookie = () =>
-  ApiClientWithCookie.get('oauth/cookie/reissue')
+  ApiClientWithCookie.get('oauth/reissue/cookie')
     .then(() =>
       toast({
         variant: 'default',
@@ -281,10 +281,9 @@ export const reissueWithCookie = () =>
     });
 
 const postLogout = (domain: Domain) => ApiClient.post(`${domain}/auth/logout`);
-const postLogoutWithAuthorization = (domain: Domain) =>
-  ApiClientWithAuthorization.post(`${domain}/oauth/authorization/logout`);
+
 const postLogoutWithCookie = (domain: Domain) =>
-  ApiClientWithCookie.post(`${domain}/oauth/cookie/logout`);
+  ApiClientWithCookie.post(`${domain}/oauth/logout/cookie`);
 
 export const usePostLogoutApi = (domain: Domain) => {
   const { mutateAsync } = useMutation({
@@ -304,22 +303,11 @@ export const usePostLogoutApi = (domain: Domain) => {
   return mutateAsync;
 };
 
-export const usePostLogoutWithAuthorizationApi = (domain: Domain) => {
-  const { mutateAsync } = useMutation({
-    mutationFn: () => postLogoutWithAuthorization(domain),
-    onSuccess: () => {
-      setAccessToken('');
-    },
-    onError: () => {
-      toast({
-        variant: 'destructive',
-        title: '로그아웃 실패',
-        description: 'Network탭을 확인해주세요 !',
-      });
-    },
-  });
-
-  return mutateAsync;
+export const usePostLogoutWithAuthorizationApi = () => {
+  return () => {
+    sessionStorage.setItem('refresh-token', '');
+    setAccessToken('');
+  };
 };
 
 export const usePostLogoutWithCookieApi = (domain: Domain) => {
