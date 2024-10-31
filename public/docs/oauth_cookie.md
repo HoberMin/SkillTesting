@@ -35,7 +35,7 @@ OAuth 구현에 앞서 [**[카카오 로그인 공식문서]**](https://develope
 - Access-Control-Allow-Origin: `https://ssafysandbox.vercel.app`
 - Access-Control-Allow-Credentials: `true`
 
-## POST /oauth/cookie/auth
+## POST /oauth/auth/cookie
 
 **KAKAO Auth Code**를 통해 Access Token과 Refresh Token을 발급받습니다.
 
@@ -83,7 +83,7 @@ Set-Cookie: accessToken=...
 
 >
 
-## GET /oauth/cookie/member
+## GET /oauth/member/cookie
 
 발급된 Access Token을 사용해 사용자 닉네임 정보를 조회합니다.
 
@@ -120,7 +120,7 @@ Cookie: accessToken=your_access_token_value;
 
 >
 
-## GET /oauth/cookie/reissue
+## GET /oauth/reissue/cookie
 
 유저 정보 요청(/member)을 보냈을 때 서버로 부터 401 응답이 내려오면 클라이언트는 reissue 요청을 통해 토큰을 재발급받습니다.
 
@@ -157,7 +157,7 @@ Set-Cookie: accessToken=...
 
 >
 
-## POST /oauth/cookie/logout
+## POST /oauth/logout/cookie
 
 로그아웃 처리 시 Refresh Token을 서버에서 무효화합니다.
 
@@ -194,38 +194,6 @@ Set-Cookie: refreshToken=...
 
 // 3. Failure (403 Forbidden) - 이미 로그아웃된 경우
 
-{
-  "status": 403,
-  "code": "ERR_ALREADY_LOGGED_OUT"
-}
-```
-
-### [Request header]
-
-`refreshToken - 쿠키`
-
-### [Response header]
-
-`refreshToken - 쿠키` (만료 처리한 쿠키)
-
-### [Response body]
-
-- Success
-
-`200 OK`
-
-- Failure (401 Unauthorized) - `Refresh Token이 만료된 경우`
-
-```json
-{
-  "status": 401,
-  "code": "ERR_REFRESH_TOKEN_EXPIRED"
-}
-```
-
-- Failure (403 Forbidden) - `이미 로그아웃된 경우`
-
-```json
 {
   "status": 403,
   "code": "ERR_ALREADY_LOGGED_OUT"

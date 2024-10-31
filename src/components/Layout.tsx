@@ -65,8 +65,10 @@ const Layout = ({ children }: PropsWithChildren) => {
                 <div
                   className={cn(
                     `cursor-pointer p-4 text-center text-lg ${
-                      pathname.startsWith('/paging') &&
-                      item.path.startsWith('/paging')
+                      (pathname.startsWith('/paging') &&
+                        item.path.startsWith('/paging')) ||
+                      (pathname.startsWith('/oauth') &&
+                        item.path.startsWith('/oauth'))
                         ? 'bg-white'
                         : pathname.includes(item.path)
                           ? 'bg-white'

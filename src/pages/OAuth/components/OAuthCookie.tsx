@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
-  reissue,
+  reissueWithCookie,
   useGetMemberWithCookieApi,
   usePostLogoutWithCookieApi,
 } from '@/apis/authentication';
@@ -37,7 +37,7 @@ const OAuthCookie = () => {
   }, []);
 
   const handleReissue = () => {
-    reissue();
+    reissueWithCookie();
   };
 
   const handleLogout = () => {
@@ -109,7 +109,7 @@ const OAuthCookie = () => {
       <main className='flex h-full w-full flex-col justify-center gap-5'>
         <div className='mx-auto flex w-[600px] flex-col items-center'>
           {nickname ? (
-            <>
+            <div className='flex gap-5'>
               <button
                 onClick={handleLogout}
                 className='h-[50px] w-[100px] rounded-[7px] bg-[#fee501]'
@@ -122,7 +122,7 @@ const OAuthCookie = () => {
               >
                 Reissue
               </button>
-            </>
+            </div>
           ) : (
             <div onClick={handleTokenType} className='w-[100px]'>
               <OAuthKakaoButton />
