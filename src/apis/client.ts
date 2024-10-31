@@ -74,7 +74,7 @@ export const ApiClientWithAuthorization = api.extend({
   },
 });
 
-export const ApiClientWithCookie = api.create({
+export const ApiClientWithCookie = api.extend({
   hooks: {
     afterResponse: [
       (_request, _options, response) => response,
