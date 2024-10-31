@@ -140,7 +140,7 @@ const getMember = (domain: Domain): Promise<Member> => {
 
 const getMemberWithAuthorization = (domain: Domain): Promise<Member> => {
   return ApiClientWithAuthorization.get(
-    `${domain}/oauth/member/authorization`,
+    `${domain}/oauth/authorization/member`,
   ).json();
 };
 
