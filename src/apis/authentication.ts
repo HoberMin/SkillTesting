@@ -280,7 +280,7 @@ export const reissueWithCookie = () =>
       });
     });
 
-const postLogout = (domain: Domain) => ApiClient.post(`${domain}/auth/logout`);
+const postLogout = (domain: Domain) => ApiClient.post(`${domain}/oauth/logout`);
 
 const postLogoutWithCookie = (domain: Domain) =>
   ApiClientWithCookie.post(`${domain}/oauth/logout/cookie`);
