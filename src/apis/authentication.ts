@@ -57,7 +57,7 @@ const postCodeWithAuthorization = async (
   code: string,
   domain: Domain,
 ): Promise<TokenWithAuthorizationResponse> => {
-  const response = await api.post(`${domain}/oauth/auth/authorization`, {
+  const response = await api.post(`${domain}/oauth/authorization/auth`, {
     json: { code },
   });
 
@@ -68,7 +68,7 @@ const postCodeWithCookie = async (
   code: string,
   domain: Domain,
 ): Promise<TokenResponse> =>
-  await api.post(`${domain}/oauth/auth/cookie`, { json: { code } }).json();
+  await api.post(`${domain}/oauth/cookie/auth`, { json: { code } }).json();
 
 export const usePostCodeApi = (domain: Domain) => {
   const navigate = useNavigate();
@@ -145,7 +145,7 @@ const getMemberWithAuthorization = (domain: Domain): Promise<Member> => {
 };
 
 const getMemberWithCookie = (domain: Domain): Promise<Member> => {
-  return ApiClientWithCookie.get(`${domain}/oauth/member/cookie`).json();
+  return ApiClientWithCookie.get(`${domain}/oauth/cookie/member`).json();
 };
 
 export const useGetMemberApi = (domain: Domain) => {
@@ -201,7 +201,7 @@ export const getReissue = (request: KyRequest) => {
 export const getReissueWithAuthorization = (request: KyRequest) => {
   const { domain } = useDomainStore.getState();
 
-  return ApiClientWithAuthorization.get(`${domain}/oauth/reissue/authorization`)
+  return ApiClientWithAuthorization.get(`${domain}/oauth/authorization/reissue`)
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       setAccessToken(accessToken);
@@ -227,7 +227,7 @@ export const getReissueWithAuthorization = (request: KyRequest) => {
 export const getReissueWithCookie = (request: KyRequest) => {
   const { domain } = useDomainStore.getState();
 
-  return ApiClientWithCookie.get(`${domain}/oauth/reissue/cookie`)
+  return ApiClientWithCookie.get(`${domain}/oauth/cookie/reissue`)
     .then(() => ApiClientWithCookie(request))
     .catch(error => {
       const descriptions: Record<string, string> = {
@@ -277,7 +277,7 @@ export const reissue = () => {
 };
 
 export const reissueWithAuthorization = () =>
-  ApiClientWithAuthorization.get('oauth/reissue/authorization')
+  ApiClientWithAuthorization.get('oauth/authorization/reissue')
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       setAccessToken(accessToken);
@@ -304,7 +304,7 @@ export const reissueWithAuthorization = () =>
     });
 
 export const reissueWithCookie = () =>
-  ApiClientWithCookie.get('oauth/reissue/cookie')
+  ApiClientWithCookie.get('oauth/cookie/reissue')
     .then(() =>
       toast({
         variant: 'default',
@@ -331,7 +331,7 @@ export const reissueWithCookie = () =>
 const postLogout = (domain: Domain) => ApiClient.post(`${domain}/oauth/logout`);
 
 const postLogoutWithCookie = (domain: Domain) =>
-  ApiClientWithCookie.post(`${domain}/oauth/logout/cookie`);
+  ApiClientWithCookie.post(`${domain}/oauth/cookie/logout`);
 
 export const usePostLogoutApi = (domain: Domain) => {
   const { mutateAsync } = useMutation({
