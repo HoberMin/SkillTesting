@@ -105,13 +105,19 @@ Authorization: Bearer {access_token_value}
   "nickName": "메롱"
 }
 
-// 2. Failure (401 Unauthorized) - Access Token이 만료된 경우
+// 2. Failure (400 Unauthorized) - Access Token이 만료된 경우
 {
   "status": 401,
   "code": "ERR_ACCESS_TOKEN_EXPIRED"
 }
 
-// Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
+// 3. Failure (401 Unauthorized) - Access Token이 만료된 경우
+{
+  "status": 401,
+  "code": "ERR_ACCESS_TOKEN_EXPIRED"
+}
+
+// 4. Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
 {
   "status": 404,
   "code": "ERR_NOT_FOUND_MEMBER"

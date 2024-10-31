@@ -33,7 +33,7 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 - Access-Control-Allow-Origin: `https://ssafysandbox.vercel.app`
 - Access-Control-Allow-Credentials: `true`
 
-## POST /oauth/auth/authorization
+## POST /oauth/authorization/auth
 
 **KAKAO Auth Code**를 통해 Access Token과 Refresh Token을 발급받습니다.
 
@@ -76,7 +76,7 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 
 >
 
-## GET /oauth/member/authorization
+## GET /oauth/authorization/member
 
 발급된 Access Token을 사용해 사용자 닉네임 정보를 조회합니다.
 
@@ -98,13 +98,19 @@ Authorization: Bearer {access_token_value}
   "nickName": "메롱"
 }
 
-// 2. Failure (401 Unauthorized) - Access Token이 만료된 경우
+// 2. Failure (400 Unauthorized) - Access Token이 만료된 경우
 {
   "status": 401,
   "code": "ERR_ACCESS_TOKEN_EXPIRED"
 }
 
-// Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
+// 3. Failure (401 Unauthorized) - Access Token이 만료된 경우
+{
+  "status": 401,
+  "code": "ERR_ACCESS_TOKEN_EXPIRED"
+}
+
+// 4. Failure (404 Not Found) - 토큰에 해당하는 사용자를 찾을 수 없는 경우
 {
   "status": 404,
   "code": "ERR_NOT_FOUND_MEMBER"
@@ -113,7 +119,7 @@ Authorization: Bearer {access_token_value}
 
 >
 
-## GET /oauth/reissue/authorization
+## GET /oauth/authorization/reissue
 
 유저 정보 요청(/member)을 보냈을 때 서버로 부터 401 응답이 내려오면 클라이언트는 reissue 요청을 통해 토큰을 재발급받습니다.
 
