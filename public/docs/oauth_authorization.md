@@ -98,10 +98,10 @@ Authorization: Bearer {access_token_value}
   "nickName": "메롱"
 }
 
-// 2. Failure (400 Unauthorized) - Access Token이 만료된 경우
+// 2. Failure (400 Unauthorized) - Access Token이 누락된 경우
 {
-  "status": 401,
-  "code": "ERR_ACCESS_TOKEN_EXPIRED"
+  "status": 400,
+  "code": "ERR_MISSING_ACCESS_TOKEN"
 }
 
 // 3. Failure (401 Unauthorized) - Access Token이 만료된 경우
@@ -143,6 +143,13 @@ X-Refresh는 리프레시 토큰을 담기 위한 커스텀 헤더입니다.
 // 1. Success
 {
   "accessToken": "new_access_token_value"
+}
+
+// 2. Failure (400 Bad Request) -  Refresh Token이 누락된 경우
+
+{
+  "status": 400,
+  "code": "ERR_MISSING_REFRESH_TOKEN"
 }
 
 // 3. Failure (401 Unauthorized) - Refresh Token이 만료된 경우

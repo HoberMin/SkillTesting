@@ -105,10 +105,10 @@ Cookie: accessToken=your_access_token_value;
   "nickName": "메롱"
 }
 
-// 2. Failure (400 Unauthorized) - Access Token이 만료된 경우
+// 2. Failure (400 Unauthorized) - Access Token이 누락된 경우
 {
-  "status": 401,
-  "code": "ERR_ACCESS_TOKEN_EXPIRED"
+  "status": 400,
+  "code": "ERR_MISSING_ACCESS_TOKEN"
 }
 
 // 3. Failure (401 Unauthorized) - Access Token이 만료된 경우
@@ -152,6 +152,12 @@ Set-Cookie: accessToken=...
 // 1. Success
 (200 OK 상태 코드만 반환하며, 바디는 생략할 수 있습니다.)
 
+// 2. Failure (400 Bad Request) -  Refresh Token이 누락된 경우
+
+{
+  "status": 400,
+  "code": "ERR_MISSING_REFRESH_TOKEN"
+}
 
 // 3. Failure (401 Unauthorized) - Refresh Token이 만료된 경우
 
@@ -191,17 +197,18 @@ Set-Cookie: refreshToken=...
 // 1. Success
 (200 OK 상태 코드만 반환하며, 바디는 생략할 수 있습니다.)
 
-// 2. Failure (401 Unauthorized) - Refresh Token이 만료된 경우
+// 2. Failure (400 Bad Request) -  Refresh Token이 누락된 경우
+
+{
+  "status": 400,
+  "code": "ERR_MISSING_REFRESH_TOKEN"
+}
+
+// 3. Failure (401 Unauthorized) - Refresh Token이 만료된 경우
 
 {
   "status": 401,
   "code": "ERR_REFRESH_TOKEN_EXPIRED"
 }
 
-// 3. Failure (403 Forbidden) - 이미 로그아웃된 경우
-
-{
-  "status": 403,
-  "code": "ERR_ALREADY_LOGGED_OUT"
-}
 ```
