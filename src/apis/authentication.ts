@@ -276,8 +276,10 @@ export const reissue = () => {
     });
 };
 
-export const reissueWithAuthorization = () =>
-  ApiClientWithAuthorization.get('oauth/authorization/reissue')
+export const reissueWithAuthorization = () => {
+  const { domain } = useDomainStore.getState();
+
+  ApiClientWithAuthorization.get(`${domain}/oauth/authorization/reissue`)
     .json<TokenResponse>()
     .then(({ accessToken }) => {
       setAccessToken(accessToken);
@@ -302,9 +304,12 @@ export const reissueWithAuthorization = () =>
         description,
       });
     });
+};
 
-export const reissueWithCookie = () =>
-  ApiClientWithCookie.get('oauth/cookie/reissue')
+export const reissueWithCookie = () => {
+  const { domain } = useDomainStore.getState();
+
+  ApiClientWithCookie.get(`${domain}/oauth/cookie/reissue`)
     .then(() =>
       toast({
         variant: 'default',
@@ -327,6 +332,7 @@ export const reissueWithCookie = () =>
         description,
       });
     });
+};
 
 const postLogout = (domain: Domain) => ApiClient.post(`${domain}/oauth/logout`);
 
