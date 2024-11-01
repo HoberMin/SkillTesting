@@ -95,7 +95,7 @@ Authorization: Bearer {access_token_value}
 
 // 1. Success
 {
-  "nickName": "메롱"
+  "nickname": "메롱"
 }
 
 // 2. Failure (400 Unauthorized) - Access Token이 누락된 경우

@@ -46,6 +46,11 @@ const FixedNotification = () => {
               <div className='mb-6 text-center'>🎉 SSAFY SANDBOX 오픈! 🎉</div>
               <div className='mb-6 text-center text-2xl'>최근 업데이트</div>
               <div className='mb-6'>
+                {
+                  '[2024.11.02] OAuth 명세서 "nickName"에서  "nickname"으로 변경되었습니다.'
+                }
+              </div>
+              <div className='mb-6'>
                 {'[2024.10.31] OAuth-api 명세서가 업데이트되었습니다.'}
               </div>
               <div className='mb-6'>
