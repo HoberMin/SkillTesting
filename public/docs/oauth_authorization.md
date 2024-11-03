@@ -11,10 +11,11 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 
 ## 사용방법
 
-1. Authorization Code를 발급받아 토큰을 교환합니다.
-2. AccessToken을 사용해 유저 정보와 관련된 API 요청을 수행합니다.
-3. AccessToken을 RefreshToken으로 재발급하는 요청을 할 수 있습니다.
-4. 로그아웃을 통해 서버에서 Refresh Token을 무효화할 수 있습니다.
+1. 카카오로부터 Authorization Code를 발급받아 토큰을 교환합니다.
+2. 서버에서 유저 정보를 데이터베이스에 저장하고, 자체적인 토큰을 발급받아 클라이언트로 전송합니다.
+3. Access Token을 사용해 유저 정보와 관련된 API 요청을 수행합니다.
+4. Access Token을 Refresh Token으로 재발급하는 요청을 할 수 있습니다.
+5. 로그아웃을 통해 서버에서 Refresh Token을 무효화할 수 있습니다.
 
 ## 주의 사항
 
@@ -35,7 +36,10 @@ OAuth 인증 흐름을 통해 사용자가 인증 과정을 이해하고, Access
 
 ## POST /oauth/authorization/auth
 
-**KAKAO Auth Code**를 통해 Access Token과 Refresh Token을 발급받습니다.
+KAKAO Auth Code를 통해 카카오로부터 Access Token을 발급받습니다.
+이 Access Token을 사용하여 사용자 정보를 조회한 후, 해당 정보를 데이터베이스에 저장합니다.
+
+이후, 서비스 자체적으로 관리할 Access Token과 Refresh Token을 발급하여 클라이언트에 전달합니다.
 
 #### **환경변수값**
 
