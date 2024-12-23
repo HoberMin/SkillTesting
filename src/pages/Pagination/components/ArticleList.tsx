@@ -1,8 +1,8 @@
+import { Loader2 } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 import { useGetOffsetPagingAPI } from '@/apis/offsetPaging';
 import ResponseErrorAlertBox from '@/components/AlertBox/ResponseErrorAlertBox';
-import Spinner from '@/components/Spinner';
 import {
   Pagination,
   PaginationContent,
@@ -23,16 +23,21 @@ const ArticleList = () => {
   const { data, isError, isPending } = useGetOffsetPagingAPI(domain, pagingId);
 
   if (isPending) {
-    return <Spinner text='로딩중' />;
+    return (
+      <div className='flex h-[calc(100vh-180px)] items-center justify-center'>
+        <div className='flex items-center gap-2 text-zinc-500'>
+          <Loader2 className='h-5 w-5 animate-spin' />
+          <span>불러오는 중...</span>
+        </div>
+      </div>
+    );
   }
 
   if (isError || data.articles === undefined) {
     return (
-      <main className='flex w-full grow flex-col justify-center gap-[30px]'>
-        <div className='mx-auto flex w-[600px] flex-col gap-5'>
-          <ResponseErrorAlertBox />
-        </div>
-      </main>
+      <div className='mx-auto flex max-w-2xl flex-col px-8 py-6'>
+        <ResponseErrorAlertBox />
+      </div>
     );
   }
 
@@ -58,17 +63,27 @@ const ArticleList = () => {
 
     if (startPage > 1) {
       paginationItems.push(
-        <PaginationItem>
+        <PaginationItem key='first'>
           <PaginationLink href='1'>1</PaginationLink>
         </PaginationItem>,
       );
-      paginationItems.push(<PaginationEllipsis />);
+      if (startPage > 2) {
+        paginationItems.push(<PaginationEllipsis key='ellipsis1' />);
+      }
     }
 
     for (let i = startPage; i <= endPage; i++) {
       paginationItems.push(
         <PaginationItem key={i}>
-          <PaginationLink href={`${i}`} isActive={currentPageNumber === i}>
+          <PaginationLink
+            href={`${i}`}
+            isActive={currentPageNumber === i}
+            className={
+              currentPageNumber === i
+                ? 'bg-zinc-900 text-white hover:bg-zinc-800'
+                : ''
+            }
+          >
             {i}
           </PaginationLink>
         </PaginationItem>,
@@ -76,7 +91,9 @@ const ArticleList = () => {
     }
 
     if (endPage < totalPage) {
-      paginationItems.push(<PaginationEllipsis />);
+      if (endPage < totalPage - 1) {
+        paginationItems.push(<PaginationEllipsis key='ellipsis2' />);
+      }
       paginationItems.push(
         <PaginationItem key='last'>
           <PaginationLink href={`${totalPage}`}>{totalPage}</PaginationLink>
@@ -88,38 +105,37 @@ const ArticleList = () => {
   };
 
   return (
-    <main className='flex w-full grow flex-col justify-center gap-[30px]'>
-      <div className='mx-auto flex w-[600px] flex-col gap-5'>
-        <div className='overflow-x-hidden border border-gray-200'>
-          {!isError &&
-            !isPending &&
-            articles &&
-            articles.map(({ title, createdAt, id }, i) => (
-              <ArticleItem
-                title={title}
-                createdAt={createdAt}
-                key={`${i}-${id}`}
-              />
-            ))}
+    <div className='mx-auto mt-[20px] flex max-w-2xl flex-col px-8 py-6'>
+      <div className='mb-6 rounded-lg border border-zinc-200 bg-white shadow-sm'>
+        <div className='divide-y divide-zinc-100'>
+          {articles.map(({ title, createdAt, id }, i) => (
+            <ArticleItem
+              title={title}
+              createdAt={createdAt}
+              key={`${i}-${id}`}
+            />
+          ))}
         </div>
-        {isError && <ResponseErrorAlertBox />}
       </div>
-      <Pagination>
-        <PaginationContent>
-          {hasPrevious && (
-            <PaginationItem>
-              <PaginationPrevious href={`${+pagingId - 1}`} />
-            </PaginationItem>
-          )}
-          {renderPaginationItems()}
-          {hasNext && (
-            <PaginationItem>
-              <PaginationNext href={`${+pagingId + 1}`} />
-            </PaginationItem>
-          )}
-        </PaginationContent>
-      </Pagination>
-    </main>
+
+      <div className='flex justify-center'>
+        <Pagination>
+          <PaginationContent>
+            {hasPrevious && (
+              <PaginationItem>
+                <PaginationPrevious href={`${+pagingId - 1}`} />
+              </PaginationItem>
+            )}
+            {renderPaginationItems()}
+            {hasNext && (
+              <PaginationItem>
+                <PaginationNext href={`${+pagingId + 1}`} />
+              </PaginationItem>
+            )}
+          </PaginationContent>
+        </Pagination>
+      </div>
+    </div>
   );
 };
 

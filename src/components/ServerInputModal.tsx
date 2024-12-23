@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import useDomainStore from '@/store';
 
+import { Button } from './ui/button';
 import {
   Dialog,
   DialogContent,
@@ -12,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
+import { Input } from './ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 
 const ServerInputModal = () => {
@@ -39,92 +41,100 @@ const ServerInputModal = () => {
   };
 
   const onsubmitLocalURL = () => {
+    if (!localURL.trim()) return;
     setDomain(`http://${localURL}`);
     queryClient.invalidateQueries({ queryKey: ['todos'] });
-    setIsOpenedModal(false);
-    setLocalURL('');
-    setDeployedURL('');
+    closeModal();
   };
 
   const onsubmitDeployedURL = () => {
+    if (!deployedURL.trim()) return;
     setDomain(`https://${deployedURL}`);
     queryClient.invalidateQueries({ queryKey: ['todos'] });
+    closeModal();
+  };
+
+  const closeModal = () => {
     setIsOpenedModal(false);
     setLocalURL('');
     setDeployedURL('');
   };
 
-  // TODO
-  // 서버 url에 대한 정보가 있으면 모달을 안 열고
-  // 정보가 없으면 모달 열기
-
-  // 탭이 바뀔 때는 입력값이 초기화 되는 게 좋지 않을까?
-  // 현재 local에다가 아무값이나 입력해놓고 deploy에 내가 원하는값을 입력했을 때, local값이 출력된다. -> 당연한 결과인 것 같음
-  // 해결방법이 두가지 인데, 모달이 열린상태 , Tab 두가지 상태 모두 라우팅으로 처리하는 방법이 있음 : 어느 페이지가 그렇게 되어있었는데 기억이..
-  // Submit을 분리
-
   return (
     <Dialog open={isOpenedModal} onOpenChange={setIsOpenedModal}>
-      <DialogTrigger
-        onClick={() => setIsOpenedModal(true)}
-        className='h-10 rounded-[5px] border px-4 py-2 text-sm font-medium'
-      >
-        Edit Base URL
+      <DialogTrigger asChild>
+        <Button
+          variant='outline'
+          className='border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50'
+          onClick={() => setIsOpenedModal(true)}
+        >
+          API Endpoint
+        </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='sm:max-w-md'>
         <DialogHeader>
-          <DialogTitle>Base URL</DialogTitle>
-          <DialogDescription className='text-[12px]'>
-            개발한 서버의 Base URL을 입력해주세요.
+          <DialogTitle className='text-zinc-800'>API Endpoint</DialogTitle>
+          <DialogDescription className='text-sm text-zinc-500'>
+            개발 또는 배포된 서버의 API 엔드포인트를 입력해주세요.
           </DialogDescription>
         </DialogHeader>
-        <Tabs defaultValue='local'>
-          <TabsList className='grid w-full grid-cols-2'>
-            <TabsTrigger value='local'>Local</TabsTrigger>
-            <TabsTrigger value='deployed'>Deployed</TabsTrigger>
+        <Tabs defaultValue='local' className='mt-4'>
+          <TabsList className='grid w-full grid-cols-2 bg-zinc-100'>
+            <TabsTrigger
+              value='local'
+              className='data-[state=active]:bg-white data-[state=active]:text-zinc-900'
+            >
+              Development
+            </TabsTrigger>
+            <TabsTrigger
+              value='deployed'
+              className='data-[state=active]:bg-white data-[state=active]:text-zinc-900'
+            >
+              Production
+            </TabsTrigger>
           </TabsList>
-          <TabsContent value='local'>
+          <TabsContent value='local' className='mt-4'>
             <div className='flex gap-2'>
-              <input
-                className='w-[80px] rounded-[5px] border p-3 text-center focus:outline-none'
-                value={'http://'}
+              <Input
+                className='w-[80px] bg-zinc-50 text-center text-zinc-500'
+                value='http://'
                 disabled
               />
-              <input
-                className='w-full rounded-[5px] border p-3 placeholder-gray-200 focus:outline-none'
+              <Input
+                className='flex-1 focus-visible:ring-zinc-400'
                 value={localURL}
                 onChange={e => handleInputChange(e, setLocalURL)}
-                onKeyDown={e => activeEnterLocalURL(e)}
-                placeholder='localhost:8080'
+                onKeyDown={activeEnterLocalURL}
+                placeholder='localhost:8080/api/v1'
               />
-              <button
-                className='w-16 rounded-[5px] border text-[12px]'
+              <Button
                 onClick={onsubmitLocalURL}
+                className='w-16 bg-zinc-800 text-xs text-white hover:bg-zinc-700'
               >
-                Go!
-              </button>
+                Save
+              </Button>
             </div>
           </TabsContent>
-          <TabsContent value='deployed'>
+          <TabsContent value='deployed' className='mt-4'>
             <div className='flex gap-2'>
-              <input
-                className='w-[80px] rounded-[5px] border p-3 text-center focus:outline-none'
-                value={'https://'}
+              <Input
+                className='w-[80px] bg-zinc-50 text-center text-zinc-500'
+                value='https://'
                 disabled
               />
-              <input
-                className='w-full rounded-[5px] border p-3 outline-none focus:outline-none'
+              <Input
+                className='flex-1 focus-visible:ring-zinc-400'
                 value={deployedURL}
                 onChange={e => handleInputChange(e, setDeployedURL)}
-                onKeyDown={e => activeEnterDeployedURL(e)}
-                placeholder='abcde.com'
+                onKeyDown={activeEnterDeployedURL}
+                placeholder='api.yourserver.com/v1'
               />
-              <button
-                className='w-16 rounded-[5px] border text-[12px] outline-none'
+              <Button
                 onClick={onsubmitDeployedURL}
+                className='w-16 bg-zinc-800 text-xs text-white hover:bg-zinc-700'
               >
-                Go!
-              </button>
+                Save
+              </Button>
             </div>
           </TabsContent>
         </Tabs>

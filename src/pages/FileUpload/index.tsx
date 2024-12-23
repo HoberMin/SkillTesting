@@ -10,12 +10,13 @@ import { Label } from '@/components/ui/label';
 import useDomainStore from '@/store';
 
 const FileUploader = () => {
-  const inputElement = useRef<HTMLInputElement | null>(null);
-  const [profile, setProfile] = useState<null | string>(null);
-  const { domain } = useDomainStore();
-  const imageUploadAPI = usePostImageUploadAPI(domain);
-  const { toast } = useToast();
+  const [profile, setProfile] = useState<null | string>(null); // 이미지 상태
+  const inputElement = useRef<HTMLInputElement | null>(null); // 파일 입력 Ref
+  const { domain } = useDomainStore(); // 도메인 상태
+  const imageUploadAPI = usePostImageUploadAPI(domain); // 이미지 업로드 API
+  const { toast } = useToast(); // Toast 알림
 
+  // 이미지 삭제 핸들러
   const handleImageRemove = () => {
     setProfile(null);
     if (inputElement.current) {
@@ -23,6 +24,7 @@ const FileUploader = () => {
     }
   };
 
+  // 이미지 업로드 핸들러
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const image = e.target.files[0];
@@ -34,77 +36,106 @@ const FileUploader = () => {
     }
   };
 
+  // 이미지 전송 핸들러
   const handleSubmitImage = async () => {
     const file = inputElement.current?.files?.[0];
     if (!file) return;
-    const { imageUrl } = await imageUploadAPI(file);
-    toast({
-      title: '이미지 업로드 성공!',
-      description: imageUrl,
-    });
+    try {
+      const { imageUrl } = await imageUploadAPI(file); // API 호출
+      toast({
+        title: '이미지 전송 성공!',
+        description: `이미지가 성공적으로 업로드되었습니다: ${imageUrl}`,
+      });
+      handleImageRemove(); // 성공 후 초기화
+    } catch (error) {
+      toast({
+        title: '이미지 전송 실패',
+        description: '이미지 업로드 중 문제가 발생했습니다.',
+      });
+    }
+  };
+
+  // 이미지 미리보기 렌더링 함수
+  const renderImagePreview = () => {
+    if (profile) {
+      return (
+        <img
+          src={profile}
+          alt='프로필 이미지'
+          className='h-32 w-32 rounded-lg border border-gray-200 object-cover shadow-sm'
+        />
+      );
+    }
+    return (
+      <div className='flex h-32 w-32 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 text-gray-400'>
+        <span>이미지 미리보기</span>
+      </div>
+    );
   };
 
   if (!domain) {
     return (
-      <MainLayout MainTitle='ImageUpload' docsTitle='image'>
-        <NotDomainAlertBox />
-      </MainLayout>
+      <MainLayout.Root>
+        <MainLayout.Header title='이미지 전송' />
+        <MainLayout.Content>
+          <NotDomainAlertBox />
+        </MainLayout.Content>
+      </MainLayout.Root>
     );
   }
 
   return (
-    <MainLayout MainTitle='ImageUpload' docsTitle='image'>
-      <div className='mx-auto flex w-[600px] max-w-[300px] flex-col items-center gap-5'>
-        {profile ? (
-          <img
-            src={profile}
-            alt='프로필 이미지'
-            className='h-[100px] w-[100px] rounded-xl'
+    <MainLayout.Root>
+      <MainLayout.Header
+        title='이미지 전송'
+        description='이미지를 업로드하고 전송하세요.'
+      />
+      <MainLayout.Content>
+        <div className='mx-auto flex w-full max-w-md flex-col items-center gap-6 rounded-lg bg-white p-6 shadow'>
+          {/* 이미지 미리보기 */}
+          {renderImagePreview()}
+
+          {/* 파일 업로드 및 삭제 */}
+          <div className='flex items-center gap-4'>
+            <Label
+              htmlFor='picture'
+              className='cursor-pointer rounded-md border px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100'
+            >
+              이미지 선택
+            </Label>
+            <Label
+              onClick={handleImageRemove}
+              className={`cursor-pointer rounded-md border px-4 py-2 text-sm font-medium ${profile ? 'text-red-500 hover:bg-red-50' : 'cursor-not-allowed text-gray-400'}`}
+            >
+              이미지 삭제
+            </Label>
+          </div>
+
+          {/* 숨겨진 파일 입력 */}
+          <Input
+            id='picture'
+            type='file'
+            ref={inputElement}
+            accept='image/*'
+            className='hidden'
+            onChange={handleImageUpload}
           />
-        ) : (
-          <svg
-            width='100'
-            height='100'
-            viewBox='0 0 100 100'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
+
+          {/* 전송 버튼 */}
+          <Button
+            onClick={handleSubmitImage}
+            disabled={!profile} // 프로필이 없으면 비활성화
+            className={`w-full rounded-md px-4 py-2 font-medium text-white ${
+              profile
+                ? 'bg-blue-500 hover:bg-blue-600'
+                : 'cursor-not-allowed bg-gray-300'
+            }`}
           >
-            <path
-              opacity='0.4'
-              d='M91.6663 32.5413V67.458C91.6663 79.1664 86.2914 87.2079 76.833 90.2496C74.083 91.2079 70.9163 91.6663 67.458 91.6663H32.5413C29.083 91.6663 25.9163 91.2079 23.1663 90.2496C13.708 87.2079 8.33301 79.1664 8.33301 67.458V32.5413C8.33301 17.3747 17.3747 8.33301 32.5413 8.33301H67.458C82.6247 8.33301 91.6663 17.3747 91.6663 32.5413Z'
-              fill='#636363'
-            />
-            <path
-              d='M76.8337 90.2497C74.0837 91.208 70.917 91.6665 67.4587 91.6665H32.542C29.0837 91.6665 25.917 91.208 23.167 90.2497C24.6253 79.2497 36.1253 70.708 50.0003 70.708C63.8753 70.708 75.3753 79.2497 76.8337 90.2497Z'
-              fill='#636363'
-            />
-            <path
-              d='M64.9164 48.2497C64.9164 56.4997 58.2497 63.2079 49.9997 63.2079C41.7497 63.2079 35.083 56.4997 35.083 48.2497C35.083 39.9997 41.7497 33.333 49.9997 33.333C58.2497 33.333 64.9164 39.9997 64.9164 48.2497Z'
-              fill='#636363'
-            />
-          </svg>
-        )}
-        <div className='flex items-center gap-[20px]'>
-          <Label htmlFor='picture' className='rounded-md border p-2'>
-            이미지 업로드
-          </Label>
-          <Label className='rounded-md border p-2' onClick={handleImageRemove}>
-            이미지 삭제
-          </Label>
+            이미지 전송
+          </Button>
         </div>
-        <Input
-          id='picture'
-          type='file'
-          ref={inputElement}
-          accept='image/*'
-          className='hidden'
-          onChange={handleImageUpload}
-        />
-        <div className='mt-6 flex w-full flex-row-reverse'>
-          <Button onClick={handleSubmitImage}>이미지 등록</Button>
-        </div>
-      </div>
-    </MainLayout>
+      </MainLayout.Content>
+    </MainLayout.Root>
   );
 };
 

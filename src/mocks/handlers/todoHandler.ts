@@ -6,11 +6,7 @@ export type Todo = {
   completed: boolean;
 };
 
-let todos: Todo[] = [
-  { id: 1, content: '할일1', completed: false },
-  { id: 2, content: '할일2', completed: true },
-  { id: 3, content: '할일2', completed: false },
-];
+let todos: Todo[] = [];
 
 interface TodoPostRequest {
   content: string;
@@ -32,10 +28,11 @@ export const todoHandler = [
     const { content } = (await request.json()) as TodoPostRequest;
 
     const newTodo = {
-      id: todos[todos.length - 1].id + 1,
+      id: todos.length !== 0 ? todos[todos.length - 1].id + 1 : 1,
       content,
       completed: false,
     };
+
     todos.push(newTodo);
 
     return HttpResponse.json(todos, { status: 201 });
