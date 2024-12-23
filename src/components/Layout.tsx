@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import { FileText, Home, Key, Mail } from 'lucide-react';
+import { FileText, Home, Image, Key, Mail } from 'lucide-react';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 
 import useDomainStore from '@/store';
@@ -18,11 +18,11 @@ const menuItems = [
   },
   { path: '/email', label: 'Email', icon: <Mail className='h-5 w-5' /> },
   { path: '/oauth/1', label: 'OAuth', icon: <Key className='h-5 w-5' /> },
-  // {
-  //   path: '/imageuploader',
-  //   label: 'Image Uploader',
-  //   icon: <Image className='h-5 w-5' />,
-  // },
+  {
+    path: '/imageuploader',
+    label: 'Image Uploader',
+    icon: <Image className='h-5 w-5' />,
+  },
   // { path: '/fcm', label: 'FCM', icon: <Bell className='h-5 w-5' /> },
 ] as const;
 
