@@ -1,36 +1,72 @@
-import { PropsWithChildren } from 'react';
-
+import NotDomainAlertBox from '@/components/AlertBox/NotDomainAlertBox';
+import useDomainStore from '@/store';
 import { cn } from '@/utils/cn';
 
-import InfoModal from './InfoModal';
+interface MainLayoutRootProps {
+  children: React.ReactNode;
+}
 
-interface MainLayoutProps {
-  MainTitle: string;
-  docsTitle?: string;
+interface MainLayoutHeaderProps {
+  title: string;
+  description?: string;
+  children?: React.ReactNode;
+}
+
+interface MainLayoutContentProps {
+  children: React.ReactNode;
   className?: string;
 }
 
-const MainLayout = ({
+const MainLayoutRoot = ({ children }: MainLayoutRootProps) => {
+  return <div className='flex h-full flex-col'>{children}</div>;
+};
+
+const MainLayoutHeader = ({
+  title,
+  description,
   children,
-  MainTitle,
-  docsTitle,
-  className,
-}: PropsWithChildren<MainLayoutProps>) => (
-  <>
-    <div className='flex justify-between p-10 pb-0 text-2xl font-bold'>
-      <span>{MainTitle}</span>
-      {docsTitle && (
-        <div className='flex items-center gap-[10px]'>
-          <InfoModal file={`${docsTitle}`} />
+}: MainLayoutHeaderProps) => {
+  return (
+    <header className='bg-white px-8 py-6'>
+      <div className='flex items-start justify-between gap-4'>
+        <div className='space-y-1'>
+          <h1 className='text-xl font-semibold text-zinc-900'>{title}</h1>
+          {description && (
+            <p className='text-sm text-zinc-500'>{description}</p>
+          )}
         </div>
-      )}
-    </div>
-    <main className='flex w-full grow flex-col justify-center'>
-      <div className={cn('mx-auto flex w-[600px] flex-col gap-5', className)}>
-        {children}
+        {children && <div className='flex items-center gap-3'>{children}</div>}
       </div>
+    </header>
+  );
+};
+
+const MainLayoutContent = ({ children, className }: MainLayoutContentProps) => {
+  const { domain } = useDomainStore();
+
+  if (!domain) {
+    return (
+      <main className='flex flex-1 items-center justify-center'>
+        <div className='w-full px-8'>
+          <div className='mx-auto -mt-20 w-full max-w-2xl'>
+            <NotDomainAlertBox />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className='flex flex-1 items-center justify-center overflow-y-auto'>
+      <div className={cn('w-[600px] px-8 py-6', className)}>{children}</div>
     </main>
-  </>
-);
+  );
+};
+
+const MainLayout = {
+  Root: MainLayoutRoot,
+  Header: MainLayoutHeader,
+  Content: MainLayoutContent,
+};
 
 export default MainLayout;

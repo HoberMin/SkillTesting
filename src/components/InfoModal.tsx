@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { FileText } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import {
   Prism as SyntaxHighlighter,
@@ -30,7 +31,13 @@ const InfoModal = ({ file }: { file: string }) => {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>API 명세</Button>
+        <Button
+          variant='outline'
+          className='gap-2 border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50'
+        >
+          <FileText className='h-4 w-4' />
+          API 명세
+        </Button>
       </DialogTrigger>
       <DialogContent className='max-h-[900px] max-w-[900px] overflow-y-scroll px-12'>
         <DialogHeader>

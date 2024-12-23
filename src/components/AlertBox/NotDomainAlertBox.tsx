@@ -1,15 +1,22 @@
-import { Terminal } from 'lucide-react';
+import { AlertCircle, ArrowUp } from 'lucide-react';
 
-import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
-
-const NotDomainAlertBox = () => (
-  <Alert>
-    <Terminal className='h-4 w-4' />
-    <AlertTitle className='text-destructive'>Domain이 없습니다.</AlertTitle>
-    <AlertDescription>
-      상단의 Edit Base URL을 통해, 도메인을 등록해주세요.
-    </AlertDescription>
-  </Alert>
+const NotDomainBox = () => (
+  <div className='flex flex-col gap-3'>
+    <div className='rounded-lg border-l-4 border-l-red-500 bg-red-50 p-4'>
+      <div className='flex items-center gap-2 text-red-600'>
+        <AlertCircle className='h-5 w-5' />
+        <span className='font-medium'>API Endpoint 미설정 오류</span>
+      </div>
+    </div>
+    <div className='rounded-lg bg-zinc-50 p-4'>
+      <div className='flex items-center gap-2 text-zinc-600'>
+        <ArrowUp className='h-4 w-4 animate-bounce' />
+        <span className='text-sm'>
+          상단 'API Endpoint' 버튼에서 서버 URL을 등록해주세요
+        </span>
+      </div>
+    </div>
+  </div>
 );
 
-export default NotDomainAlertBox;
+export default NotDomainBox;
