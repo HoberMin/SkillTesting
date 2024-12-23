@@ -3,7 +3,7 @@ export const infinityScrollArticles = [
     userId: 1,
     id: 1,
     title:
-      'delectus aut autem daasqwe delcias qemxcaq ed sad qwed sa cac wqed wq d',
+      'delectus aut autem daasqwe delcias qemxcaq ed sad qwed sa cac wqed wq ddsadsadsadsadsadasdsadsadsadsadasdadsds',
     createdAt: new Date(),
   },
   {

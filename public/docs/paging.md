@@ -19,7 +19,7 @@ Paging을 통해 **Request Query Parameter**의 개념을 이해하고, 대규�
 
 ### Offset 방식
 
-### GET {{domain}}/articles/paging/offset?size=10&page=0
+### GET {{domain}}/articles/paging/offset?size=6&page=0
 
 이 엔드포인트는 **offset** 방식을 사용하여 Article 목록을 조회합니다.
 
